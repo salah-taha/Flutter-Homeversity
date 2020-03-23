@@ -51,18 +51,30 @@ class AvailableCourses extends StatelessWidget {
                   courseLevel: 'All',
                   teacherName: 'Amr S. Ghonaim',
                   lecturesNumber: 6,
+                  teacherImageUrl:
+                      'https://www.sketchappsources.com/resources/source-image/profile-illustration-gunaldi-yunus.png',
+                  courseImageUrl:
+                      'https://miro.medium.com/max/3200/1*QBxc5-QaDrLZV9VPHcqG0Q.png',
                 ),
                 CourseCard(
                   courseName: 'English Course',
                   courseLevel: '2',
                   teacherName: 'Ali Ghandour',
                   lecturesNumber: 10,
+                  courseImageUrl:
+                      'https://cdn.dribbble.com/users/1872109/screenshots/4871924/imagaination-illustration-800.jpg',
+                  teacherImageUrl:
+                      'https://gigantic.store/wp-content/uploads/2019/04/flat-design-character-HD.jpg',
                 ),
                 CourseCard(
                   courseName: 'PL Course',
                   courseLevel: '1',
                   teacherName: 'Mohammed El Saied',
                   lecturesNumber: 7,
+                  courseImageUrl:
+                      'https://cdn.dribbble.com/users/3281732/screenshots/6747768/samji_illustrator_2x.jpeg',
+                  teacherImageUrl:
+                      'https://cdn.dribbble.com/users/2424688/screenshots/5785083/amitabh.jpg',
                 ),
               ],
             ),
@@ -91,13 +103,27 @@ class CourseCard extends StatelessWidget {
       this.teacherName});
   @override
   Widget build(BuildContext context) {
+    //getting teacher name shortcut
     List teacherNameShortcutList = teacherName.split(' ');
-    String teacherNameShortcut =
-        teacherNameShortcutList.first[0].toString().toUpperCase() +
-            '.' +
-            teacherNameShortcutList.last[0].toString().toUpperCase();
+
+    //setting teacher name shortcut
+    String teacherNameShortcut;
+
+    //if teacher name is more than 2 words
+    if (teacherNameShortcutList.length >= 2) {
+      teacherNameShortcut =
+          teacherNameShortcutList.first[0].toString().toUpperCase() +
+              '.' +
+              teacherNameShortcutList.last[0].toString().toUpperCase();
+    } else {
+      teacherNameShortcut =
+          teacherNameShortcutList.first[0].toString().toUpperCase();
+    }
+
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        //TODO navigate to course overview
+      },
       splashColor: ColorsScheme.brightPurple,
       focusColor: ColorsScheme.brightPurple,
       highlightColor: ColorsScheme.grey,
@@ -131,26 +157,29 @@ class CourseCard extends StatelessWidget {
                     bottomLeft: Radius.circular(20),
                     bottomRight: Radius.circular(20),
                   ),
-
                   color: ColorsScheme.brightPurple,
-//                image: DecorationImage(
-//                  image: NetworkImage(
-//                    courseImageUrl,
-//                  ),
-//                  fit: BoxFit.cover,
-//                ),
+                  image: courseImageUrl == null
+                      ? null
+                      : DecorationImage(
+                          image: NetworkImage(
+                            courseImageUrl,
+                          ),
+                          fit: BoxFit.cover,
+                        ),
                 ),
                 height: 160,
                 width: MediaQuery.of(context).size.width * 0.9,
-                child: Center(
-                  child: Text(
-                    courseName,
-                    style: TextStyle(
-                      color: ColorsScheme.midPurple,
-                      fontSize: 25,
-                    ),
-                  ),
-                ),
+                child: courseImageUrl != null
+                    ? SizedBox()
+                    : Center(
+                        child: Text(
+                          courseName,
+                          style: TextStyle(
+                            color: ColorsScheme.midPurple,
+                            fontSize: 25,
+                          ),
+                        ),
+                      ),
               ),
               SizedBox(
                 height: 15,
@@ -168,16 +197,20 @@ class CourseCard extends StatelessWidget {
                     CircleAvatar(
                       backgroundColor: ColorsScheme.brightPurple,
                       radius: 40,
-//                    backgroundImage: NetworkImage(
-//                      teacherImageUrl,
-//                    ),
-                      child: Text(
-                        teacherNameShortcut,
-                        style: TextStyle(
-                          color: ColorsScheme.midPurple,
-                          fontSize: 25,
-                        ),
-                      ),
+                      backgroundImage: teacherImageUrl == null
+                          ? null
+                          : NetworkImage(
+                              teacherImageUrl,
+                            ),
+                      child: teacherImageUrl != null
+                          ? SizedBox()
+                          : Text(
+                              teacherNameShortcut,
+                              style: TextStyle(
+                                color: ColorsScheme.midPurple,
+                                fontSize: 25,
+                              ),
+                            ),
                     ),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,

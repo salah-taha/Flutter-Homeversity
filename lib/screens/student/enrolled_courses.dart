@@ -107,15 +107,31 @@ class CourseCard extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
+    //getting teacher name shortcut
     List teacherNameShortcutList = teacherName.split(' ');
-    String teacherNameShortcut =
-        teacherNameShortcutList.first[0].toString().toUpperCase() +
-            '.' +
-            teacherNameShortcutList.last[0].toString().toUpperCase();
+
+    //setting teacher name shortcut
+    String teacherNameShortcut;
+
+    //if teacher name is more than 2 words
+    if (teacherNameShortcutList.length >= 2) {
+      teacherNameShortcut =
+          teacherNameShortcutList.first[0].toString().toUpperCase() +
+              '.' +
+              teacherNameShortcutList.last[0].toString().toUpperCase();
+    } else {
+      teacherNameShortcut =
+          teacherNameShortcutList.first[0].toString().toUpperCase();
+    }
+
+    //getting progress indicator size
     double courseProgress =
         ((completedLecturesNumber / lecturesNumber * 100) * 0.9) / 100;
+
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        //TODO navigate to course progress page
+      },
       splashColor: ColorsScheme.brightPurple,
       focusColor: ColorsScheme.brightPurple,
       highlightColor: ColorsScheme.grey,
