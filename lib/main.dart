@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:fcaihu/constants/constants.dart';
 import 'package:fcaihu/screens/shared_screens/login.dart';
 import 'package:fcaihu/screens/shared_screens/signup.dart';
+import 'package:fcaihu/screens/shared_screens/user_profile.dart';
 import 'package:fcaihu/screens/student/available_courses.dart';
 import 'package:fcaihu/screens/student/enrolled_courses.dart';
 import 'package:fcaihu/screens/welcome.dart';
@@ -54,6 +55,7 @@ class _MyAppState extends State<MyApp> {
         LoginScreen.id: (context) => LoginScreen(),
         SignupScreen.id: (context) => SignupScreen(),
         EnrolledCourses.id: (context) => EnrolledCourses(),
+        ProfileScreen.id: (context) => ProfileScreen(),
       },
     );
   }

@@ -1,6 +1,7 @@
 import 'package:fcaihu/constants/constants.dart';
 import 'package:fcaihu/screens/shared_screens/login.dart';
 import 'package:fcaihu/screens/shared_screens/signup.dart';
+import 'package:fcaihu/screens/shared_screens/user_profile.dart';
 import 'package:fcaihu/screens/student/available_courses.dart';
 import 'package:fcaihu/screens/student/enrolled_courses.dart';
 import 'package:flutter/material.dart';
@@ -22,15 +23,35 @@ class DrawerAppBar extends StatelessWidget {
             DrawerHeader(
               child: Row(
                 children: <Widget>[
-                  CircleAvatar(
-                    radius: 35,
-                    backgroundColor: ColorsScheme.brightPurple,
+                  GestureDetector(
+                    onTap: () {
+                      if (selectedPage != ProfileScreen.id)
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProfileScreen(),
+                          ),
+                        );
+                      else {
+                        Navigator.pop(context);
+                      }
+                    },
+                    child: CircleAvatar(
+                      radius: 35,
+                      backgroundColor: Colors.white,
+                      child: CircleAvatar(
+                        radius: 33,
+                        backgroundColor: ColorsScheme.brightPurple,
+                        backgroundImage: NetworkImage(
+                            'https://mir-s3-cdn-cf.behance.net/project_modules/1400_opt_1/0fd6db77892127.5c94c32772e96.jpg'),
+                      ),
+                    ),
                   ),
                   SizedBox(
                     width: 15,
                   ),
                   Text(
-                    'not registerd user',
+                    'Sara Ahmed',
                     style: TextStyle(
                       color: ColorsScheme.white,
                       fontSize: 16,
@@ -39,7 +60,7 @@ class DrawerAppBar extends StatelessWidget {
                 ],
               ),
               decoration: BoxDecoration(
-                color: ColorsScheme.midPurple,
+                color: ColorsScheme.purple,
               ),
             ),
             ListTile(
