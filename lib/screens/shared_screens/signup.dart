@@ -1,6 +1,7 @@
 import 'package:fcaihu/constants/constants.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fcaihu/constants/constants.dart';
 class SignupScreen extends StatefulWidget {
   static final String id = 'signinScreen';
   @override
@@ -41,16 +42,37 @@ class _SignInScreenState extends State<SignupScreen> {
           ),
           child: Container(
             height: MediaQuery.of(context).size.height,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+           decoration: new BoxDecoration(
+               gradient: LinearGradient(
+                   begin: Alignment.topRight,
+                   end: Alignment.bottomLeft,
+                   colors: [ColorsScheme.brightPurple,Colors.purple]),
+                ),
+
+            child: ListView(
+         //     mainAxisAlignment: MainAxisAlignment.center,
+         //         crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                RichText(
+                SizedBox(
+                  height: 60,
+                ),
+                Hero(
+                  tag: 'logo',
+                  child: Container(
+                   padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.13),
+                    height: 100,
+                    width: 100,
+                    child: Image.asset('assets/welcome/HLogo.png'),
+                  ),
+                ),
+                 Center(
+                   child: RichText(
                   text: TextSpan(
                       text: 'FCAI',
                       style: TextStyle(
+
                         fontSize: 40,
-                        color: ColorsScheme.darkGrey,
+                        color: Colors.blueGrey,
                       ),
                       children: <TextSpan>[
                         TextSpan(
@@ -63,6 +85,7 @@ class _SignInScreenState extends State<SignupScreen> {
                         ),
                       ]),
                 ),
+                 ),
                 SizedBox(
                   height: 15,
                 ),
@@ -95,7 +118,13 @@ class _SignInScreenState extends State<SignupScreen> {
                           onSaved: (input) => _email = input.trim().toString(),
                         ),
                       ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.25,
+                        height: MediaQuery.of(context).size.height*0.02,
+                      ),
+
                       Padding(
+
                         padding:
                             EdgeInsets.symmetric(vertical: 5, horizontal: 30),
                         child: TextFormField(
@@ -119,6 +148,10 @@ class _SignInScreenState extends State<SignupScreen> {
                           onSaved: (input) =>
                               _username = input.trim().toString(),
                         ),
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.25,
+                        height: MediaQuery.of(context).size.height*0.02,
                       ),
                       Padding(
                         padding:
@@ -144,6 +177,10 @@ class _SignInScreenState extends State<SignupScreen> {
                           onSaved: (input) => _id = input.trim().toString(),
                         ),
                       ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.25,
+                        height: MediaQuery.of(context).size.height*0.02,
+                      ),
                       Padding(
                         padding:
                             EdgeInsets.symmetric(vertical: 5, horizontal: 30),
@@ -167,6 +204,10 @@ class _SignInScreenState extends State<SignupScreen> {
                               : null,
                           onSaved: (input) => _level = input.trim().toString(),
                         ),
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.25,
+                        height: MediaQuery.of(context).size.height*0.02,
                       ),
                       Padding(
                         padding:
@@ -192,8 +233,10 @@ class _SignInScreenState extends State<SignupScreen> {
                           obscureText: true,
                         ),
                       ),
+
                       SizedBox(
-                        height: 10,
+                        width: MediaQuery.of(context).size.width * 0.25,
+                        height: MediaQuery.of(context).size.height*0.02,
                       ),
                       FlatButton(
                         onPressed: () {
@@ -218,6 +261,10 @@ class _SignInScreenState extends State<SignupScreen> {
                           borderRadius: new BorderRadius.circular(30),
                           side: BorderSide(color: Colors.blue),
                         ),
+                      ),
+                      SizedBox(
+                        width: MediaQuery.of(context).size.width * 0.25,
+                        height: MediaQuery.of(context).size.height*0.02,
                       ),
                     ],
                   ),

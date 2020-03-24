@@ -39,17 +39,41 @@ class _LoginScreenState extends State<LoginScreen> {
             parent: BouncingScrollPhysics(),
           ),
           child: Container(
+
+            decoration: new BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topRight,
+                    end: Alignment.bottomLeft,
+                    colors: [ColorsScheme.brightPurple,Colors.purple]),),
+
             height: MediaQuery.of(context).size.height,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
+            child: ListView(
+              //   mainAxisAlignment: MainAxisAlignment.center,
+             // crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                RichText(
+                SizedBox(
+                  height: 60,
+                ),
+                Container(
+                  child: Hero(
+                    tag: 'logo',
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: MediaQuery.of(context).size.width * 0.10),
+                      height: 120,
+                      width: 120,
+                      child: Image.asset('assets/welcome/HLogo.png'),
+                    ),
+                  ),
+                ),
+                Center(
+
+                child: RichText(
                   text: TextSpan(
                       text: 'FCAI',
                       style: TextStyle(
                         fontSize: 40,
-                        color: ColorsScheme.darkGrey,
+                        color: Colors.blueGrey,
                       ),
                       children: <TextSpan>[
                         TextSpan(
@@ -61,6 +85,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                         ),
                       ]),
+                ),
                 ),
                 SizedBox(
                   height: 15,
@@ -74,6 +99,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         padding:
                             EdgeInsets.symmetric(vertical: 5, horizontal: 30),
                         child: TextFormField(
+                          //keyboard input
+                          keyboardType: TextInputType.emailAddress,
                           decoration: InputDecoration(
                             hintText: 'Email',
                             border: UnderlineInputBorder(
@@ -121,18 +148,39 @@ class _LoginScreenState extends State<LoginScreen> {
                           obscureText: true,
                         ),
                       ),
-                      FlatButton(
+                    /*  FlatButton(
                         onPressed: () {
                           Navigator.pushReplacementNamed(
                               context, SignupScreen.id);
                         },
-                        child: Text(
+                        child:*/
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            Text('you don\'t have acc? '),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.pushReplacementNamed(context, SignupScreen.id);
+                              },
+                              child: Text(
+                                'sign up',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18),
+                              ),
+                            ),
+                          ],
+                        ),
+
+                    /*    Text(
                           'Create a new Account',
                           style: TextStyle(
                             color: ColorsScheme.darkGrey,
                           ),
-                        ),
-                      ),
+                        ),*/
+               //       ),
                       SizedBox(
                         height: 10,
                       ),
@@ -160,6 +208,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           side: BorderSide(color: Colors.blue),
                         ),
                       ),
+                      SizedBox(height: 20,)
                     ],
                   ),
                 ),
