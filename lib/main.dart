@@ -59,6 +59,8 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
+//splash screen widget
+
 class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
