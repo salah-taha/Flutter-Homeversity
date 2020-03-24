@@ -85,7 +85,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Row(
               children: <Widget>[
                 Container(
-                  width: MediaQuery.of(context).size.width / 2,
+                  width: MediaQuery.of(context).size.width / 3,
                   child: Column(
                     children: <Widget>[
                       Text(
@@ -107,7 +107,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
                 Container(
-                  width: MediaQuery.of(context).size.width / 2,
+                  width: MediaQuery.of(context).size.width / 3,
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                        '560',
+                        style: TextStyle(
+                          color: ColorsScheme.purple,
+                          fontSize: 45,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      Text(
+                        'Points',
+                        style: TextStyle(
+                          color: ColorsScheme.darkGrey,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(
+                        height: 50,
+                      )
+                    ],
+                  ),
+                ),
+                Container(
+                  width: MediaQuery.of(context).size.width / 3,
                   child: Column(
                     children: <Widget>[
                       Text(
@@ -130,7 +156,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ],
             ),
-            SizedBox(height: 20.0),
             Container(
               height: MediaQuery.of(context).size.height - 100,
               width: MediaQuery.of(context).size.width,
