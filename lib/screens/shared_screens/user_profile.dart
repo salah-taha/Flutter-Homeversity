@@ -52,9 +52,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       height: 200,
                       width: MediaQuery.of(context).size.width,
                       child: Image(
-                        image: NetworkImage(
-                          'https://mewallpaper.com/thumbnail/abstract/8721-pyramids-illustration-wallpaper-image-high-quality.jpg',
-                        ),
+                        image: AssetImage('assets/images/dribbble.png'),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -66,9 +64,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: CircleAvatar(
                     radius: 45,
                     backgroundColor: ColorsScheme.grey,
-                    backgroundImage: NetworkImage(
-                      'https://mir-s3-cdn-cf.behance.net/project_modules/1400_opt_1/0fd6db77892127.5c94c32772e96.jpg',
-                    ),
+                    backgroundImage: AssetImage('assets/images/dribbble.png'),
                   ),
                 )
               ],
@@ -171,14 +167,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       color: ColorsScheme.grey,
                       boxShadow: [
                         BoxShadow(
-                          offset: Offset(0, -1),
+                          offset: Offset(0, 2),
                           color: ColorsScheme.brightPurple,
                           blurRadius: 3,
                           spreadRadius: 0,
                         ),
                         BoxShadow(
-                          offset: Offset(0, 1),
-                          color: ColorsScheme.midPurple,
+                          offset: Offset(0, -2),
+                          color: ColorsScheme.brightPurple,
                           blurRadius: 3,
                           spreadRadius: 0,
                         ),
@@ -243,9 +239,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Expanded(
                     child: ListView(
                       children: <Widget>[
-                        NotificationCard(),
-                        NotificationCard(),
-                        NotificationCard(),
+                        NotificationCard(
+                            imageUrl: 'assets/images/dribbble.png',
+                            title: 'New Lecture Added to PL Course',
+                            isSeen: false,
+                            date: ['24/3/2020', '9 AM']),
+                        NotificationCard(
+                            imageUrl: 'assets/images/dribbble.png',
+                            title: 'English Lecture at 8:00 PM Tommorow',
+                            isSeen: true,
+                            date: ['10/2/2020', '5 PM']),
+                        NotificationCard(
+                            imageUrl: 'assets/images/dribbble.png',
+                            title: 'New Lecture Added to Math Course',
+                            isSeen: true,
+                            date: ['8/2/2020', '8 AM']),
                       ],
                     ),
                   )
@@ -262,16 +270,91 @@ class _ProfileScreenState extends State<ProfileScreen> {
 //notification card widget
 
 class NotificationCard extends StatelessWidget {
+  final String imageUrl;
+  final String title;
+  final bool isSeen;
+
+  //index [0] is the date & index [1] is the time in hours
+  final List<String> date;
+
+  NotificationCard({this.imageUrl, this.isSeen, this.title, this.date});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 3),
       child: Container(
-        height: 100,
+        height: 90,
         width: MediaQuery.of(context).size.width,
         decoration: BoxDecoration(
-          color: ColorsScheme.brightPurple,
-          borderRadius: BorderRadius.circular(15),
+          color: ColorsScheme.grey,
+        ),
+        child: Row(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.all(3),
+              child: CircleAvatar(
+                radius: 40,
+                backgroundColor: ColorsScheme.midPurple,
+                backgroundImage: AssetImage(imageUrl),
+              ),
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.58,
+                  height: 40,
+                  child: Center(
+                    child: Text(
+                      title,
+                      style: TextStyle(
+                        color: ColorsScheme.darkGrey,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                    width: MediaQuery.of(context).size.width * 0.58,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Text(
+                          date[0],
+                          style: TextStyle(
+                            color: ColorsScheme.midPurple,
+                          ),
+                        ),
+                        Text(
+                          date[1],
+                          style: TextStyle(
+                            color: ColorsScheme.midPurple,
+                          ),
+                        ),
+                      ],
+                    )),
+              ],
+            ),
+            SizedBox(
+              width: 10,
+            ),
+            isSeen
+                ? SizedBox(
+                    width: 26,
+                  )
+                : Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: CircleAvatar(
+                      backgroundColor: ColorsScheme.blue,
+                      radius: 5,
+                    ),
+                  )
+          ],
         ),
       ),
     );
@@ -284,11 +367,11 @@ class ClippingClass extends CustomClipper<Path> {
   @override
   Path getClip(Size size) {
     var path = Path();
-    path.lineTo(0.0, size.height - 30);
+    path.lineTo(0.0, size.height - 20);
     path.quadraticBezierTo(
         size.width / 4, size.height, size.width / 2, size.height);
     path.quadraticBezierTo(size.width - (size.width / 4), size.height,
-        size.width, size.height - 30);
+        size.width, size.height - 20);
     path.lineTo(size.width, 0.0);
 
     return path;

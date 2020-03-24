@@ -51,30 +51,30 @@ class AvailableCourses extends StatelessWidget {
                   courseLevel: 'All',
                   teacherName: 'Amr S. Ghonaim',
                   lecturesNumber: 6,
-                  teacherImageUrl:
-                      'https://www.sketchappsources.com/resources/source-image/profile-illustration-gunaldi-yunus.png',
-                  courseImageUrl:
-                      'https://miro.medium.com/max/3200/1*QBxc5-QaDrLZV9VPHcqG0Q.png',
+//                  teacherImageUrl:
+//                      'https://www.sketchappsources.com/resources/source-image/profile-illustration-gunaldi-yunus.png',
+//                  courseImageUrl:
+//                      'https://miro.medium.com/max/3200/1*QBxc5-QaDrLZV9VPHcqG0Q.png',
                 ),
                 CourseCard(
                   courseName: 'English Course',
                   courseLevel: '2',
                   teacherName: 'Ali Ghandour',
                   lecturesNumber: 10,
-                  courseImageUrl:
-                      'https://cdn.dribbble.com/users/1872109/screenshots/4871924/imagaination-illustration-800.jpg',
-                  teacherImageUrl:
-                      'https://gigantic.store/wp-content/uploads/2019/04/flat-design-character-HD.jpg',
+//                  courseImageUrl:
+//                      'https://cdn.dribbble.com/users/1872109/screenshots/4871924/imagaination-illustration-800.jpg',
+//                  teacherImageUrl:
+//                      'https://gigantic.store/wp-content/uploads/2019/04/flat-design-character-HD.jpg',
                 ),
                 CourseCard(
                   courseName: 'PL Course',
                   courseLevel: '1',
                   teacherName: 'Mohammed El Saied',
                   lecturesNumber: 7,
-                  courseImageUrl:
-                      'https://cdn.dribbble.com/users/3281732/screenshots/6747768/samji_illustrator_2x.jpeg',
-                  teacherImageUrl:
-                      'https://cdn.dribbble.com/users/2424688/screenshots/5785083/amitabh.jpg',
+//                  courseImageUrl:
+//                      'https://cdn.dribbble.com/users/3281732/screenshots/6747768/samji_illustrator_2x.jpeg',
+//                  teacherImageUrl:
+//                      'https://cdn.dribbble.com/users/2424688/screenshots/5785083/amitabh.jpg',
                 ),
               ],
             ),
