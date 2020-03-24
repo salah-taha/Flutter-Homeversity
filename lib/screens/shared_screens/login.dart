@@ -39,21 +39,15 @@ class _LoginScreenState extends State<LoginScreen> {
             parent: BouncingScrollPhysics(),
           ),
           child: Container(
-
             decoration: new BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomLeft,
-                    colors: [ColorsScheme.brightPurple,Colors.purple]),),
-
+              gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [ColorsScheme.brightPurple, Colors.purple]),
+            ),
             height: MediaQuery.of(context).size.height,
             child: ListView(
-              //   mainAxisAlignment: MainAxisAlignment.center,
-             // crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                SizedBox(
-                  height: 60,
-                ),
                 Container(
                   child: Hero(
                     tag: 'logo',
@@ -67,25 +61,24 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                 ),
                 Center(
-
-                child: RichText(
-                  text: TextSpan(
-                      text: 'FCAI',
-                      style: TextStyle(
-                        fontSize: 40,
-                        color: Colors.blueGrey,
-                      ),
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: ' HU',
-                          style: TextStyle(
-                            color: ColorsScheme.purple,
-                            fontSize: 40,
-                            fontWeight: FontWeight.bold,
-                          ),
+                  child: RichText(
+                    text: TextSpan(
+                        text: 'FCAI',
+                        style: TextStyle(
+                          fontSize: 40,
+                          color: Colors.blueGrey,
                         ),
-                      ]),
-                ),
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: ' HU',
+                            style: TextStyle(
+                              color: ColorsScheme.purple,
+                              fontSize: 40,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ]),
+                  ),
                 ),
                 SizedBox(
                   height: 15,
@@ -148,39 +141,40 @@ class _LoginScreenState extends State<LoginScreen> {
                           obscureText: true,
                         ),
                       ),
-                    /*  FlatButton(
+                      /*  FlatButton(
                         onPressed: () {
                           Navigator.pushReplacementNamed(
                               context, SignupScreen.id);
                         },
                         child:*/
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: <Widget>[
-                            Text('you don\'t have acc? '),
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.pushReplacementNamed(context, SignupScreen.id);
-                              },
-                              child: Text(
-                                'sign up',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18),
-                              ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text('you don\'t have acc? '),
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.pushReplacementNamed(
+                                  context, SignupScreen.id);
+                            },
+                            child: Text(
+                              'sign up',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 18),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
+                      ),
 
-                    /*    Text(
+                      /*    Text(
                           'Create a new Account',
                           style: TextStyle(
                             color: ColorsScheme.darkGrey,
                           ),
                         ),*/
-               //       ),
+                      //       ),
                       SizedBox(
                         height: 10,
                       ),
@@ -208,7 +202,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           side: BorderSide(color: Colors.blue),
                         ),
                       ),
-                      SizedBox(height: 20,)
+                      SizedBox(
+                        height: 20,
+                      )
                     ],
                   ),
                 ),
