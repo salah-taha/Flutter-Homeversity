@@ -1,4 +1,5 @@
 import 'package:fcaihu/constants/constants.dart';
+import 'package:fcaihu/screens/shared_screens/ChatView/ChatListPageView.dart';
 import 'package:fcaihu/screens/shared_screens/login.dart';
 import 'package:fcaihu/screens/shared_screens/signup.dart';
 import 'package:fcaihu/screens/shared_screens/user_profile.dart';
@@ -104,6 +105,8 @@ class DrawerAppBar extends StatelessWidget {
               onTap: () {
                 // Update the state of the app.
                 // ...
+                Navigator.pushReplacementNamed(context, ChatListPageView.id);
+
               },
             ),
             ListTile(

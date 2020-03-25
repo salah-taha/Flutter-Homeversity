@@ -1,3 +1,5 @@
+import 'package:fcaihu/screens/shared_screens/ChatView/ChatListPageView.dart';
+import 'package:fcaihu/screens/shared_screens/ChatView/ChatPageView.dart';
 import 'package:fcaihu/screens/shared_screens/login.dart';
 import 'package:fcaihu/screens/shared_screens/signup.dart';
 import 'package:fcaihu/screens/shared_screens/user_profile.dart';
@@ -29,6 +31,9 @@ class _MyAppState extends State<MyApp> {
         SignupScreen.id: (context) => SignupScreen(),
         EnrolledCourses.id: (context) => EnrolledCourses(),
         ProfileScreen.id: (context) => ProfileScreen(),
+        ChatPageView.id: (context)=>ChatPageView(),
+        ChatListPageView.id:(context)=>ChatListPageView(),
+
       },
     );
   }

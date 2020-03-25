@@ -1,6 +1,6 @@
 import 'package:fcaihu/constants/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+//import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fcaihu/constants/constants.dart';
 class SignupScreen extends StatefulWidget {
   static final String id = 'signinScreen';
