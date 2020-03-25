@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fcaihu/constants/constants.dart';
 import 'package:fcaihu/constants/drawer.dart';
 import 'package:flutter/material.dart';
@@ -159,37 +160,42 @@ class CourseCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(20),
-                      topLeft: Radius.circular(20),
-                      bottomLeft: Radius.circular(20),
-                      bottomRight: Radius.circular(20),
-                    ),
-                    color: ColorsScheme.brightPurple,
-                    image: courseImageUrl == null
-                        ? null
-                        : DecorationImage(
-                            image: NetworkImage(
-                              courseImageUrl,
-                            ),
-                            fit: BoxFit.cover,
-                          ),
-                  ),
+                CachedNetworkImage(
                   height: 160,
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  child: courseImageUrl == null
-                      ? Center(
-                          child: Text(
-                            courseName,
-                            style: TextStyle(
-                              color: ColorsScheme.midPurple,
-                              fontSize: 25,
+                  imageUrl: courseImageUrl,
+                  imageBuilder: (context, imageProvider) => Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                        topRight: Radius.circular(20),
+                        topLeft: Radius.circular(20),
+                        bottomLeft: Radius.circular(20),
+                        bottomRight: Radius.circular(20),
+                      ),
+                      color: ColorsScheme.brightPurple,
+                      image: DecorationImage(
+                        image: imageProvider,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    height: 160,
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: courseImageUrl == null
+                        ? Center(
+                            child: Text(
+                              courseName,
+                              style: TextStyle(
+                                color: ColorsScheme.midPurple,
+                                fontSize: 25,
+                              ),
                             ),
-                          ),
-                        )
-                      : SizedBox.shrink(),
+                          )
+                        : SizedBox.shrink(),
+                  ),
+                  placeholder: (context, url) => Container(
+                      height: 160,
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      child: Center(child: CircularProgressIndicator())),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
                 ),
                 SizedBox(
                   height: 15,
@@ -204,23 +210,26 @@ class CourseCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
-                      CircleAvatar(
-                        backgroundColor: ColorsScheme.brightPurple,
-                        radius: 40,
-                        backgroundImage: teacherImageUrl == null
-                            ? null
-                            : NetworkImage(
-                                teacherImageUrl,
-                              ),
-                        child: teacherImageUrl == null
-                            ? Text(
-                                teacherNameShortcut,
-                                style: TextStyle(
-                                  color: ColorsScheme.midPurple,
-                                  fontSize: 25,
-                                ),
-                              )
-                            : SizedBox(),
+                      CachedNetworkImage(
+                        imageUrl: teacherImageUrl,
+                        imageBuilder: (context, imageProvider) => CircleAvatar(
+                          backgroundColor: ColorsScheme.brightPurple,
+                          radius: 40,
+                          backgroundImage:
+                              teacherImageUrl == null ? null : imageProvider,
+                          child: teacherImageUrl == null
+                              ? Text(
+                                  teacherNameShortcut,
+                                  style: TextStyle(
+                                    color: ColorsScheme.midPurple,
+                                    fontSize: 25,
+                                  ),
+                                )
+                              : SizedBox(),
+                        ),
+                        placeholder: (context, url) =>
+                            CircularProgressIndicator(),
+                        errorWidget: (context, url, error) => Icon(Icons.error),
                       ),
                       Column(
                         mainAxisAlignment: MainAxisAlignment.center,
