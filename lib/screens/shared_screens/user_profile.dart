@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fcaihu/constants/constants.dart';
 import 'package:fcaihu/constants/drawer.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,8 @@ enum selectedBar { notification, completed }
 class ProfileScreen extends StatefulWidget {
   //profile screen route id
   static final String id = 'profileScreen';
+  final profileImage;
+  ProfileScreen({this.profileImage});
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -58,15 +61,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                 ),
-                CircleAvatar(
-                  radius: 50,
-                  backgroundColor: ColorsScheme.grey,
-                  child: CircleAvatar(
-                    radius: 45,
+                CachedNetworkImage(
+                  imageUrl:
+                      'https://bennybox.dk/wp-content/uploads/2019/09/DTU_hero1_jan2019_02ef.jpg',
+                  imageBuilder: (context, imageProvider) => CircleAvatar(
+                    radius: 50,
                     backgroundColor: ColorsScheme.grey,
-                    backgroundImage: AssetImage('assets/images/dribbble.png'),
+                    child: CircleAvatar(
+                      radius: 45,
+                      backgroundColor: ColorsScheme.grey,
+                      backgroundImage: imageProvider,
+                    ),
                   ),
-                )
+                  placeholder: (context, url) => CircleAvatar(
+                      backgroundColor: Colors.white,
+                      radius: 50,
+                      child: Center(child: CircularProgressIndicator())),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
+                ),
               ],
             ),
             SizedBox(height: 5.0),
@@ -240,17 +252,20 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     child: ListView(
                       children: <Widget>[
                         NotificationCard(
-                            imageUrl: 'assets/images/dribbble.png',
+                            imageUrl:
+                                'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcROQiRJAyudzEi3VnK4IK78OnXTZOyGkA919uzky9IA6118SX2S',
                             title: 'New Lecture Added to PL Course',
                             isSeen: false,
                             date: ['24/3/2020', '9:25 AM']),
                         NotificationCard(
-                            imageUrl: 'assets/images/dribbble.png',
+                            imageUrl:
+                                'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSBG33Erje8D_l7KHaZ2EH3_W4jPAkVImXtjlIERkcZFmxrcWGk',
                             title: 'English Lecture at 8:00 PM Tommorow',
                             isSeen: true,
                             date: ['10/2/2020', '5:15 PM']),
                         NotificationCard(
-                            imageUrl: 'assets/images/dribbble.png',
+                            imageUrl:
+                                'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS5qHwDOxOzqNSfM27gnoV_fklzMrD2k9EEtpGX3PQ6pzZK-F6y',
                             title: 'New Lecture Added to Math Course',
                             isSeen: true,
                             date: ['8/2/2020', '8:30 AM']),
@@ -293,10 +308,16 @@ class NotificationCard extends StatelessWidget {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(3),
-              child: CircleAvatar(
-                radius: 40,
-                backgroundColor: ColorsScheme.midPurple,
-                backgroundImage: AssetImage(imageUrl),
+              child: CachedNetworkImage(
+                imageUrl: imageUrl,
+                imageBuilder: (context, imageProvider) => CircleAvatar(
+                  backgroundColor: ColorsScheme.brightPurple,
+                  radius: 40,
+                  backgroundImage: imageProvider,
+                ),
+                placeholder: (context, url) =>
+                    Center(child: CircularProgressIndicator()),
+                errorWidget: (context, url, error) => Icon(Icons.error),
               ),
             ),
             SizedBox(

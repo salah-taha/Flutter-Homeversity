@@ -225,7 +225,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            "Don't have an account ? SignUp",
+                            "Create a New Account",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                                 color: ColorsScheme.purple,
