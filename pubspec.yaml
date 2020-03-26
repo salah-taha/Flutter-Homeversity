@@ -25,6 +25,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^0.1.3
   introduction_screen: ^1.0.7
+  flare_flutter:
 
 dev_dependencies:
   flutter_test:
@@ -39,6 +40,7 @@ flutter:
   assets:
     - assets/welcome/
     - assets/images/
+    - assets/sign_in_animation.flr
   # fonts:
   #   - family: Schyler
   #     fonts:
