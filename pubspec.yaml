@@ -15,6 +15,7 @@ dependencies:
   introduction_screen: ^1.0.7
   flare_splash_screen: ^3.0.1
   cached_network_image: ^2.0.0
+  flare_flutter:
 
 dev_dependencies:
   flutter_test:
@@ -26,6 +27,8 @@ flutter:
     - assets/welcome/
     - assets/images/
     - assets/splash_screen_animation.flr
+    - assets/second_splash_screen_animation.flr
+    - assets/sign_In_animation.flr
   # fonts:
   #   - family: Schyler
   #     fonts:

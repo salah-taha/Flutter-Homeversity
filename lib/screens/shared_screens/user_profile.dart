@@ -4,7 +4,7 @@ import 'package:fcaihu/constants/drawer.dart';
 import 'package:flutter/material.dart';
 
 //selected bar action
-enum selectedBar { notification, completed }
+enum selectedBar { notification, newLectures }
 
 //user profile screen
 class ProfileScreen extends StatefulWidget {
@@ -224,16 +224,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         InkWell(
                           onTap: () {
                             setState(() {
-                              bar = selectedBar.completed;
+                              bar = selectedBar.newLectures;
                             });
                           },
                           child: Container(
                             width: MediaQuery.of(context).size.width / 2 - 1,
                             child: Center(
                                 child: Text(
-                              'Completed',
+                              'New Lectures',
                               style: TextStyle(
-                                color: bar == selectedBar.completed
+                                color: bar == selectedBar.newLectures
                                     ? ColorsScheme.purple
                                     : ColorsScheme.darkGrey,
                                 fontSize: 18,
@@ -248,30 +248,89 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   SizedBox(
                     height: 10,
                   ),
-                  Expanded(
-                    child: ListView(
-                      children: <Widget>[
-                        NotificationCard(
-                            imageUrl:
-                                'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcROQiRJAyudzEi3VnK4IK78OnXTZOyGkA919uzky9IA6118SX2S',
-                            title: 'New Lecture Added to PL Course',
-                            isSeen: false,
-                            date: ['24/3/2020', '9 AM']),
-                        NotificationCard(
-                            imageUrl:
-                                'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSBG33Erje8D_l7KHaZ2EH3_W4jPAkVImXtjlIERkcZFmxrcWGk',
-                            title: 'English Lecture at 8:00 PM Tommorow',
-                            isSeen: true,
-                            date: ['10/2/2020', '5 PM']),
-                        NotificationCard(
-                            imageUrl:
-                                'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS5qHwDOxOzqNSfM27gnoV_fklzMrD2k9EEtpGX3PQ6pzZK-F6y',
-                            title: 'New Lecture Added to Math Course',
-                            isSeen: true,
-                            date: ['8/2/2020', '8 AM']),
-                      ],
-                    ),
-                  )
+                  bar == selectedBar.notification
+                      ? Expanded(
+                          child: ListView(
+                            children: <Widget>[
+                              NotificationCard(
+                                  imageUrl:
+                                      'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcROQiRJAyudzEi3VnK4IK78OnXTZOyGkA919uzky9IA6118SX2S',
+                                  title: 'New Lecture Added to PL Course',
+                                  isSeen: false,
+                                  date: ['24/3/2020', '9 AM']),
+                              NotificationCard(
+                                  imageUrl:
+                                      'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSBG33Erje8D_l7KHaZ2EH3_W4jPAkVImXtjlIERkcZFmxrcWGk',
+                                  title: 'English Lecture at 8:00 PM Tommorow',
+                                  isSeen: true,
+                                  date: ['10/2/2020', '5 PM']),
+                              NotificationCard(
+                                  imageUrl:
+                                      'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS5qHwDOxOzqNSfM27gnoV_fklzMrD2k9EEtpGX3PQ6pzZK-F6y',
+                                  title: 'New Lecture Added to Math Course',
+                                  isSeen: true,
+                                  date: ['8/2/2020', '8 AM']),
+                            ],
+                          ),
+                        )
+                      : Expanded(
+                          child: GridView.count(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 10,
+                            mainAxisSpacing: 10,
+                            padding: EdgeInsets.all(10),
+                            children: <Widget>[
+                              NewLecture(
+                                courseName: 'PL Course',
+                                lectureTitle:
+                                    'Pointers [Part 2], Structures [Part 2], and Unions in C',
+                                isCompleted: false,
+                              ),
+                              NewLecture(
+                                courseName: 'CS251 Course',
+                                lectureTitle:
+                                    'From Domain to Requirements; Use-Case & Activity Diagrams',
+                                isCompleted: true,
+                              ),
+                              NewLecture(
+                                courseName: 'CS361 Course',
+                                lectureTitle:
+                                    ' Knowledge Representation via Propositional & Predicate Calculi',
+                                isCompleted: true,
+                              ),
+                              NewLecture(
+                                courseName: 'CS361 Course',
+                                lectureTitle:
+                                    'Problem Solving as Search - Blind/Uninformed vs. Heuristic/Informed Strategies',
+                                isCompleted: false,
+                              ),
+                              NewLecture(
+                                courseName: 'CS361 Course',
+                                lectureTitle:
+                                    'Problem Solving as Search - Blind/Uninformed vs. Heuristic/Informed Strategies',
+                                isCompleted: false,
+                              ),
+                              NewLecture(
+                                courseName: 'CS251 Course',
+                                lectureTitle:
+                                    'From Domain to Requirements; Use-Case & Activity Diagrams',
+                                isCompleted: true,
+                              ),
+                              NewLecture(
+                                courseName: 'CS361 Course',
+                                lectureTitle:
+                                    ' Knowledge Representation via Propositional & Predicate Calculi',
+                                isCompleted: true,
+                              ),
+                              NewLecture(
+                                courseName: 'PL Course',
+                                lectureTitle:
+                                    'Pointers [Part 2], Structures [Part 2], and Unions in C',
+                                isCompleted: false,
+                              ),
+                            ],
+                          ),
+                        )
                 ],
               ),
             )
@@ -379,6 +438,86 @@ class NotificationCard extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class NewLecture extends StatelessWidget {
+  final String courseName;
+  final String lectureTitle;
+  final bool isCompleted;
+
+  NewLecture({this.courseName, this.isCompleted, this.lectureTitle});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          color: ColorsScheme.grey,
+          boxShadow: [
+            BoxShadow(
+                offset: Offset(0, 0),
+                spreadRadius: 2,
+                blurRadius: 5,
+                color: ColorsScheme.brightPurple),
+          ],
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Text(
+                courseName,
+                style: TextStyle(
+                  color: ColorsScheme.midPurple,
+                  fontSize: 18,
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                lectureTitle,
+                textAlign: TextAlign.center,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: ColorsScheme.purple,
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8.0,
+                  ),
+                  child: Text(
+                    isCompleted ? 'Completed' : 'Not Completed',
+                    style: TextStyle(
+                      color: ColorsScheme.darkGrey,
+                      fontSize: 18,
+                    ),
+                  ),
+                ),
+                isCompleted
+                    ? Icon(
+                        Icons.check,
+                        color: Colors.amber,
+                      )
+                    : Icon(
+                        Icons.clear,
+                        color: Colors.red,
+                      ),
+              ],
+            ),
+          ],
+        ));
   }
 }
 

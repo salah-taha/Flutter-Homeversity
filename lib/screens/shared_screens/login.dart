@@ -1,6 +1,17 @@
 import 'package:fcaihu/constants/constants.dart';
 import 'package:fcaihu/screens/shared_screens/signup.dart';
+import 'package:flare_flutter/flare_actor.dart';
+import 'package:flare_flutter/flare_controls.dart';
 import 'package:flutter/material.dart';
+
+//animation names
+class AnimationNames {
+  static final String pause = 'static';
+  static final String email = 'email';
+  static final String password = 'password';
+  static final String logoOut = 'logo_out';
+  static final String logoIn = 'logo_in';
+}
 
 class LoginScreen extends StatefulWidget {
   static final String id = 'loginScreen';
@@ -13,9 +24,22 @@ class _LoginScreenState extends State<LoginScreen> {
   //form controller key
   final _formKey = GlobalKey<FormState>();
 
+  //text field controllers
+  FocusNode emailNode = FocusNode();
+  FocusNode passNode = FocusNode();
+
+  //animation controller
+  final FlareControls _controls = FlareControls();
+
+  //animation detector
+  bool isAnimating = false;
+
   //user email & password
   String _email;
   String _password;
+
+  //selecting animation
+  String animationName = AnimationNames.logoIn;
 
   //sign in with user email and password
   _submit() {
@@ -27,6 +51,38 @@ class _LoginScreenState extends State<LoginScreen> {
 
     //login with auth services
     //TODO AuthService.login(_email, _password);
+  }
+
+  @override
+  void initState() {
+    emailNode.addListener(() async {
+      if (emailNode.hasFocus) {
+        if (!isAnimating) {
+          isAnimating = true;
+          setState(() {
+            animationName = AnimationNames.email;
+          });
+        }
+      }
+    });
+    passNode.addListener(() {
+      if (passNode.hasFocus) {
+        if (!isAnimating) {
+          isAnimating = true;
+          setState(() {
+            animationName = AnimationNames.password;
+          });
+        }
+      }
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    emailNode.dispose();
+    passNode.dispose();
+    super.dispose();
   }
 
   @override
@@ -44,27 +100,44 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                RichText(
-                  text: TextSpan(
-                      text: 'FCAI',
-                      style: TextStyle(
-                        fontSize: 40,
-                        color: ColorsScheme.darkGrey,
-                      ),
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: ' HU',
-                          style: TextStyle(
-                            color: ColorsScheme.purple,
-                            fontSize: 40,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ]),
+                Container(
+                  width: 300,
+                  height: 200,
+                  child: FlareActor(
+                    'assets/sign_In_animation.flr',
+                    alignment: Alignment.center,
+                    fit: BoxFit.cover,
+                    animation: animationName,
+                    callback: (name) {
+                      setState(() {
+                        isAnimating = false;
+                        animationName = AnimationNames.logoIn;
+                      });
+                    },
+                    controller: _controls,
+                  ),
                 ),
-                SizedBox(
-                  height: 15,
-                ),
+//                RichText(
+//                  text: TextSpan(
+//                      text: 'FCAI',
+//                      style: TextStyle(
+//                        fontSize: 40,
+//                        color: ColorsScheme.darkGrey,
+//                      ),
+//                      children: <TextSpan>[
+//                        TextSpan(
+//                          text: ' HU',
+//                          style: TextStyle(
+//                            color: ColorsScheme.purple,
+//                            fontSize: 40,
+//                            fontWeight: FontWeight.bold,
+//                          ),
+//                        ),
+//                      ]),
+//                ),
+//                SizedBox(
+//                  height: 15,
+//                ),
                 Form(
                   key: _formKey,
                   child: Column(
@@ -74,6 +147,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         padding:
                             EdgeInsets.symmetric(vertical: 5, horizontal: 30),
                         child: TextFormField(
+                          focusNode: emailNode,
                           decoration: InputDecoration(
                             hintText: 'Email',
                             border: UnderlineInputBorder(
@@ -101,6 +175,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         padding:
                             EdgeInsets.symmetric(vertical: 5, horizontal: 30),
                         child: TextFormField(
+                          focusNode: passNode,
                           decoration: InputDecoration(
                             hintText: 'Password',
                             border: UnderlineInputBorder(
@@ -157,7 +232,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         shape: RoundedRectangleBorder(
                           borderRadius: new BorderRadius.circular(30),
-                          side: BorderSide(color: Colors.blue),
                         ),
                       ),
                     ],

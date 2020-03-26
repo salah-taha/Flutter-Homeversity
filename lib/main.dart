@@ -65,9 +65,9 @@ class _MainAppState extends State<MainApp> {
         child: Padding(
           padding: const EdgeInsets.all(40.0),
           child: SplashScreen.navigate(
-            name: 'assets/splash_screen_animation.flr',
+            name: 'assets/second_splash_screen_animation.flr',
             // get the splash then welcome or main
-            next: (_) => bFirstTime ? WelcomeScreen() : AvailableCourses(),
+            next: (_) => bFirstTime ? WelcomeScreen() : ProfileScreen(),
             until: () => Future.delayed(Duration(seconds: 5)),
             startAnimation: 'Animations',
           ),
