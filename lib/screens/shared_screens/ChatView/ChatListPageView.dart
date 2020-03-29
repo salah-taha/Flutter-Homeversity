@@ -61,7 +61,7 @@ class _ChatListPageViewState extends State<ChatListPageView> {
                   lastMessage:
                       "Lorem ipsum dolor sit amet. Sed pharetra ante a blandit ultrices.",
                   name: "Level 1 ",
-                  newMesssageCount: 8,
+                  newMessageCount: 8,
                   time: "19:27 PM",
                 ),
                 ChatListViewItem(
@@ -71,7 +71,7 @@ class _ChatListPageViewState extends State<ChatListPageView> {
                   lastMessage:
                       "Lorem ipsum dolor sit amet. Sed pharetra ante a blandit ultrices.",
                   name: "Level 2",
-                  newMesssageCount: 5,
+                  newMessageCount: 5,
                   time: "19:27 PM",
                 ),
                 ChatListViewItem(
@@ -81,7 +81,7 @@ class _ChatListPageViewState extends State<ChatListPageView> {
                   lastMessage:
                       "Lorem ipsum dolor sit amet. Sed pharetra ante a blandit ultrices.",
                   name: "Level 3",
-                  newMesssageCount: 0,
+                  newMessageCount: 0,
                   time: "19:27 PM",
                 ),
                 ChatListViewItem(
@@ -91,7 +91,7 @@ class _ChatListPageViewState extends State<ChatListPageView> {
                   lastMessage:
                       "Lorem ipsum dolor sit amet. Sed pharetra ante a blandit ultrices.",
                   name: "Level 4",
-                  newMesssageCount: 0,
+                  newMessageCount: 0,
                   time: "19:27 PM",
                 ),
               ],

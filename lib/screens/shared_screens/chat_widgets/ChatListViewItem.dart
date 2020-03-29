@@ -9,7 +9,7 @@ class ChatListViewItem extends StatelessWidget {
   final String lastMessage;
   final String time;
   final bool hasUnreadMessage;
-  final int newMesssageCount;
+  final int newMessageCount;
   const ChatListViewItem({
     Key key,
     this.image,
@@ -17,7 +17,7 @@ class ChatListViewItem extends StatelessWidget {
     this.lastMessage,
     this.time,
     this.hasUnreadMessage,
-    this.newMesssageCount,
+    this.newMessageCount,
   }) : super(key: key);
 
   @override
@@ -65,7 +65,7 @@ class ChatListViewItem extends StatelessWidget {
                                   )),
                               child: Center(
                                   child: Text(
-                                newMesssageCount.toString(),
+                                newMessageCount.toString(),
                                 style: TextStyle(fontSize: 11),
                               )),
                             )
