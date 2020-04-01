@@ -69,7 +69,7 @@ class _ChatPageViewState extends State<ChatPageView> {
       child: SendedMessageWidget(
         content:
             'I am good. Can you do something for me? I need your help my bro in PL2.',
-        time: '22:40 PM',
+        time: '22:40 Pmm',
       ),
     ));
   }
@@ -193,7 +193,7 @@ class _ChatPageViewState extends State<ChatPageView> {
                   // SizedBox(
                   //   height: 50,
                   Container(
-                    color: Colors.white,
+                    color: Colors.deepPurple,
                     height: 50,
                     child: Padding(
                       padding: const EdgeInsets.only(left: 8.0),
@@ -203,7 +203,7 @@ class _ChatPageViewState extends State<ChatPageView> {
                         decoration: InputDecoration(
                           // contentPadding: const EdgeInsets.symmetric(horizontal: 5.0),
                           suffixIcon: IconButton(
-                            icon: Icon(Icons.send,color: Colors.blueGrey,),
+                            icon: Icon(Icons.send,color: Colors.grey[1500],),
                             onPressed: () {},
                           ),
                           border: InputBorder.none,

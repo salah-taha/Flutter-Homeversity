@@ -23,7 +23,7 @@ class ReceivedMessageWidget extends StatelessWidget {
             topLeft: Radius.circular(15),
             topRight: Radius.circular(0)),
         child: Container(
-          color: Color(0xffb380ff),//myColors.orange[700],
+          color: Colors.grey[400],//Color(Colors.),//myColors.orange[700],
           child: Stack(children: <Widget>[
             Padding(
               padding: const EdgeInsets.only(right: 12.0, left: 8.0, top: 8.0, bottom: 15.0),
