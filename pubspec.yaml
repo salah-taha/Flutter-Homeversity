@@ -15,6 +15,21 @@ dependencies:
   flare_splash_screen: ^3.0.1
   cached_network_image: ^2.0.0
   flare_flutter:
+  http:
+  intl: ^0.16.0
+  cloud_firestore: ^0.13.0+1
+  firebase_auth: ^0.15.4
+  uuid:
+  path_provider:
+  firebase_storage:
+  image_picker:
+  firebase_core:
+  flutter_image_compress: ^0.6.5+1
+  provider:
+  firebase_messaging:
+  flutter_full_pdf_viewer: ^1.0.6
+  youtube_player_flutter: ^6.1.0+4
+  flutter_slidable: ^0.5.4
 
 dev_dependencies:
   flutter_test:
@@ -27,6 +42,7 @@ flutter:
     - assets/images/
     - assets/second_splash_screen_animation.flr
     - assets/sign_In_animation.flr
+    - assets/welcome_animation.flr
   # fonts:
   #   - family: Schyler
   #     fonts:

@@ -1,28 +1,35 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class User {
   final String id;
   final String name;
   final String level;
   final String points;
   final String completedLectures;
-  final List<String> enrolledCourses;
+  final String email;
+  final String imageUrl;
+  final String uniID;
 
   User({
     this.name,
     this.id,
     this.completedLectures,
-    this.enrolledCourses,
     this.level,
     this.points,
+    this.email,
+    this.imageUrl,
+    this.uniID,
   });
 
-  factory User.fromDoc(doc) {
+  factory User.fromDoc(DocumentSnapshot doc) {
     return User(
-      name: doc['name'],
-      level: doc['level'],
-      points: doc['points'],
-      completedLectures: doc.collection('completedLectures').length,
-      enrolledCourses: doc['enrolledCourses'],
-      id: doc.documentID,
-    );
+        name: doc['name'],
+        level: doc['level'],
+        points: doc['points'],
+        completedLectures: doc['completedLectures'],
+        id: doc.documentID,
+        email: doc['email'],
+        imageUrl: doc['imageUrl'],
+        uniID: doc['id']);
   }
 }

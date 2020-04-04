@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "844734684541",
+    "firebase_url": "https://fcai-hu.firebaseio.com",
+    "project_id": "fcai-hu",
+    "storage_bucket": "fcai-hu.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:844734684541:android:306cce0c9804356989c014",
+        "android_client_info": {
+          "package_name": "com.fcai.fcaihu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "844734684541-m2de9n6rpm7imui6fmsgis156ukefb81.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBfUeUAwJlkS5IN0HsaKOTdrdMGL_gUZcA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "844734684541-m2de9n6rpm7imui6fmsgis156ukefb81.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

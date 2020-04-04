@@ -1,5 +1,6 @@
 import 'package:fcaihu/constants/constants.dart';
-import 'package:fcaihu/screens/student/available_courses.dart';
+import 'package:fcaihu/services/page_handler.dart';
+import 'package:flare_flutter/flare_actor.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -11,15 +12,17 @@ class WelcomeScreen extends StatelessWidget {
   final listPageViewModel = [
     PageViewModel(
       title: "Welcome to FCAI-HU App",
-      bodyWidget: Text('No Need To Go to university'),
-      image: Image.asset(
-        'assets/welcome/1.png',
-        scale: 4,
+      bodyWidget: Text('Stay At Home'),
+      image: FlareActor(
+        'assets/welcome_animation.flr',
+        alignment: Alignment.center,
+        fit: BoxFit.cover,
+        animation: 'Animations',
       ),
     ),
     PageViewModel(
       title: "You can Get all Courses At home",
-      bodyWidget: Text('No Need To Go to university'),
+      bodyWidget: Text('Stay At Home'),
       image: Image.asset(
         'assets/welcome/2.png',
         scale: 4,
@@ -36,14 +39,14 @@ class WelcomeScreen extends StatelessWidget {
         //set first time to false
         prefs.setBool('firstTime', false);
         //navigate to main screen TODO
-        Navigator.pushReplacementNamed(context, AvailableCourses.id);
+        Navigator.pushReplacementNamed(context, PageHandler.id);
       },
       onSkip: () async {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         //set first time to false
         prefs.setBool('firstTime', false);
         //navigate to main screen TODO
-        Navigator.pushReplacementNamed(context, AvailableCourses.id);
+        Navigator.pushReplacementNamed(context, PageHandler.id);
       },
       //add skip button
       showSkipButton: true,

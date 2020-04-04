@@ -1,7 +1,9 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fcaihu/constants/constants.dart';
-import 'package:fcaihu/constants/drawer.dart';
+import 'package:fcaihu/models/provider_data.dart';
+import 'package:fcaihu/screens/shared_screens/login.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 //selected bar action
 enum selectedBar { notification, newLectures }
@@ -20,322 +22,358 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   //initializing selected bar
   selectedBar bar = selectedBar.notification;
+  Future<bool> _onWillPop() async {
+    return (await showDialog(
+          context: context,
+          builder: (context) => new AlertDialog(
+            title: new Text('Are you sure?'),
+            content: new Text('Do you want to exit an App'),
+            actions: <Widget>[
+              new FlatButton(
+                onPressed: () => Navigator.of(context).pop(false),
+                child: new Text('No'),
+              ),
+              new FlatButton(
+                onPressed: () => Navigator.of(context).pop(true),
+                child: new Text('Yes'),
+              ),
+            ],
+          ),
+        )) ??
+        false;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        iconTheme: IconThemeData(color: ColorsScheme.purple),
-        backgroundColor: ColorsScheme.grey,
-        title: Text(
-          'Profile',
-          style: appBarTextStyle,
-        ),
-        elevation: 0,
-        centerTitle: true,
-      ),
-      drawer: DrawerAppBar(
-        selectedPage: ProfileScreen.id,
-      ),
-      backgroundColor: ColorsScheme.grey,
-      body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          children: <Widget>[
-            Stack(
-              alignment: Alignment.bottomCenter,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 50.0),
-                  child: ClipPath(
-                    clipper: ClippingClass(),
-                    child: Container(
-                      height: 200,
-                      width: MediaQuery.of(context).size.width,
-                      child: Image(
-                        image: AssetImage('assets/images/dribbble.png'),
-                        fit: BoxFit.cover,
+    return WillPopScope(
+      onWillPop: _onWillPop,
+      child: Container(
+        child: Provider.of<ProviderData>(context).user == null
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text('You Should Login to Your Account'),
+                    RaisedButton(
+                      color: ColorsScheme.purple,
+                      onPressed: () {
+                        Navigator.pushNamed(context, LoginScreen.id);
+                      },
+                      child: Text(
+                        'Login',
+                        style: TextStyle(
+                          color: ColorsScheme.white,
+                        ),
                       ),
-                    ),
-                  ),
+                    )
+                  ],
                 ),
-                CachedNetworkImage(
-                  imageUrl:
-                      'https://bennybox.dk/wp-content/uploads/2019/09/DTU_hero1_jan2019_02ef.jpg',
-                  imageBuilder: (context, imageProvider) => CircleAvatar(
-                    radius: 50,
-                    backgroundColor: ColorsScheme.grey,
-                    child: CircleAvatar(
-                      radius: 45,
-                      backgroundColor: ColorsScheme.grey,
-                      backgroundImage: imageProvider,
-                    ),
-                  ),
-                  placeholder: (context, url) => CircleAvatar(
-                      backgroundColor: Colors.white,
-                      radius: 50,
-                      child: Center(child: CircularProgressIndicator())),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
-                ),
-              ],
-            ),
-            SizedBox(height: 5.0),
-            Text(
-              'Sara Ahmed (Fake)',
-              style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
-                  color: ColorsScheme.purple),
-            ),
-            SizedBox(height: 20.0),
-            Row(
-              children: <Widget>[
-                Container(
-                  width: MediaQuery.of(context).size.width / 3,
-                  child: Column(
-                    children: <Widget>[
-                      Text(
-                        '15',
-                        style: TextStyle(
-                          color: ColorsScheme.purple,
-                          fontSize: 40,
-                        ),
-                      ),
-                      Text(
-                        'lectures',
-                        style: TextStyle(
-                          color: ColorsScheme.darkGrey,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width / 3,
-                  child: Column(
-                    children: <Widget>[
-                      Text(
-                        '560',
-                        style: TextStyle(
-                          color: ColorsScheme.purple,
-                          fontSize: 45,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        'Points',
-                        style: TextStyle(
-                          color: ColorsScheme.darkGrey,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 50,
-                      )
-                    ],
-                  ),
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width / 3,
-                  child: Column(
-                    children: <Widget>[
-                      Text(
-                        '1',
-                        style: TextStyle(
-                          color: ColorsScheme.purple,
-                          fontSize: 40,
-                        ),
-                      ),
-                      Text(
-                        'Level',
-                        style: TextStyle(
-                          color: ColorsScheme.darkGrey,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            Container(
-              height: MediaQuery.of(context).size.height - 100,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                color: ColorsScheme.grey,
-              ),
-              child: Column(
-                children: <Widget>[
-                  Container(
-                    height: 50,
-                    width: MediaQuery.of(context).size.width,
-                    decoration: BoxDecoration(
-                      color: ColorsScheme.grey,
-                      boxShadow: [
-                        BoxShadow(
-                          offset: Offset(0, 2),
-                          color: ColorsScheme.brightPurple,
-                          blurRadius: 3,
-                          spreadRadius: 0,
-                        ),
-                        BoxShadow(
-                          offset: Offset(0, -2),
-                          color: ColorsScheme.brightPurple,
-                          blurRadius: 3,
-                          spreadRadius: 0,
-                        ),
-                      ],
-                    ),
-                    child: Row(
+              )
+            : SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.max,
+                  children: <Widget>[
+                    Stack(
+                      alignment: Alignment.bottomCenter,
                       children: <Widget>[
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              bar = selectedBar.notification;
-                            });
-                          },
-                          child: Container(
-                            width: MediaQuery.of(context).size.width / 2 - 1,
-                            child: Center(
-                              child: Text(
-                                'Notifications',
-                                style: TextStyle(
-                                  color: bar == selectedBar.notification
-                                      ? ColorsScheme.purple
-                                      : ColorsScheme.darkGrey,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 50.0),
+                          child: ClipPath(
+                            clipper: ClippingClass(),
+                            child: Container(
+                              height: 200,
+                              width: MediaQuery.of(context).size.width,
+                              child: Image(
+                                image: AssetImage('assets/images/dribbble.png'),
+                                fit: BoxFit.cover,
                               ),
                             ),
                           ),
                         ),
-                        Container(
-                          width: 2,
-                          height: 25,
-                          color: ColorsScheme.midPurple,
+                        CachedNetworkImage(
+                          imageUrl:
+                              'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSQopdzqoXcW8XfVcODSjBZoGUfKokWvqbgwrvgfDZHylqN2iM_&usqp=CAU',
+                          imageBuilder: (context, imageProvider) =>
+                              CircleAvatar(
+                            radius: 50,
+                            backgroundColor: ColorsScheme.grey,
+                            child: CircleAvatar(
+                              radius: 45,
+                              backgroundColor: ColorsScheme.grey,
+                              backgroundImage: imageProvider,
+                            ),
+                          ),
+                          placeholder: (context, url) => CircleAvatar(
+                              backgroundColor: Colors.white,
+                              radius: 50,
+                              child:
+                                  Center(child: CircularProgressIndicator())),
+                          errorWidget: (context, url, error) =>
+                              Icon(Icons.error),
                         ),
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              bar = selectedBar.newLectures;
-                            });
-                          },
-                          child: Container(
-                            width: MediaQuery.of(context).size.width / 2 - 1,
-                            child: Center(
-                                child: Text(
-                              'New Lectures',
-                              style: TextStyle(
-                                color: bar == selectedBar.newLectures
-                                    ? ColorsScheme.purple
-                                    : ColorsScheme.darkGrey,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
+                      ],
+                    ),
+                    SizedBox(height: 5.0),
+                    Text(
+                      Provider.of<ProviderData>(context).user.name,
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          color: ColorsScheme.purple),
+                    ),
+                    SizedBox(height: 20.0),
+                    Row(
+                      children: <Widget>[
+                        Container(
+                          width: MediaQuery.of(context).size.width / 3,
+                          child: Column(
+                            children: <Widget>[
+                              Text(
+                                '15',
+                                style: TextStyle(
+                                  color: ColorsScheme.purple,
+                                  fontSize: 40,
+                                ),
                               ),
-                            )),
+                              Text(
+                                'lectures',
+                                style: TextStyle(
+                                  color: ColorsScheme.darkGrey,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width / 3,
+                          child: Column(
+                            children: <Widget>[
+                              Text(
+                                '560',
+                                style: TextStyle(
+                                  color: ColorsScheme.purple,
+                                  fontSize: 45,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              Text(
+                                'Points',
+                                style: TextStyle(
+                                  color: ColorsScheme.darkGrey,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(
+                                height: 50,
+                              )
+                            ],
+                          ),
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width / 3,
+                          child: Column(
+                            children: <Widget>[
+                              Text(
+                                '1',
+                                style: TextStyle(
+                                  color: ColorsScheme.purple,
+                                  fontSize: 40,
+                                ),
+                              ),
+                              Text(
+                                'Level',
+                                style: TextStyle(
+                                  color: ColorsScheme.darkGrey,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  bar == selectedBar.notification
-                      ? Expanded(
-                          child: ListView(
-                            children: <Widget>[
-                              NotificationCard(
-                                  imageUrl:
-                                      'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcROQiRJAyudzEi3VnK4IK78OnXTZOyGkA919uzky9IA6118SX2S',
-                                  title: 'New Lecture Added to PL Course',
-                                  isSeen: false,
-                                  date: ['24/3/2020', '9 AM']),
-                              NotificationCard(
-                                  imageUrl:
-                                      'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSBG33Erje8D_l7KHaZ2EH3_W4jPAkVImXtjlIERkcZFmxrcWGk',
-                                  title: 'English Lecture at 8:00 PM Tommorow',
-                                  isSeen: true,
-                                  date: ['10/2/2020', '5 PM']),
-                              NotificationCard(
-                                  imageUrl:
-                                      'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS5qHwDOxOzqNSfM27gnoV_fklzMrD2k9EEtpGX3PQ6pzZK-F6y',
-                                  title: 'New Lecture Added to Math Course',
-                                  isSeen: true,
-                                  date: ['8/2/2020', '8 AM']),
-                            ],
+                    Container(
+                      height: MediaQuery.of(context).size.height - 100,
+                      width: MediaQuery.of(context).size.width,
+                      decoration: BoxDecoration(
+                        color: ColorsScheme.grey,
+                      ),
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            height: 50,
+                            width: MediaQuery.of(context).size.width,
+                            decoration: BoxDecoration(
+                              color: ColorsScheme.grey,
+                              boxShadow: [
+                                BoxShadow(
+                                  offset: Offset(0, 2),
+                                  color: ColorsScheme.brightPurple,
+                                  blurRadius: 3,
+                                  spreadRadius: 0,
+                                ),
+                                BoxShadow(
+                                  offset: Offset(0, -2),
+                                  color: ColorsScheme.brightPurple,
+                                  blurRadius: 3,
+                                  spreadRadius: 0,
+                                ),
+                              ],
+                            ),
+                            child: Row(
+                              children: <Widget>[
+                                InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      bar = selectedBar.notification;
+                                    });
+                                  },
+                                  child: Container(
+                                    width:
+                                        MediaQuery.of(context).size.width / 2 -
+                                            1,
+                                    child: Center(
+                                      child: Text(
+                                        'Notifications',
+                                        style: TextStyle(
+                                          color: bar == selectedBar.notification
+                                              ? ColorsScheme.purple
+                                              : ColorsScheme.darkGrey,
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                Container(
+                                  width: 2,
+                                  height: 25,
+                                  color: ColorsScheme.midPurple,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    setState(() {
+                                      bar = selectedBar.newLectures;
+                                    });
+                                  },
+                                  child: Container(
+                                    width:
+                                        MediaQuery.of(context).size.width / 2 -
+                                            1,
+                                    child: Center(
+                                        child: Text(
+                                      'New Lectures',
+                                      style: TextStyle(
+                                        color: bar == selectedBar.newLectures
+                                            ? ColorsScheme.purple
+                                            : ColorsScheme.darkGrey,
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    )),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        )
-                      : Expanded(
-                          child: GridView.count(
-                            crossAxisCount: 2,
-                            crossAxisSpacing: 10,
-                            mainAxisSpacing: 10,
-                            padding: EdgeInsets.all(10),
-                            children: <Widget>[
-                              NewLecture(
-                                courseName: 'PL Course',
-                                lectureTitle:
-                                    'Pointers [Part 2], Structures [Part 2], and Unions in C',
-                                isCompleted: false,
-                              ),
-                              NewLecture(
-                                courseName: 'CS251 Course',
-                                lectureTitle:
-                                    'From Domain to Requirements; Use-Case & Activity Diagrams',
-                                isCompleted: true,
-                              ),
-                              NewLecture(
-                                courseName: 'CS361 Course',
-                                lectureTitle:
-                                    ' Knowledge Representation via Propositional & Predicate Calculi',
-                                isCompleted: true,
-                              ),
-                              NewLecture(
-                                courseName: 'CS361 Course',
-                                lectureTitle:
-                                    'Problem Solving as Search - Blind/Uninformed vs. Heuristic/Informed Strategies',
-                                isCompleted: false,
-                              ),
-                              NewLecture(
-                                courseName: 'CS361 Course',
-                                lectureTitle:
-                                    'Problem Solving as Search - Blind/Uninformed vs. Heuristic/Informed Strategies',
-                                isCompleted: false,
-                              ),
-                              NewLecture(
-                                courseName: 'CS251 Course',
-                                lectureTitle:
-                                    'From Domain to Requirements; Use-Case & Activity Diagrams',
-                                isCompleted: true,
-                              ),
-                              NewLecture(
-                                courseName: 'CS361 Course',
-                                lectureTitle:
-                                    ' Knowledge Representation via Propositional & Predicate Calculi',
-                                isCompleted: true,
-                              ),
-                              NewLecture(
-                                courseName: 'PL Course',
-                                lectureTitle:
-                                    'Pointers [Part 2], Structures [Part 2], and Unions in C',
-                                isCompleted: false,
-                              ),
-                            ],
+                          SizedBox(
+                            height: 10,
                           ),
-                        )
-                ],
+                          bar == selectedBar.notification
+                              ? Expanded(
+                                  child: ListView(
+                                    children: <Widget>[
+                                      NotificationCard(
+                                          imageUrl:
+                                              'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcROQiRJAyudzEi3VnK4IK78OnXTZOyGkA919uzky9IA6118SX2S',
+                                          title: 'New Lecture Added to PL Course',
+                                          isSeen: false,
+                                          date: ['24/3/2020', '9 AM']),
+                                      NotificationCard(
+                                          imageUrl:
+                                              'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSBG33Erje8D_l7KHaZ2EH3_W4jPAkVImXtjlIERkcZFmxrcWGk',
+                                          title: 'English Lecture at 8:00 PM Tommorow',
+                                          isSeen: true,
+                                          date: ['10/2/2020', '5 PM']),
+                                      NotificationCard(
+                                          imageUrl:
+                                              'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS5qHwDOxOzqNSfM27gnoV_fklzMrD2k9EEtpGX3PQ6pzZK-F6y',
+                                          title: 'New Lecture Added to Math Course',
+                                          isSeen: true,
+                                          date: ['8/2/2020', '8 AM']),
+                                    ],
+                                  ),
+                                )
+                              : Expanded(
+                                  child: GridView.count(
+                                    crossAxisCount: 2,
+                                    crossAxisSpacing: 10,
+                                    mainAxisSpacing: 10,
+                                    padding: EdgeInsets.all(10),
+                                    children: <Widget>[
+                                      NewLecture(
+                                        courseName: 'PL Course',
+                                        lectureTitle:
+                                            'Pointers [Part 2], Structures [Part 2], and Unions in C',
+                                        isCompleted: false,
+                                      ),
+                                      NewLecture(
+                                        courseName: 'CS251 Course',
+                                        lectureTitle:
+                                            'From Domain to Requirements; Use-Case & Activity Diagrams',
+                                        isCompleted: true,
+                                      ),
+                                      NewLecture(
+                                        courseName: 'CS361 Course',
+                                        lectureTitle:
+                                            ' Knowledge Representation via Propositional & Predicate Calculi',
+                                        isCompleted: true,
+                                      ),
+                                      NewLecture(
+                                        courseName: 'CS361 Course',
+                                        lectureTitle:
+                                            'Problem Solving as Search - Blind/Uninformed vs. Heuristic/Informed Strategies',
+                                        isCompleted: false,
+                                      ),
+                                      NewLecture(
+                                        courseName: 'CS361 Course',
+                                        lectureTitle:
+                                            'Problem Solving as Search - Blind/Uninformed vs. Heuristic/Informed Strategies',
+                                        isCompleted: false,
+                                      ),
+                                      NewLecture(
+                                        courseName: 'CS251 Course',
+                                        lectureTitle:
+                                            'From Domain to Requirements; Use-Case & Activity Diagrams',
+                                        isCompleted: true,
+                                      ),
+                                      NewLecture(
+                                        courseName: 'CS361 Course',
+                                        lectureTitle:
+                                            ' Knowledge Representation via Propositional & Predicate Calculi',
+                                        isCompleted: true,
+                                      ),
+                                      NewLecture(
+                                        courseName: 'PL Course',
+                                        lectureTitle:
+                                            'Pointers [Part 2], Structures [Part 2], and Unions in C',
+                                        isCompleted: false,
+                                      ),
+                                    ],
+                                  ),
+                                )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
-            )
-          ],
-        ),
       ),
     );
   }

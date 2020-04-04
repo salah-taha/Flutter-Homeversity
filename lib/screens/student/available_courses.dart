@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:fcaihu/constants/drawer.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fcaihu/screens/student/course_overview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -11,73 +12,29 @@ class AvailableCourses extends StatelessWidget {
   static String id = 'availableCourses';
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      //drawer for navigation
-      drawer: DrawerAppBar(
-        selectedPage: id,
-      ),
-      backgroundColor: ColorsScheme.grey,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(kToolbarHeight),
-        child: Container(
-          decoration: BoxDecoration(boxShadow: [
-            BoxShadow(
-              color: ColorsScheme.brightPurple,
-              offset: Offset(0, 3),
-              blurRadius: 5,
-            )
-          ]),
-          child: AppBar(
-            iconTheme: IconThemeData(color: ColorsScheme.purple),
-            backgroundColor: ColorsScheme.grey,
-            title: Text(
-              'Available course',
-              style: appBarTextStyle,
-            ),
-            elevation: 0,
-            centerTitle: true,
-          ),
-        ),
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
+    return Container(
+      child: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15.0),
           child: Container(
+            height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                CourseCard(
-                  courseName: 'AI Course',
-                  courseLevel: 'All',
-                  teacherName: 'Amr S. Ghonaim',
-                  lecturesNumber: 6,
-                  teacherImageUrl:
-                      'https://www.sketchappsources.com/resources/source-image/profile-illustration-gunaldi-yunus.png',
-                  courseImageUrl:
-                      'https://miro.medium.com/max/3200/1*QBxc5-QaDrLZV9VPHcqG0Q.png',
-                ),
-                CourseCard(
-                  courseName: 'English Course',
-                  courseLevel: '2',
-                  teacherName: 'Ali Ghandour',
-                  lecturesNumber: 10,
-                  courseImageUrl:
-                      'https://cdn.dribbble.com/users/1872109/screenshots/4871924/imagaination-illustration-800.jpg',
-                  teacherImageUrl:
-                      'https://gigantic.store/wp-content/uploads/2019/04/flat-design-character-HD.jpg',
-                ),
-                CourseCard(
-                  courseName: 'PL Course',
-                  courseLevel: '1',
-                  teacherName: 'Mohammed El Saied',
-                  lecturesNumber: 7,
-                  courseImageUrl:
-                      'https://cdn.dribbble.com/users/3281732/screenshots/6747768/samji_illustrator_2x.jpeg',
-                  teacherImageUrl:
-                      'https://cdn.dribbble.com/users/2424688/screenshots/5785083/amitabh.jpg',
-                ),
-              ],
+            child: FutureBuilder(
+              future: availableCoursesRef.getDocuments(),
+              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                if (!snapshot.hasData) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                return ListView.builder(
+                  physics: BouncingScrollPhysics(),
+                  itemCount: snapshot.data.documents.length,
+                  itemBuilder: (context, index) {
+                    return CourseCard.fromDoc(snapshot.data.documents[index]);
+                  },
+                );
+              },
             ),
           ),
         ),
@@ -93,15 +50,33 @@ class CourseCard extends StatelessWidget {
   final String courseImageUrl;
   final String courseLevel;
   final String teacherImageUrl;
-  final int lecturesNumber;
+  final String lecturesNumber;
+  final String description;
+  final String courseID;
 
-  CourseCard(
-      {this.courseImageUrl,
-      this.courseLevel,
-      this.courseName,
-      this.lecturesNumber,
-      this.teacherImageUrl,
-      this.teacherName});
+  CourseCard({
+    this.courseImageUrl,
+    this.courseLevel,
+    this.courseName,
+    this.lecturesNumber,
+    this.teacherImageUrl,
+    this.teacherName,
+    this.description,
+    this.courseID,
+  });
+
+  factory CourseCard.fromDoc(doc) {
+    return CourseCard(
+      courseName: doc['courseName'],
+      teacherName: doc['teacherName'],
+      courseImageUrl: doc['courseImageUrl'],
+      courseLevel: doc['courseLevel'],
+      teacherImageUrl: doc['teacherImageUrl'],
+      lecturesNumber: doc['lecturesNumber'],
+      description: doc['description'],
+      courseID: doc.documentID,
+    );
+  }
   @override
   Widget build(BuildContext context) {
     //getting teacher name shortcut
@@ -124,6 +99,18 @@ class CourseCard extends StatelessWidget {
     return InkWell(
       onTap: () {
         //TODO navigate to course overview
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => CourseOverview(
+                courseImageUrl: courseImageUrl,
+                teacherImageUrl: teacherImageUrl,
+                courseTitle: courseName,
+                description: description,
+                teacherName: teacherName,
+                courseID: courseID),
+          ),
+        );
       },
       splashColor: ColorsScheme.brightPurple,
       focusColor: ColorsScheme.brightPurple,

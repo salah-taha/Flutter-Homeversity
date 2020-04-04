@@ -1,87 +1,117 @@
 import 'dart:ui';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fcaihu/constants/constants.dart';
-import 'package:fcaihu/constants/drawer.dart';
+import 'package:fcaihu/models/provider_data.dart';
+import 'package:fcaihu/screens/shared_screens/login.dart';
+import 'package:fcaihu/screens/student/course_progress.dart';
+import 'package:fcaihu/services/courses_services.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class EnrolledCourses extends StatelessWidget {
   static final String id = 'enrolledCourses';
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      //drawer for navigation
-      drawer: DrawerAppBar(
-        selectedPage: id,
-      ),
-      backgroundColor: ColorsScheme.grey,
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(kToolbarHeight),
-        child: Container(
-          decoration: BoxDecoration(boxShadow: [
-            BoxShadow(
-              color: ColorsScheme.brightPurple,
-              offset: Offset(0, 3),
-              blurRadius: 5,
-            )
-          ]),
-          child: AppBar(
-            iconTheme: IconThemeData(color: ColorsScheme.purple),
-            backgroundColor: ColorsScheme.grey,
-            title: Text(
-              'Enrolled course',
-              style: appBarTextStyle,
-            ),
-            elevation: 0,
-            centerTitle: true,
-          ),
-        ),
-      ),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          physics: BouncingScrollPhysics(),
-          child: Container(
-            width: MediaQuery.of(context).size.width,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                CourseCard(
-                  courseName: 'AI Course',
-                  courseLevel: 'All',
-                  teacherName: 'Amr S. Ghonaim',
-                  lecturesNumber: 6,
-                  completedLecturesNumber: 3,
-                  teacherImageUrl:
-                      'https://www.sketchappsources.com/resources/source-image/profile-illustration-gunaldi-yunus.png',
-                  courseImageUrl:
-                      'https://miro.medium.com/max/3200/1*QBxc5-QaDrLZV9VPHcqG0Q.png',
+    return Container(
+      child: SafeArea(
+        child: Provider.of<ProviderData>(context).user == null
+            ? Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text('You Should Login to Your Account'),
+                    RaisedButton(
+                      color: ColorsScheme.purple,
+                      onPressed: () {
+                        Navigator.pushNamed(context, LoginScreen.id);
+                      },
+                      child: Text(
+                        'Login',
+                        style: TextStyle(
+                          color: ColorsScheme.white,
+                        ),
+                      ),
+                    )
+                  ],
                 ),
-                CourseCard(
-                  courseName: 'English Course',
-                  courseLevel: '2',
-                  teacherName: 'Ali Ghandour',
-                  lecturesNumber: 10,
-                  completedLecturesNumber: 10,
-                  courseImageUrl:
-                      'https://cdn.dribbble.com/users/1872109/screenshots/4871924/imagaination-illustration-800.jpg',
-                  teacherImageUrl:
-                      'https://gigantic.store/wp-content/uploads/2019/04/flat-design-character-HD.jpg',
-                ),
-                CourseCard(
-                  courseName: 'PL Course',
-                  courseLevel: '1',
-                  teacherName: 'Mohammed El Saied',
-                  lecturesNumber: 7,
-                  completedLecturesNumber: 3,
-                  courseImageUrl:
-                      'https://cdn.dribbble.com/users/3281732/screenshots/6747768/samji_illustrator_2x.jpeg',
-                  teacherImageUrl:
-                      'https://cdn.dribbble.com/users/2424688/screenshots/5785083/amitabh.jpg',
-                ),
-              ],
-            ),
-          ),
-        ),
+              )
+            : FutureBuilder(
+                future: Firestore.instance
+                    .collection('users')
+                    .document(Provider.of<ProviderData>(context).user.id)
+                    .collection('enrolledCourses')
+                    .getDocuments(),
+                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (snapshot.data.documents.length == 0) {
+                    return Center(
+                      child: Text('You did not Enroll any Course'),
+                    );
+                  }
+                  return Container(
+                    height: MediaQuery.of(context).size.height,
+                    child: ListView.builder(
+                      itemCount: snapshot.data.documents.length,
+                      itemBuilder: (context, index) {
+                        return FutureBuilder(
+                          //TODO available courses
+                          future: Firestore.instance
+                              .collection('available_courses')
+                              .document(
+                                  snapshot.data.documents[index].documentID)
+                              .get(),
+                          builder: (context,
+                              AsyncSnapshot<DocumentSnapshot> course) {
+                            if (!course.hasData) {
+                              return Container(
+                                height: 280,
+                                child: Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                              );
+                            }
+                            return FutureBuilder(
+                              future: CoursesServices.getCourseLectures(context,
+                                  snapshot.data.documents[index].documentID),
+                              builder: (context, courseData) {
+                                if (!courseData.hasData) {
+                                  return Container(
+                                    height: 280,
+                                    child: Center(
+                                      child: CircularProgressIndicator(),
+                                    ),
+                                  );
+                                }
+                                return CourseCard(
+                                  courseName: course.data['courseName'],
+                                  courseLevel: course.data['courseLevel'],
+                                  teacherName: course.data['teacherName'],
+                                  lecturesNumber: courseData
+                                      .data['lectures'].documents.length,
+                                  completedLecturesNumber: courseData
+                                      .data['completedLectures']
+                                      .documents
+                                      .length,
+                                  teacherImageUrl:
+                                      course.data['teacherImageUrl'],
+                                  courseImageUrl: course.data['courseImageUrl'],
+                                  courseID: course.data.documentID,
+                                );
+                              },
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  );
+                },
+              ),
       ),
     );
   }
@@ -96,6 +126,7 @@ class CourseCard extends StatelessWidget {
   final String teacherImageUrl;
   final int lecturesNumber;
   final completedLecturesNumber;
+  final String courseID;
 
   CourseCard({
     this.courseImageUrl,
@@ -105,6 +136,7 @@ class CourseCard extends StatelessWidget {
     this.teacherImageUrl,
     this.teacherName,
     this.completedLecturesNumber,
+    this.courseID,
   });
   @override
   Widget build(BuildContext context) {
@@ -132,6 +164,13 @@ class CourseCard extends StatelessWidget {
     return InkWell(
       onTap: () {
         //TODO navigate to course progress page
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) =>
+                Material(child: CourseProgress(courseID: courseID)),
+          ),
+        );
       },
       splashColor: ColorsScheme.brightPurple,
       focusColor: ColorsScheme.brightPurple,

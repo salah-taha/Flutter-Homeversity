@@ -1,11 +1,18 @@
+import 'package:fcaihu/models/provider_data.dart';
+import 'package:fcaihu/models/user.dart';
+import 'package:fcaihu/screens/shared_screens/ChatView/ChatListPageView.dart';
 import 'package:fcaihu/screens/shared_screens/login.dart';
 import 'package:fcaihu/screens/shared_screens/signup.dart';
 import 'package:fcaihu/screens/shared_screens/user_profile.dart';
 import 'package:fcaihu/screens/student/available_courses.dart';
+import 'package:fcaihu/screens/student/course_overview.dart';
 import 'package:fcaihu/screens/student/enrolled_courses.dart';
 import 'package:fcaihu/screens/welcome.dart';
+import 'package:fcaihu/services/auth_service.dart';
+import 'package:fcaihu/services/page_handler.dart';
 import 'package:flare_splash_screen/flare_splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
@@ -20,16 +27,22 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: MainApp(),
-      //routes for all screens in the app
-      routes: {
-        AvailableCourses.id: (context) => AvailableCourses(),
-        LoginScreen.id: (context) => LoginScreen(),
-        SignupScreen.id: (context) => SignupScreen(),
-        EnrolledCourses.id: (context) => EnrolledCourses(),
-        ProfileScreen.id: (context) => ProfileScreen(),
-      },
+    return ChangeNotifierProvider(
+      create: (context) => ProviderData(),
+      child: MaterialApp(
+        home: MainApp(),
+        //routes for all screens in the app
+        routes: {
+          AvailableCourses.id: (context) => AvailableCourses(),
+          LoginScreen.id: (context) => LoginScreen(),
+          SignupScreen.id: (context) => SignupScreen(),
+          EnrolledCourses.id: (context) => EnrolledCourses(),
+          ProfileScreen.id: (context) => ProfileScreen(),
+          CourseOverview.id: (context) => CourseOverview(),
+          PageHandler.id: (context) => PageHandler(),
+          ChatListPageView.id: (context) => ChatListPageView(),
+        },
+      ),
     );
   }
 }
@@ -52,9 +65,14 @@ class _MainAppState extends State<MainApp> {
 
   _getSharedPref() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    String userID = prefs.getString('user_id');
     setState(() {
       bFirstTime = prefs.getBool('firstTime') ?? true;
     });
+    if (userID != null) {
+      User user = await AuthService.getUserWithID(userID, context);
+      Provider.of<ProviderData>(context, listen: false).updateUser(user);
+    }
   }
 
   @override
@@ -67,7 +85,7 @@ class _MainAppState extends State<MainApp> {
           child: SplashScreen.navigate(
             name: 'assets/second_splash_screen_animation.flr',
             // get the splash then welcome or main
-            next: (_) => bFirstTime ? WelcomeScreen() : ProfileScreen(),
+            next: (_) => bFirstTime ? WelcomeScreen() : PageHandler(),
             until: () => Future.delayed(Duration(seconds: 5)),
             startAnimation: 'Animations',
           ),

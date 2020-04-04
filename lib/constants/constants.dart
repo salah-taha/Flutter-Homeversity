@@ -1,4 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+
+//firebase references
+final _firestoreRef = Firestore.instance;
+final availableCoursesRef = _firestoreRef.collection('available_courses');
 
 //main colors for the app
 class ColorsScheme {
