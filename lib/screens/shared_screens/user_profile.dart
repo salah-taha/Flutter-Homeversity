@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fcaihu/constants/constants.dart';
 import 'package:fcaihu/models/provider_data.dart';
 import 'package:fcaihu/screens/shared_screens/login.dart';
+import 'package:fcaihu/screens/shared_screens/update_user_info.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -93,7 +94,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         CachedNetworkImage(
                           imageUrl:
-                              'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSQopdzqoXcW8XfVcODSjBZoGUfKokWvqbgwrvgfDZHylqN2iM_&usqp=CAU',
+                              Provider.of<ProviderData>(context).user.imageUrl,
                           imageBuilder: (context, imageProvider) =>
                               CircleAvatar(
                             radius: 50,
@@ -109,8 +110,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               radius: 50,
                               child:
                                   Center(child: CircularProgressIndicator())),
-                          errorWidget: (context, url, error) =>
-                              Icon(Icons.error),
+                          errorWidget: (context, url, error) => CircleAvatar(
+                              backgroundColor: Colors.white,
+                              radius: 50,
+                              backgroundImage: AssetImage(
+                                  'assets/images/user_placeholder.png')),
                         ),
                       ],
                     ),
@@ -122,7 +126,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           fontWeight: FontWeight.bold,
                           color: ColorsScheme.purple),
                     ),
-                    SizedBox(height: 20.0),
+                    SizedBox(height: 5.0),
+                    RaisedButton(
+                      onPressed: () {
+                        Navigator.pushNamed(context, UpdateInfoScreen.id);
+                      },
+                      child: Text(
+                        'Edit Profile',
+                        style: TextStyle(
+                          color: ColorsScheme.white,
+                        ),
+                      ),
+                      elevation: 0,
+                      color: ColorsScheme.purple,
+                    ),
+                    SizedBox(height: 5.0),
                     Row(
                       children: <Widget>[
                         Container(
@@ -137,7 +155,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 ),
                               ),
                               Text(
-                                'lectures',
+                                'Courses',
                                 style: TextStyle(
                                   color: ColorsScheme.darkGrey,
                                   fontSize: 16,

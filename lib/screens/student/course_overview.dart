@@ -1,7 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fcaihu/constants/constants.dart';
+import 'package:fcaihu/models/provider_data.dart';
+import 'package:fcaihu/models/user.dart';
 import 'package:fcaihu/services/courses_services.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CourseOverview extends StatelessWidget {
   static String id = 'courseOverview';
@@ -23,11 +26,12 @@ class CourseOverview extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
+    User user = Provider.of<ProviderData>(context, listen: false).user;
     return Scaffold(
       backgroundColor: ColorsScheme.grey,
       appBar: AppBar(
         title: Text(
-          'Course Preview',
+          'Course overview',
           style: appBarTextStyle,
         ),
         centerTitle: true,
@@ -48,7 +52,7 @@ class CourseOverview extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(
-                    'PL Course',
+                    courseTitle,
                     style: TextStyle(
                       color: ColorsScheme.darkGrey,
                       fontSize: 16,
@@ -84,7 +88,7 @@ class CourseOverview extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: Text(
-                    'Dr.Amr S. Ghonaim',
+                    teacherName,
                     style: TextStyle(
                       color: ColorsScheme.purple,
                       fontWeight: FontWeight.bold,
@@ -126,27 +130,39 @@ class CourseOverview extends StatelessWidget {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.all(10.0),
                   child: RaisedButton(
                     onPressed: () {
-                      CoursesServices.enrollCourse(
-                        context: context,
-                        courseID: courseID,
-                      );
-                      Navigator.pop(context);
+                      if (user != null) {
+                        CoursesServices.enrollCourse(
+                          context: context,
+                          courseID: courseID,
+                        );
+                        Navigator.pop(context);
+                      }
                     },
-                    color: ColorsScheme.purple,
+                    elevation: 0,
+                    color:
+                        user == null ? ColorsScheme.grey : ColorsScheme.purple,
                     child: Padding(
                       padding: const EdgeInsets.all(15.0),
                       child: Text(
                         'Enroll Now',
                         style: TextStyle(
-                          color: Colors.white,
+                          color: user == null
+                              ? ColorsScheme.darkGrey
+                              : Colors.white,
                         ),
                       ),
                     ),
                   ),
-                )
+                ),
+                user == null
+                    ? Text(
+                        'You Should Log in To Enroll a Course',
+                        style: TextStyle(color: Colors.red),
+                      )
+                    : SizedBox.shrink(),
               ],
             ),
           ),

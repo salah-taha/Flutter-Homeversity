@@ -1,4 +1,5 @@
 import 'package:fcaihu/constants/constants.dart';
+import 'package:fcaihu/screens/shared_screens/choose_profile_photo.dart';
 import 'package:fcaihu/screens/shared_screens/login.dart';
 import 'package:fcaihu/services/auth_service.dart';
 import 'package:flutter/material.dart';
@@ -294,7 +295,8 @@ class _SignInScreenState extends State<SignupScreen> {
                                         ),
                                       ));
                             } else {
-                              Navigator.pop(context);
+                              Navigator.pushReplacementNamed(
+                                  context, ChooseProfilePhoto.id);
                             }
                           },
                           color: ColorsScheme.purple,

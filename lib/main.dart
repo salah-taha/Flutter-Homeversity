@@ -1,8 +1,10 @@
 import 'package:fcaihu/models/provider_data.dart';
 import 'package:fcaihu/models/user.dart';
 import 'package:fcaihu/screens/shared_screens/ChatView/ChatListPageView.dart';
+import 'package:fcaihu/screens/shared_screens/choose_profile_photo.dart';
 import 'package:fcaihu/screens/shared_screens/login.dart';
 import 'package:fcaihu/screens/shared_screens/signup.dart';
+import 'package:fcaihu/screens/shared_screens/update_user_info.dart';
 import 'package:fcaihu/screens/shared_screens/user_profile.dart';
 import 'package:fcaihu/screens/student/available_courses.dart';
 import 'package:fcaihu/screens/student/course_overview.dart';
@@ -41,6 +43,8 @@ class _MyAppState extends State<MyApp> {
           CourseOverview.id: (context) => CourseOverview(),
           PageHandler.id: (context) => PageHandler(),
           ChatListPageView.id: (context) => ChatListPageView(),
+          ChooseProfilePhoto.id: (context) => ChooseProfilePhoto(),
+          UpdateInfoScreen.id: (context) => UpdateInfoScreen(),
         },
       ),
     );

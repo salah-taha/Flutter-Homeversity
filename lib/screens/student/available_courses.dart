@@ -98,7 +98,6 @@ class CourseCard extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        //TODO navigate to course overview
         Navigator.push(
           context,
           MaterialPageRoute(

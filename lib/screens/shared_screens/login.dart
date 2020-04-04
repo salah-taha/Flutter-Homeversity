@@ -22,6 +22,9 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  //Reset password text field controller
+  TextEditingController _resetPassController = TextEditingController();
+
   //form controller key
   final _formKey = GlobalKey<FormState>();
 
@@ -183,17 +186,268 @@ class _LoginScreenState extends State<LoginScreen> {
                             obscureText: true,
                           ),
                         ),
-                        FlatButton(
-                          onPressed: () {
-                            Navigator.pushReplacementNamed(
-                                context, SignupScreen.id);
-                          },
-                          child: Text(
-                            'Create a new Account',
-                            style: TextStyle(
-                              color: ColorsScheme.purple,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            FlatButton(
+                              onPressed: () {
+                                Navigator.pushReplacementNamed(
+                                    context, SignupScreen.id);
+                              },
+                              child: Text(
+                                'Create a new Account.',
+                                style: TextStyle(
+                                  color: ColorsScheme.purple,
+                                ),
+                              ),
                             ),
-                          ),
+                            FlatButton(
+                              onPressed: () {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) => Dialog(
+                                          shape: RoundedRectangleBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(12.0),
+                                          ),
+                                          child: Container(
+                                            decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(20.0),
+                                            ),
+                                            height: 200.0,
+                                            width: 300.0,
+                                            child: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: <Widget>[
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      vertical: 15.0),
+                                                  child: Text(
+                                                    'Reset Password',
+                                                    style: TextStyle(
+                                                      fontSize: 16,
+                                                      color: Colors.red,
+                                                    ),
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding:
+                                                      const EdgeInsets.all(8.0),
+                                                  child: TextFormField(
+                                                    controller:
+                                                        _resetPassController,
+                                                    decoration: InputDecoration(
+                                                      hintText: 'Email',
+                                                      border:
+                                                          UnderlineInputBorder(
+                                                        borderSide:
+                                                            BorderSide(),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(30),
+                                                      ),
+                                                      prefixIcon: Icon(
+                                                        Icons.mail_outline,
+                                                        color:
+                                                            ColorsScheme.purple,
+                                                      ),
+                                                      filled: true,
+                                                      fillColor: ColorsScheme
+                                                          .brightPurple,
+                                                    ),
+                                                    validator: (input) =>
+                                                        input.trim().length < 0
+                                                            ? 'enter your email'
+                                                            : null,
+                                                  ),
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment.center,
+                                                  children: <Widget>[
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: FlatButton(
+                                                        onPressed: () {
+                                                          Navigator.pop(
+                                                              context);
+                                                        },
+                                                        child: Text('Cancel'),
+                                                      ),
+                                                    ),
+                                                    Padding(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              8.0),
+                                                      child: FlatButton(
+                                                        onPressed: () async {
+                                                          String result =
+                                                              await AuthService
+                                                                  .resetPassword(
+                                                                      _resetPassController
+                                                                          .text);
+                                                          Navigator.pop(
+                                                              context);
+
+                                                          if (result != null) {
+                                                            showDialog(
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (BuildContext
+                                                                            context) =>
+                                                                        Dialog(
+                                                                          shape:
+                                                                              RoundedRectangleBorder(
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(12.0),
+                                                                          ),
+                                                                          child:
+                                                                              Container(
+                                                                            decoration:
+                                                                                BoxDecoration(
+                                                                              borderRadius: BorderRadius.circular(20.0),
+                                                                            ),
+                                                                            height:
+                                                                                200.0,
+                                                                            width:
+                                                                                300.0,
+                                                                            child:
+                                                                                Column(
+                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                              children: <Widget>[
+                                                                                Padding(
+                                                                                  padding: const EdgeInsets.symmetric(vertical: 15.0),
+                                                                                  child: Text(
+                                                                                    'Error',
+                                                                                    style: TextStyle(
+                                                                                      fontSize: 16,
+                                                                                      color: Colors.red,
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                                Padding(
+                                                                                  padding: const EdgeInsets.all(8.0),
+                                                                                  child: Text(
+                                                                                    result,
+                                                                                    textAlign: TextAlign.center,
+                                                                                    style: TextStyle(color: ColorsScheme.purple, fontSize: 16, fontWeight: FontWeight.bold),
+                                                                                  ),
+                                                                                ),
+                                                                                Row(
+                                                                                  mainAxisAlignment: MainAxisAlignment.center,
+                                                                                  children: <Widget>[
+                                                                                    Padding(
+                                                                                      padding: const EdgeInsets.all(8.0),
+                                                                                      child: FlatButton(
+                                                                                        onPressed: () {
+                                                                                          Navigator.pop(context);
+                                                                                        },
+                                                                                        child: Text('Cancel'),
+                                                                                      ),
+                                                                                    ),
+                                                                                    Padding(
+                                                                                      padding: const EdgeInsets.all(8.0),
+                                                                                      child: FlatButton(
+                                                                                        onPressed: () {
+                                                                                          Navigator.pop(context);
+                                                                                          Navigator.pushReplacementNamed(context, SignupScreen.id);
+                                                                                        },
+                                                                                        child: Text('SignUp'),
+                                                                                      ),
+                                                                                    ),
+                                                                                  ],
+                                                                                )
+                                                                              ],
+                                                                            ),
+                                                                          ),
+                                                                        ));
+                                                          } else {
+                                                            _resetPassController
+                                                                .clear();
+                                                            showDialog(
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (BuildContext
+                                                                            context) =>
+                                                                        Dialog(
+                                                                          shape:
+                                                                              RoundedRectangleBorder(
+                                                                            borderRadius:
+                                                                                BorderRadius.circular(12.0),
+                                                                          ),
+                                                                          child:
+                                                                              Container(
+                                                                            decoration:
+                                                                                BoxDecoration(
+                                                                              borderRadius: BorderRadius.circular(20.0),
+                                                                            ),
+                                                                            height:
+                                                                                200.0,
+                                                                            width:
+                                                                                300.0,
+                                                                            child:
+                                                                                Column(
+                                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                                              children: <Widget>[
+                                                                                Padding(
+                                                                                  padding: const EdgeInsets.symmetric(vertical: 15.0),
+                                                                                  child: Text(
+                                                                                    'Email Sent',
+                                                                                    style: TextStyle(
+                                                                                      fontSize: 16,
+                                                                                      color: Colors.red,
+                                                                                    ),
+                                                                                  ),
+                                                                                ),
+                                                                                Padding(
+                                                                                  padding: const EdgeInsets.all(8.0),
+                                                                                  child: Text(
+                                                                                    'Reset Email has been Sent',
+                                                                                    textAlign: TextAlign.center,
+                                                                                    style: TextStyle(color: ColorsScheme.purple, fontSize: 16, fontWeight: FontWeight.bold),
+                                                                                  ),
+                                                                                ),
+                                                                                Padding(
+                                                                                  padding: const EdgeInsets.all(8.0),
+                                                                                  child: FlatButton(
+                                                                                    onPressed: () {
+                                                                                      Navigator.pop(context);
+                                                                                    },
+                                                                                    child: Text('OK'),
+                                                                                  ),
+                                                                                )
+                                                                              ],
+                                                                            ),
+                                                                          ),
+                                                                        ));
+                                                          }
+                                                        },
+                                                        child: Text('Reset'),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ));
+                              },
+                              child: Text(
+                                'Forgot Password?',
+                                style: TextStyle(
+                                  color: ColorsScheme.purple,
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
                         SizedBox(
                           height: 10,

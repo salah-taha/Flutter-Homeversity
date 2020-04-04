@@ -5,6 +5,7 @@ import 'package:fcaihu/screens/shared_screens/login.dart';
 import 'package:fcaihu/screens/shared_screens/user_profile.dart';
 import 'package:fcaihu/screens/student/available_courses.dart';
 import 'package:fcaihu/screens/student/enrolled_courses.dart';
+import 'package:fcaihu/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -62,7 +63,9 @@ class _PageHandlerState extends State<PageHandler> {
                       padding: const EdgeInsets.all(15.0),
                       child: Container(
                         decoration: BoxDecoration(
-                          color: ColorsScheme.darkGrey,
+                          color: Provider.of<ProviderData>(context).user != null
+                              ? ColorsScheme.purple
+                              : ColorsScheme.darkGrey,
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Padding(
@@ -171,15 +174,23 @@ class _PageHandlerState extends State<PageHandler> {
                 ),
                 ListTile(
                   title: Text(
-                    'Login ~ SignUp',
+                    Provider.of<ProviderData>(context).user == null
+                        ? 'Login ~ SignUp'
+                        : 'LogOut',
                     style: TextStyle(
                       color: notSelectedColor,
                       fontSize: 16,
                     ),
                   ),
                   onTap: () {
-                    Navigator.pop(context);
-                    Navigator.pushNamed(context, LoginScreen.id);
+                    if (Provider.of<ProviderData>(context, listen: false)
+                            .user ==
+                        null) {
+                      Navigator.pop(context);
+                      Navigator.pushNamed(context, LoginScreen.id);
+                    } else {
+                      AuthService.logOut(context);
+                    }
                   },
                 ),
                 ListTile(

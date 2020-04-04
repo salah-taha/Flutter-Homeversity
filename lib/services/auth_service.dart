@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fcaihu/models/provider_data.dart';
 import 'package:fcaihu/models/user.dart';
+import 'package:fcaihu/services/storage_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
@@ -90,5 +93,55 @@ class AuthService {
         await _firestore.collection('users').document(id).get();
     User user = User.fromDoc(userDoc);
     return user;
+  }
+
+  static updateUserPhoto({File imageFile, BuildContext context}) async {
+    String userID = Provider.of<ProviderData>(context, listen: false).user.id;
+    await Firestore.instance.collection('users').document(userID).updateData({
+      'imageUrl': await StorageServices.uploadUserProfileImage(imageFile),
+    });
+    User updatedUser = await getUserWithID(userID, context);
+    Provider.of<ProviderData>(context, listen: false).updateUser(updatedUser);
+    return;
+  }
+
+  static changeUserInfo(
+      {File imageFile, String userName, BuildContext context}) async {
+    User user = Provider.of<ProviderData>(context, listen: false).user;
+    if (userName != user.name) {
+      await Firestore.instance
+          .collection('users')
+          .document(user.id)
+          .updateData({
+        'name': userName,
+      });
+      User updatedUser = await getUserWithID(user.id, context);
+      Provider.of<ProviderData>(context, listen: false).updateUser(updatedUser);
+    }
+    if (imageFile != null) {
+      await updateUserPhoto(imageFile: imageFile, context: context);
+    }
+  }
+
+  static logOut(BuildContext context) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('user_id', null);
+    Provider.of<ProviderData>(context, listen: false).updateUser(null);
+    Navigator.pop(context);
+  }
+
+  static resetPassword(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+    } catch (e) {
+      switch (e.message) {
+        case 'There is no user record corresponding to this identifier. The user may have been deleted.':
+          return 'You entered wrong Email';
+          break;
+        default:
+          return 'there is an error';
+      }
+    }
+    return null;
   }
 }
