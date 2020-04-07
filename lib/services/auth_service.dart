@@ -30,7 +30,7 @@ class AuthService {
         'name': userName,
         'level': level,
         'points': '0',
-        'completedLectures': '0',
+        'completedLectures': 0,
         'uniID': id,
         'email': email,
         'imageUrl': ' '
@@ -41,7 +41,7 @@ class AuthService {
           level: level,
           id: result.user.uid,
           points: '0',
-          completedLectures: '0',
+          completedLectures: 0,
           email: email,
           imageUrl: ' ',
           uniID: id);
@@ -143,5 +143,11 @@ class AuthService {
       }
     }
     return null;
+  }
+
+  static updateUser(BuildContext context) async {
+    String userID = Provider.of<ProviderData>(context, listen: false).user.id;
+    User updatedUser = await getUserWithID(userID, context);
+    Provider.of<ProviderData>(context, listen: false).updateUser(updatedUser);
   }
 }

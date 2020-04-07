@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fcaihu/constants/constants.dart';
 import 'package:fcaihu/models/provider_data.dart';
+import 'package:fcaihu/models/user.dart';
 import 'package:fcaihu/screens/shared_screens/login.dart';
 import 'package:fcaihu/screens/shared_screens/update_user_info.dart';
 import 'package:flutter/material.dart';
@@ -46,10 +47,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    User user = Provider.of<ProviderData>(context).user;
+
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Container(
-        child: Provider.of<ProviderData>(context).user == null
+        child: user == null
             ? Center(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -93,8 +96,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                         ),
                         CachedNetworkImage(
-                          imageUrl:
-                              Provider.of<ProviderData>(context).user.imageUrl,
+                          imageUrl: user.imageUrl,
                           imageBuilder: (context, imageProvider) =>
                               CircleAvatar(
                             radius: 50,
@@ -120,7 +122,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     SizedBox(height: 5.0),
                     Text(
-                      Provider.of<ProviderData>(context).user.name,
+                      user.name,
                       style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,
@@ -148,7 +150,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: Column(
                             children: <Widget>[
                               Text(
-                                '15',
+                                user.completedLectures.toString(),
                                 style: TextStyle(
                                   color: ColorsScheme.purple,
                                   fontSize: 40,
@@ -170,7 +172,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: Column(
                             children: <Widget>[
                               Text(
-                                '560',
+                                user.points,
                                 style: TextStyle(
                                   color: ColorsScheme.purple,
                                   fontSize: 45,
@@ -196,7 +198,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           child: Column(
                             children: <Widget>[
                               Text(
-                                '1',
+                                user.level,
                                 style: TextStyle(
                                   color: ColorsScheme.purple,
                                   fontSize: 40,

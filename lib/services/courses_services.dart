@@ -1,24 +1,40 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fcaihu/constants/constants.dart';
 import 'package:fcaihu/models/provider_data.dart';
+import 'package:fcaihu/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CoursesServices {
   static Future enrollCourse({BuildContext context, String courseID}) async {
-    String userID = Provider.of<ProviderData>(context, listen: false).user.id;
-    await Firestore.instance
+    User user = Provider.of<ProviderData>(context, listen: false).user;
+    DocumentSnapshot isEnrolled = await Firestore.instance
         .collection('users')
-        .document(userID)
+        .document(user.id)
         .collection('enrolledCourses')
         .document(courseID)
-        .setData({});
-    await Firestore.instance
-        .collection('available_courses')
-        .document(courseID)
-        .collection('studens')
-        .document(userID)
-        .setData({});
+        .get();
+    print(isEnrolled.data);
+    if (isEnrolled.data == null) {
+      await Firestore.instance
+          .collection('users')
+          .document(user.id)
+          .collection('enrolledCourses')
+          .document(courseID)
+          .setData({});
+      await Firestore.instance
+          .collection('available_courses')
+          .document(courseID)
+          .collection('studens')
+          .document(user.id)
+          .setData({});
+      await Firestore.instance
+          .collection('users')
+          .document(user.id)
+          .updateData({
+        'completedLectures': user.completedLectures + 1,
+      });
+    }
     return;
   }
 
@@ -56,5 +72,19 @@ class CoursesServices {
       'completedLectures': completedLectures,
     };
     return allLectures;
+  }
+
+  static getEnrolledAndAvailableCourses(BuildContext context) async {
+    User user = Provider.of<ProviderData>(context).user;
+    QuerySnapshot availableCourses = await availableCoursesRef.getDocuments();
+    QuerySnapshot enrolledCourse = await Firestore.instance
+        .collection('users')
+        .document(user.id)
+        .collection('enrolledCourses')
+        .getDocuments();
+
+    Map data = {'available': availableCourses, 'enrolled': enrolledCourse};
+
+    return data;
   }
 }

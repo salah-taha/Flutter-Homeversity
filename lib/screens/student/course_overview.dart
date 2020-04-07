@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:fcaihu/constants/constants.dart';
 import 'package:fcaihu/models/provider_data.dart';
 import 'package:fcaihu/models/user.dart';
+import 'package:fcaihu/services/auth_service.dart';
 import 'package:fcaihu/services/courses_services.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -69,7 +70,7 @@ class CourseOverview extends StatelessWidget {
                         height: MediaQuery.of(context).size.height * 0.25,
                         width: MediaQuery.of(context).size.width * 0.8,
                         decoration: BoxDecoration(
-                            color: Colors.red,
+                            color: ColorsScheme.grey,
                             borderRadius: BorderRadius.circular(20),
                             image: DecorationImage(
                               image: CachedNetworkImageProvider(courseImageUrl),
@@ -79,7 +80,7 @@ class CourseOverview extends StatelessWidget {
                     ),
                     CircleAvatar(
                       radius: 36,
-                      backgroundColor: Colors.purple,
+                      backgroundColor: ColorsScheme.grey,
                       backgroundImage:
                           CachedNetworkImageProvider(teacherImageUrl),
                     )
@@ -132,12 +133,13 @@ class CourseOverview extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(10.0),
                   child: RaisedButton(
-                    onPressed: () {
+                    onPressed: () async {
                       if (user != null) {
                         CoursesServices.enrollCourse(
                           context: context,
                           courseID: courseID,
                         );
+                        await AuthService.updateUser(context);
                         Navigator.pop(context);
                       }
                     },

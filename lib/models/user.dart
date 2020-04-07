@@ -5,7 +5,7 @@ class User {
   final String name;
   final String level;
   final String points;
-  final String completedLectures;
+  final int completedLectures;
   final String email;
   final String imageUrl;
   final String uniID;
