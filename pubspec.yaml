@@ -45,6 +45,8 @@ flutter:
     - assets/second_splash_screen_animation.flr
     - assets/sign_In_animation.flr
     - assets/welcome_animation.flr
+    - assets/loading_animation_white.flr
+    - assets/loading_animation_purple.flr
   # fonts:
   #   - family: Schyler
   #     fonts:
