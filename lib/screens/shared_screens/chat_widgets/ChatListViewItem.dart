@@ -46,6 +46,7 @@ class ChatListViewItem extends StatelessWidget {
                     style: TextStyle(fontSize: 12),
                   ),
                   leading: CircleAvatar(
+                    backgroundColor: ColorsScheme.grey,
                     backgroundImage: image,
                   ),
                   trailing: Column(

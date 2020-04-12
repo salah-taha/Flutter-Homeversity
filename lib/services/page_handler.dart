@@ -193,7 +193,7 @@ class _PageHandlerState extends State<PageHandler> {
                 ListTile(
                   title: Text(
                     Provider.of<ProviderData>(context).user == null
-                        ? 'Login ~ SignUp'
+                        ? 'Log In'
                         : 'LogOut',
                     style: TextStyle(
                       color: notSelectedColor,
