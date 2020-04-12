@@ -256,19 +256,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcROQiRJAyudzEi3VnK4IK78OnXTZOyGkA919uzky9IA6118SX2S',
                             title: 'New Lecture Added to PL Course',
                             isSeen: false,
-                            date: ['24/3/2020', '9 AM']),
+                            date: ['24/3/2020', '9:25 AM']),
                         NotificationCard(
                             imageUrl:
                                 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSBG33Erje8D_l7KHaZ2EH3_W4jPAkVImXtjlIERkcZFmxrcWGk',
                             title: 'English Lecture at 8:00 PM Tommorow',
                             isSeen: true,
-                            date: ['10/2/2020', '5 PM']),
+                            date: ['10/2/2020', '5:15 PM']),
                         NotificationCard(
                             imageUrl:
                                 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS5qHwDOxOzqNSfM27gnoV_fklzMrD2k9EEtpGX3PQ6pzZK-F6y',
                             title: 'New Lecture Added to Math Course',
                             isSeen: true,
-                            date: ['8/2/2020', '8 AM']),
+                            date: ['8/2/2020', '8:30 AM']),
                       ],
                     ),
                   )
@@ -352,7 +352,7 @@ class NotificationCard extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          date[1],
+                          '${date[1]}',
                           style: TextStyle(
                             color: ColorsScheme.midPurple,
                           ),

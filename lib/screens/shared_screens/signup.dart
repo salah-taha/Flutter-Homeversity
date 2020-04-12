@@ -1,7 +1,6 @@
 import 'package:fcaihu/constants/constants.dart';
 import 'package:flutter/material.dart';
-//import 'package:flutter_svg/flutter_svg.dart';
-import 'package:fcaihu/constants/constants.dart';
+
 class SignupScreen extends StatefulWidget {
   static final String id = 'signinScreen';
   @override
@@ -42,16 +41,15 @@ class _SignInScreenState extends State<SignupScreen> {
           ),
           child: Container(
             height: MediaQuery.of(context).size.height,
-           decoration: new BoxDecoration(
-               gradient: LinearGradient(
-                   begin: Alignment.topRight,
-                   end: Alignment.bottomLeft,
-                   colors: [ColorsScheme.brightPurple,Colors.purple]),
-                ),
-
+            decoration: new BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [ColorsScheme.brightPurple, Colors.purple]),
+            ),
             child: ListView(
-         //     mainAxisAlignment: MainAxisAlignment.center,
-         //         crossAxisAlignment: CrossAxisAlignment.center,
+              //     mainAxisAlignment: MainAxisAlignment.center,
+              //         crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 SizedBox(
                   height: 60,
@@ -59,33 +57,33 @@ class _SignInScreenState extends State<SignupScreen> {
                 Hero(
                   tag: 'logo',
                   child: Container(
-                   padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.13),
+                    padding: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width * 0.13),
                     height: 100,
                     width: 100,
                     child: Image.asset('assets/welcome/HLogo.png'),
                   ),
                 ),
-                 Center(
-                   child: RichText(
-                  text: TextSpan(
-                      text: 'FCAI',
-                      style: TextStyle(
-
-                        fontSize: 40,
-                        color: Colors.blueGrey,
-                      ),
-                      children: <TextSpan>[
-                        TextSpan(
-                          text: ' HU',
-                          style: TextStyle(
-                            color: ColorsScheme.purple,
-                            fontSize: 40,
-                            fontWeight: FontWeight.bold,
-                          ),
+                Center(
+                  child: RichText(
+                    text: TextSpan(
+                        text: 'FCAI',
+                        style: TextStyle(
+                          fontSize: 40,
+                          color: Colors.blueGrey,
                         ),
-                      ]),
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: ' HU',
+                            style: TextStyle(
+                              color: ColorsScheme.purple,
+                              fontSize: 40,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ]),
+                  ),
                 ),
-                 ),
                 SizedBox(
                   height: 15,
                 ),
@@ -120,11 +118,9 @@ class _SignInScreenState extends State<SignupScreen> {
                       ),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.25,
-                        height: MediaQuery.of(context).size.height*0.02,
+                        height: MediaQuery.of(context).size.height * 0.02,
                       ),
-
                       Padding(
-
                         padding:
                             EdgeInsets.symmetric(vertical: 5, horizontal: 30),
                         child: TextFormField(
@@ -151,7 +147,7 @@ class _SignInScreenState extends State<SignupScreen> {
                       ),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.25,
-                        height: MediaQuery.of(context).size.height*0.02,
+                        height: MediaQuery.of(context).size.height * 0.02,
                       ),
                       Padding(
                         padding:
@@ -179,7 +175,7 @@ class _SignInScreenState extends State<SignupScreen> {
                       ),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.25,
-                        height: MediaQuery.of(context).size.height*0.02,
+                        height: MediaQuery.of(context).size.height * 0.02,
                       ),
                       Padding(
                         padding:
@@ -207,7 +203,7 @@ class _SignInScreenState extends State<SignupScreen> {
                       ),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.25,
-                        height: MediaQuery.of(context).size.height*0.02,
+                        height: MediaQuery.of(context).size.height * 0.02,
                       ),
                       Padding(
                         padding:
@@ -233,10 +229,9 @@ class _SignInScreenState extends State<SignupScreen> {
                           obscureText: true,
                         ),
                       ),
-
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.25,
-                        height: MediaQuery.of(context).size.height*0.02,
+                        height: MediaQuery.of(context).size.height * 0.02,
                       ),
                       FlatButton(
                         onPressed: () {
@@ -264,7 +259,7 @@ class _SignInScreenState extends State<SignupScreen> {
                       ),
                       SizedBox(
                         width: MediaQuery.of(context).size.width * 0.25,
-                        height: MediaQuery.of(context).size.height*0.02,
+                        height: MediaQuery.of(context).size.height * 0.02,
                       ),
                     ],
                   ),

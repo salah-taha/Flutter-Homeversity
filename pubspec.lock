@@ -86,7 +86,7 @@ packages:
     source: hosted
     version: "2.3.3"
   flare_flutter:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: flare_flutter
       url: "https://pub.dartlang.org"
@@ -335,7 +335,7 @@ packages:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.11"
+    version: "0.2.15"
   typed_data:
     dependency: transitive
     description:

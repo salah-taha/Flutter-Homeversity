@@ -1,5 +1,4 @@
 import 'package:fcaihu/screens/shared_screens/ChatView/ChatListPageView.dart';
-import 'package:fcaihu/screens/shared_screens/ChatView/ChatPageView.dart';
 import 'package:fcaihu/screens/shared_screens/login.dart';
 import 'package:fcaihu/screens/shared_screens/signup.dart';
 import 'package:fcaihu/screens/shared_screens/user_profile.dart';
@@ -31,9 +30,7 @@ class _MyAppState extends State<MyApp> {
         SignupScreen.id: (context) => SignupScreen(),
         EnrolledCourses.id: (context) => EnrolledCourses(),
         ProfileScreen.id: (context) => ProfileScreen(),
-        ChatPageView.id: (context)=>ChatPageView(),
-        ChatListPageView.id:(context)=>ChatListPageView(),
-
+        ChatListPageView.id: (context) => ChatListPageView()
       },
     );
   }
@@ -72,7 +69,7 @@ class _MainAppState extends State<MainApp> {
           child: SplashScreen.navigate(
             name: 'assets/splash_screen_animation.flr',
             // get the splash then welcome or main
-            next: (_) => bFirstTime ? WelcomeScreen() : AvailableCourses(),
+            next: (_) => bFirstTime ? WelcomeScreen() : ProfileScreen(),
             until: () => Future.delayed(Duration(seconds: 5)),
             startAnimation: 'Animations',
           ),

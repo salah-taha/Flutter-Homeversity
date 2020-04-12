@@ -1,8 +1,8 @@
-import 'package:fcaihu/screens/shared_screens/widgets/ReceivedMessageWidget.dart';
-import 'package:fcaihu/screens/shared_screens/widgets/SendedMessageWidget.dart';
+import 'package:fcaihu/constants/constants.dart';
+import 'package:fcaihu/screens/shared_screens/chat_widgets/ReceivedMessageWidget.dart';
+import 'package:fcaihu/screens/shared_screens/chat_widgets/SendedMessageWidget.dart';
 import 'package:flutter/material.dart';
 //import 'package:simple_chat_application/Global/Colors.dart' as myColors;
-
 
 class ChatPageView extends StatefulWidget {
   static final String id = 'ChatPageView';
@@ -33,14 +33,18 @@ class _ChatPageViewState extends State<ChatPageView> {
           height: 25,
           width: 50,
           decoration: BoxDecoration(
-              color: Colors.blueGrey,
+              color: ColorsScheme.darkGrey,
               borderRadius: BorderRadius.all(
                 Radius.circular(8.0),
               )),
           child: Center(
               child: Text(
             "Today",
-            style: TextStyle(fontSize: 11),
+            style: TextStyle(
+              fontSize: 11,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           )),
         )));
     childList.add(Align(
@@ -69,7 +73,7 @@ class _ChatPageViewState extends State<ChatPageView> {
       child: SendedMessageWidget(
         content:
             'I am good. Can you do something for me? I need your help my bro in PL2.',
-        time: '22:40 Pmm',
+        time: '22:40 PM',
       ),
     ));
   }
@@ -95,7 +99,7 @@ class _ChatPageViewState extends State<ChatPageView> {
                   SizedBox(
                     height: 65,
                     child: Container(
-                      color: Colors.deepPurple,
+                      color: ColorsScheme.purple,
                       child: Row(
                         children: <Widget>[
                           IconButton(
@@ -114,9 +118,9 @@ class _ChatPageViewState extends State<ChatPageView> {
                             children: <Widget>[
                               Text(
                                 widget.username ?? "Level (1,2,3,4)",
-                                style: TextStyle(color: Colors.white, fontSize: 15),
+                                style: TextStyle(
+                                    color: Colors.white, fontSize: 15),
                               ),
-
                             ],
                           ),
                           Spacer(),
@@ -163,17 +167,16 @@ class _ChatPageViewState extends State<ChatPageView> {
                     // height: 500,
                     child: Container(
                       width: MediaQuery.of(context).size.width,
-                     decoration: BoxDecoration(
+                      decoration: BoxDecoration(
                         //color: Colors.deepPurple,
                         image: DecorationImage(
-                            image: AssetImage(
-                                "assets/images/Cbk.jpg"),
+                            image: AssetImage("assets/images/Cbk.jpg"),
                             fit: BoxFit.cover,
                             colorFilter: ColorFilter.linearToSrgbGamma()),
                       ),
 
-                   //معجبنيش خالص
-                   /*   decoration: new BoxDecoration(
+                      //معجبنيش خالص
+                      /*   decoration: new BoxDecoration(
                         gradient: LinearGradient(
                             begin: Alignment.topRight,
                             end: Alignment.bottomLeft,
@@ -193,7 +196,7 @@ class _ChatPageViewState extends State<ChatPageView> {
                   // SizedBox(
                   //   height: 50,
                   Container(
-                    color: Colors.deepPurple,
+                    color: Colors.white,
                     height: 50,
                     child: Padding(
                       padding: const EdgeInsets.only(left: 8.0),
@@ -203,7 +206,10 @@ class _ChatPageViewState extends State<ChatPageView> {
                         decoration: InputDecoration(
                           // contentPadding: const EdgeInsets.symmetric(horizontal: 5.0),
                           suffixIcon: IconButton(
-                            icon: Icon(Icons.send,color: Colors.grey[1500],),
+                            icon: Icon(
+                              Icons.send,
+                              color: Colors.blueGrey,
+                            ),
                             onPressed: () {},
                           ),
                           border: InputBorder.none,
