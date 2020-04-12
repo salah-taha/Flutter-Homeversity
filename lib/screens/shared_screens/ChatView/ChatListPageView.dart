@@ -1,6 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fcaihu/constants/constants.dart';
+import 'package:fcaihu/models/provider_data.dart';
+import 'package:fcaihu/models/user.dart';
 import 'package:fcaihu/screens/shared_screens/chat_widgets/ChatListViewItem.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 //import 'package:simple_chat_application/Global/Colors.dart' as myColors;
 
 class ChatListPageView extends StatefulWidget {
@@ -11,24 +16,9 @@ class ChatListPageView extends StatefulWidget {
 }
 
 class _ChatListPageViewState extends State<ChatListPageView> {
-  bool isLoading = true;
-
-  @override
-  void initState() {
-    super.initState();
-
-    /* Future.delayed(const Duration(seconds: 2), () {
-      setState(() {
-        isLoading = false;
-      });
-    });*/
-  }
-
   @override
   Widget build(BuildContext context) {
-    /* if (isLoading == true) {
-      return  CircularProgressIndicator();
-    } else {*/
+    User user = Provider.of<ProviderData>(context).user;
     return Container(
       child: Scaffold(
         backgroundColor: Colors.deepPurple,
@@ -40,69 +30,88 @@ class _ChatListPageViewState extends State<ChatListPageView> {
           ),
           centerTitle: true,
           title: Text(
-            'chats',
+            'Chatting Rooms',
             style: TextStyle(color: Colors.white, fontSize: 18),
           ),
         ),
         body: Container(
           color: ColorsScheme.purple,
           child: Container(
-            decoration: BoxDecoration(
-              color: ColorsScheme.grey,
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(15.0),
-                topRight: Radius.circular(15.0),
+              decoration: BoxDecoration(
+                color: ColorsScheme.grey,
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(15.0),
+                  topRight: Radius.circular(15.0),
+                ),
               ),
-            ),
-            child: ListView(
-              physics: BouncingScrollPhysics(),
-              children: <Widget>[
-                ChatListViewItem(
-                  hasUnreadMessage: true,
-                  image: NetworkImage(
-                      'https://cdn.dribbble.com/users/1338391/screenshots/3834956/cool_man_dribbble.jpg'),
-                  lastMessage:
-                      "Lorem ipsum dolor sit amet. Sed pharetra ante a blandit ultrices.",
-                  name: "Level 1 ",
-                  newMessageCount: 8,
-                  time: "19:27 PM",
-                ),
-                ChatListViewItem(
-                  hasUnreadMessage: true,
-                  image: NetworkImage(
-                      'https://cdn.dribbble.com/users/1338391/screenshots/4836841/dribbble.jpg'),
-                  lastMessage:
-                      "Lorem ipsum dolor sit amet. Sed pharetra ante a blandit ultrices.",
-                  name: "Level 2",
-                  newMessageCount: 5,
-                  time: "19:27 PM",
-                ),
-                ChatListViewItem(
-                  hasUnreadMessage: false,
-                  image: NetworkImage(
-                      'https://cdn.dribbble.com/users/1338391/screenshots/3906995/dribbble.jpg'),
-                  lastMessage:
-                      "Lorem ipsum dolor sit amet. Sed pharetra ante a blandit ultrices.",
-                  name: "Level 3",
-                  newMessageCount: 0,
-                  time: "19:27 PM",
-                ),
-                ChatListViewItem(
-                  hasUnreadMessage: false,
-                  image: NetworkImage(
-                      'https://cdn.dribbble.com/users/1338391/screenshots/3845026/urban_dribbble.jpg'),
-                  lastMessage:
-                      "Lorem ipsum dolor sit amet. Sed pharetra ante a blandit ultrices.",
-                  name: "Level 4",
-                  newMessageCount: 0,
-                  time: "19:27 PM",
-                ),
-              ],
-            ),
-          ),
+              child: user == null
+                  ? Center(
+                      child: Text('You Must Login To See Chat'),
+                    )
+                  : FutureBuilder(
+                      future: Firestore.instance
+                          .collection('chatRooms')
+                          .getDocuments(),
+                      builder:
+                          (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                        if (!snapshot.hasData) {
+                          return Center(child: CircularProgressIndicator());
+                        }
+                        return ListView.builder(
+                          physics: BouncingScrollPhysics(),
+                          itemCount: snapshot.data.documents.length,
+                          itemBuilder: (context, index) {
+                            return FutureBuilder(
+                              future: Firestore.instance
+                                  .collection('chatRooms')
+                                  .document(
+                                      snapshot.data.documents[index].documentID)
+                                  .collection('messages')
+                                  .orderBy('time', descending: true)
+                                  .limit(1)
+                                  .getDocuments(),
+                              builder: (context,
+                                  AsyncSnapshot<QuerySnapshot>
+                                      messagesSnapshot) {
+                                if (!messagesSnapshot.hasData) {
+                                  return Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: ColorsScheme.darkGrey,
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                    ),
+                                  );
+                                }
+                                var lastMessageText = messagesSnapshot
+                                    .data.documents.last['message'];
+                                var lastMessageTime =
+                                    DateFormat('hh:mm a').format(
+                                  (messagesSnapshot.data.documents.last['time']
+                                          as Timestamp)
+                                      .toDate(),
+                                );
+
+                                return ChatListViewItem(
+                                  roomID:
+                                      snapshot.data.documents[index].documentID,
+                                  hasUnreadMessage: false,
+                                  image: NetworkImage(snapshot
+                                      .data.documents[index]['imageUrl']),
+                                  lastMessage: lastMessageText,
+                                  name: snapshot.data.documents[index]['name'],
+                                  newMessageCount: 8,
+                                  time: lastMessageTime,
+                                );
+                              },
+                            );
+                          },
+                        );
+                      },
+                    )),
         ),
       ),
     );
   }
 }
-//}

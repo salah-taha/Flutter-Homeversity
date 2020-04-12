@@ -11,15 +11,17 @@ class ChatListViewItem extends StatelessWidget {
   final String time;
   final bool hasUnreadMessage;
   final int newMessageCount;
-  const ChatListViewItem({
-    Key key,
-    this.image,
-    this.name,
-    this.lastMessage,
-    this.time,
-    this.hasUnreadMessage,
-    this.newMessageCount,
-  }) : super(key: key);
+  final String roomID;
+  const ChatListViewItem(
+      {Key key,
+      this.image,
+      this.name,
+      this.lastMessage,
+      this.time,
+      this.hasUnreadMessage,
+      this.newMessageCount,
+      this.roomID})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -77,7 +79,11 @@ class ChatListViewItem extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ChatPageView(),
+                        builder: (context) => ChatPageView(
+                          roomID: roomID,
+                          roomName: name,
+                          image: image,
+                        ),
                       ),
                     );
                   },
@@ -99,12 +105,6 @@ class ChatListViewItem extends StatelessWidget {
           icon: Icons.archive,
           onTap: () {},
         ),
-//        IconSlideAction(
-//          caption: 'Share',
-//          color: ColorsScheme.purple,
-//          icon: Icons.share,
-//          onTap: () {},
-//        ),
       ],
     );
   }

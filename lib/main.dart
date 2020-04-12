@@ -1,3 +1,4 @@
+import 'package:connectivity/connectivity.dart';
 import 'package:fcaihu/models/provider_data.dart';
 import 'package:fcaihu/models/user.dart';
 import 'package:fcaihu/screens/shared_screens/ChatView/ChatListPageView.dart';
@@ -59,12 +60,16 @@ class MainApp extends StatefulWidget {
 class _MainAppState extends State<MainApp> {
   //know if it's first time to open the app
   bool bFirstTime = true;
+  //check internet connectivity
+  bool bIsConnected = true;
 
   @override
   void initState() {
     super.initState();
     //get shared prefs at app start
     _getSharedPref();
+    //check internet connectivity
+    _checkInternetConnectivity();
   }
 
   _getSharedPref() async {
@@ -79,6 +84,13 @@ class _MainAppState extends State<MainApp> {
     }
   }
 
+  _checkInternetConnectivity() async {
+    var result = await Connectivity().checkConnectivity();
+    if (result == ConnectivityResult.none) {
+      bIsConnected = false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,7 +101,9 @@ class _MainAppState extends State<MainApp> {
           child: SplashScreen.navigate(
             name: 'assets/second_splash_screen_animation.flr',
             // get the splash then welcome or main
-            next: (_) => bFirstTime ? WelcomeScreen() : PageHandler(),
+            next: (_) => bFirstTime
+                ? WelcomeScreen()
+                : PageHandler(isConnected: bIsConnected),
             until: () => Future.delayed(Duration(seconds: 5)),
             startAnimation: 'Animations',
           ),

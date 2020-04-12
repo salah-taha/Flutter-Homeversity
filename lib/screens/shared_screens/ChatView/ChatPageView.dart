@@ -1,17 +1,26 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fcaihu/constants/constants.dart';
+import 'package:fcaihu/models/provider_data.dart';
+import 'package:fcaihu/models/user.dart';
 import 'package:fcaihu/screens/shared_screens/chat_widgets/ReceivedMessageWidget.dart';
 import 'package:fcaihu/screens/shared_screens/chat_widgets/SendedMessageWidget.dart';
+import 'package:fcaihu/services/chat_services.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 //import 'package:simple_chat_application/Global/Colors.dart' as myColors;
 
 class ChatPageView extends StatefulWidget {
   static final String id = 'ChatPageView';
-
-  final String username;
+  final String roomID;
+  final String roomName;
+  final image;
 
   const ChatPageView({
     Key key,
-    this.username,
+    this.roomName,
+    this.roomID,
+    this.image,
   }) : super(key: key);
 
   @override
@@ -20,7 +29,6 @@ class ChatPageView extends StatefulWidget {
 
 class _ChatPageViewState extends State<ChatPageView> {
   TextEditingController _text = new TextEditingController();
-  ScrollController _scrollController = ScrollController();
   var childList = <Widget>[];
 
   @override
@@ -85,6 +93,7 @@ class _ChatPageViewState extends State<ChatPageView> {
 
   @override
   Widget build(BuildContext context) {
+    User currentUser = Provider.of<ProviderData>(context).user;
     return Scaffold(
       body: SafeArea(
         child: Container(
@@ -93,8 +102,6 @@ class _ChatPageViewState extends State<ChatPageView> {
             children: <Widget>[
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                // mainAxisAlignment: MainAxisAlignment.start,
-                // mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
                   SizedBox(
                     height: 65,
@@ -117,7 +124,7 @@ class _ChatPageViewState extends State<ChatPageView> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
                               Text(
-                                widget.username ?? "Level (1,2,3,4)",
+                                widget.roomName,
                                 style: TextStyle(
                                     color: Colors.white, fontSize: 15),
                               ),
@@ -128,29 +135,20 @@ class _ChatPageViewState extends State<ChatPageView> {
                             padding:
                                 const EdgeInsets.fromLTRB(8.0, 0.0, 8.0, 0.0),
                             child: Container(
-                              child: ClipRRect(
-                                child: Container(
-                                    child: SizedBox(
-                                      child: Image.asset(
-                                        "assets/images/person1.jpg",
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                                    color: Colors.deepOrange),
-                                borderRadius: new BorderRadius.circular(50),
+                              child: CircleAvatar(
+                                backgroundImage: widget.image,
+                                radius: 20,
                               ),
-                              height: 55,
-                              width: 55,
                               padding: const EdgeInsets.all(0.0),
                               decoration: new BoxDecoration(
                                   shape: BoxShape.circle,
                                   color: Colors.white,
                                   boxShadow: [
                                     BoxShadow(
-                                        color: Colors.black26,
+                                        color: ColorsScheme.brightPurple,
                                         blurRadius: 5.0,
-                                        spreadRadius: -1,
-                                        offset: Offset(0.0, 5.0))
+                                        spreadRadius: 1,
+                                        offset: Offset(0.0, 0.0))
                                   ]),
                             ),
                           ),
@@ -174,14 +172,46 @@ class _ChatPageViewState extends State<ChatPageView> {
                             fit: BoxFit.cover,
                             colorFilter: ColorFilter.linearToSrgbGamma()),
                       ),
-                      child: SingleChildScrollView(
-                          controller: _scrollController,
-                          // reverse: true,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: childList,
-                          )),
+                      child: StreamBuilder(
+                        stream: Firestore.instance
+                            .collection('chatRooms')
+                            .document(widget.roomID)
+                            .collection('messages')
+                            .orderBy('time', descending: true)
+                            .snapshots(),
+                        builder:
+                            (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                          if (!snapshot.hasData) {
+                            return Center(
+                              child: CircularProgressIndicator(),
+                            );
+                          }
+                          return ListView.builder(
+                            physics: BouncingScrollPhysics(),
+                            reverse: true,
+                            itemCount: snapshot.data.documents.length,
+                            itemBuilder: (context, index) {
+                              var message = snapshot.data.documents[index];
+                              var messageTime = DateFormat('hh:mm a')
+                                  .format(
+                                      (message['time'] as Timestamp).toDate())
+                                  .toString();
+                              if (message['senderID'] == currentUser.id) {
+                                return SendedMessageWidget(
+                                  content: message['message'],
+                                  time: messageTime,
+                                );
+                              } else {
+                                return ReceivedMessageWidget(
+                                  senderName: message['senderName'],
+                                  content: message['message'],
+                                  time: messageTime,
+                                );
+                              }
+                            },
+                          );
+                        },
+                      ),
                     ),
                   ),
                   Divider(height: 0, color: Colors.black26),
@@ -202,7 +232,16 @@ class _ChatPageViewState extends State<ChatPageView> {
                               Icons.send,
                               color: Colors.blueGrey,
                             ),
-                            onPressed: () {},
+                            onPressed: () {
+                              if (_text.text.isNotEmpty) {
+                                ChatServices.sendMessage(
+                                    senderName: currentUser.name,
+                                    senderID: currentUser.id,
+                                    message: _text.text,
+                                    roomID: widget.roomID);
+                                _text.clear();
+                              }
+                            },
                           ),
                           border: InputBorder.none,
                           hintText: "enter your message",

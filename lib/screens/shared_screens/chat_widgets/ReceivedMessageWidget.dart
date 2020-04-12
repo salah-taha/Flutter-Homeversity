@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 class ReceivedMessageWidget extends StatelessWidget {
   final String content;
   final String time;
+  final String senderName;
   const ReceivedMessageWidget({
     Key key,
     this.content,
+    this.senderName,
     this.time,
   }) : super(key: key);
 
@@ -33,11 +35,6 @@ class ReceivedMessageWidget extends StatelessWidget {
                 spreadRadius: 0,
               )
             ],
-//            myColors.orange[700],
-//            border: Border.all(
-//              color: ColorsScheme.purple,
-//              width: 5,
-//            ),
           ),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
@@ -57,7 +54,7 @@ class ReceivedMessageWidget extends StatelessWidget {
                 bottom: 1,
                 right: 10,
                 child: Text(
-                  time,
+                  senderName + ' ' + time,
                   style: TextStyle(
                       fontSize: 12, color: Colors.black.withOpacity(0.6)),
                 ),

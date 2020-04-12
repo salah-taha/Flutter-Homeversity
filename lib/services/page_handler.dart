@@ -1,6 +1,7 @@
 import 'package:fcaihu/constants/constants.dart';
 import 'package:fcaihu/models/provider_data.dart';
 import 'package:fcaihu/screens/shared_screens/ChatView/ChatListPageView.dart';
+import 'package:fcaihu/screens/shared_screens/disconnected.dart';
 import 'package:fcaihu/screens/shared_screens/login.dart';
 import 'package:fcaihu/screens/shared_screens/user_profile.dart';
 import 'package:fcaihu/screens/student/available_courses.dart';
@@ -11,6 +12,9 @@ import 'package:provider/provider.dart';
 
 class PageHandler extends StatefulWidget {
   static final String id = 'page_handler';
+  final bool isConnected;
+
+  PageHandler({this.isConnected = false});
   @override
   _PageHandlerState createState() => _PageHandlerState();
 }
@@ -18,14 +22,28 @@ class PageHandler extends StatefulWidget {
 class _PageHandlerState extends State<PageHandler> {
   Widget selectedPage;
   String pageName;
+  bool isConnected = true;
   final selectedPageColor = ColorsScheme.purple;
   final notSelectedColor = ColorsScheme.darkGrey;
 
   @override
   void initState() {
     super.initState();
-    selectedPage = ProfileScreen();
-    pageName = 'Profile';
+    isConnected = widget.isConnected;
+    if (isConnected) {
+      selectedPage = ProfileScreen();
+      pageName = 'Profile';
+    } else {
+      selectedPage = Disconnected(_changeConnectionState);
+      pageName = 'Disconnected';
+    }
+  }
+
+  _changeConnectionState() {
+    setState(() {
+      selectedPage = ProfileScreen();
+      pageName = 'Profile';
+    });
   }
 
   @override
