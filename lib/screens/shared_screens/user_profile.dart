@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fcaihu/constants/constants.dart';
 import 'package:fcaihu/models/provider_data.dart';
 import 'package:fcaihu/models/user.dart';
 import 'package:fcaihu/screens/shared_screens/login.dart';
 import 'package:fcaihu/screens/shared_screens/update_user_info.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 //selected bar action
@@ -307,86 +309,185 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           ),
                           bar == selectedBar.notification
                               ? Expanded(
-                                  child: ListView(
-                                    children: <Widget>[
-                                      NotificationCard(
-                                          imageUrl:
-                                              'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcROQiRJAyudzEi3VnK4IK78OnXTZOyGkA919uzky9IA6118SX2S',
-                                          title: 'New Lecture Added to PL Course',
-                                          isSeen: false,
-                                          date: ['24/3/2020', '9 AM']),
-                                      NotificationCard(
-                                          imageUrl:
-                                              'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSBG33Erje8D_l7KHaZ2EH3_W4jPAkVImXtjlIERkcZFmxrcWGk',
-                                          title: 'English Lecture at 8:00 PM Tommorow',
-                                          isSeen: true,
-                                          date: ['10/2/2020', '5 PM']),
-                                      NotificationCard(
-                                          imageUrl:
-                                              'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS5qHwDOxOzqNSfM27gnoV_fklzMrD2k9EEtpGX3PQ6pzZK-F6y',
-                                          title: 'New Lecture Added to Math Course',
-                                          isSeen: true,
-                                          date: ['8/2/2020', '8 AM']),
-                                    ],
+                                  child: FutureBuilder(
+                                    future: Firestore.instance
+                                        .collection('users')
+                                        .document(user.id)
+                                        .collection('notifications')
+                                        .orderBy('date', descending: true)
+                                        .getDocuments(),
+                                    builder: (context,
+                                        AsyncSnapshot<QuerySnapshot>
+                                            notificationSnapshot) {
+                                      if (!notificationSnapshot.hasData ||
+                                          notificationSnapshot.data.documents[0]
+                                                  ['isSeen'] ==
+                                              null ||
+                                          notificationSnapshot.data.documents[0]
+                                                  ['title'] ==
+                                              null) {
+                                        return Center(
+                                            child: CircularProgressIndicator());
+                                      }
+                                      if (notificationSnapshot
+                                              .data.documents.length ==
+                                          0) {
+                                        return Center(
+                                            child: Text(
+                                          'You do not have any notification',
+                                          style: TextStyle(
+                                            color: ColorsScheme.purple,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ));
+                                      }
+                                      return ListView.builder(
+                                        itemCount: notificationSnapshot
+                                            .data.documents.length,
+                                        itemBuilder: (context, index) {
+                                          var _card = notificationSnapshot
+                                              .data.documents[index];
+                                          var _date =
+                                              (_card['date'] as Timestamp)
+                                                  .toDate();
+                                          return InkWell(
+                                            onTap: () {
+                                              if (!_card['isSeen']) {
+                                                Firestore.instance
+                                                    .collection('users')
+                                                    .document(user.id)
+                                                    .collection('notifications')
+                                                    .document(_card.documentID)
+                                                    .updateData(
+                                                        {'isSeen': true});
+                                                setState(() {});
+                                              }
+                                            },
+                                            child: NotificationCard(
+                                              imageUrl: _card['imageUrl'] ??
+                                                  'https://firebasestorage.googleapis.com/v0/b/fcai-hu.appspot.com/o/images%2Fusers%2FuserProfile_76a4d537-4c29-4500-a5c6-3dfd6fc9a803.jpg?alt=media&token=8d405101-52eb-41c5-bbc0-bdb40d2b4a4c',
+                                              title: _card['title'],
+                                              isSeen: _card['isSeen'] ?? false,
+                                              date: [
+                                                DateFormat('dd/MM/yyyy')
+                                                    .format(_date),
+                                                DateFormat('hh:mm a')
+                                                    .format(_date)
+                                              ],
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    },
                                   ),
                                 )
                               : Expanded(
-                                  child: GridView.count(
-                                    crossAxisCount: 2,
-                                    crossAxisSpacing: 10,
-                                    mainAxisSpacing: 10,
-                                    padding: EdgeInsets.all(10),
-                                    children: <Widget>[
-                                      NewLecture(
-                                        courseName: 'PL Course',
-                                        lectureTitle:
-                                            'Pointers [Part 2], Structures [Part 2], and Unions in C',
-                                        isCompleted: false,
-                                      ),
-                                      NewLecture(
-                                        courseName: 'CS251 Course',
-                                        lectureTitle:
-                                            'From Domain to Requirements; Use-Case & Activity Diagrams',
-                                        isCompleted: true,
-                                      ),
-                                      NewLecture(
-                                        courseName: 'CS361 Course',
-                                        lectureTitle:
-                                            ' Knowledge Representation via Propositional & Predicate Calculi',
-                                        isCompleted: true,
-                                      ),
-                                      NewLecture(
-                                        courseName: 'CS361 Course',
-                                        lectureTitle:
-                                            'Problem Solving as Search - Blind/Uninformed vs. Heuristic/Informed Strategies',
-                                        isCompleted: false,
-                                      ),
-                                      NewLecture(
-                                        courseName: 'CS361 Course',
-                                        lectureTitle:
-                                            'Problem Solving as Search - Blind/Uninformed vs. Heuristic/Informed Strategies',
-                                        isCompleted: false,
-                                      ),
-                                      NewLecture(
-                                        courseName: 'CS251 Course',
-                                        lectureTitle:
-                                            'From Domain to Requirements; Use-Case & Activity Diagrams',
-                                        isCompleted: true,
-                                      ),
-                                      NewLecture(
-                                        courseName: 'CS361 Course',
-                                        lectureTitle:
-                                            ' Knowledge Representation via Propositional & Predicate Calculi',
-                                        isCompleted: true,
-                                      ),
-                                      NewLecture(
-                                        courseName: 'PL Course',
-                                        lectureTitle:
-                                            'Pointers [Part 2], Structures [Part 2], and Unions in C',
-                                        isCompleted: false,
-                                      ),
-                                    ],
+                                  child: FutureBuilder(
+                                    future: Firestore.instance
+                                        .collection('users')
+                                        .document(user.id)
+                                        .collection('newLectures')
+                                        .orderBy('date', descending: true)
+                                        .getDocuments(),
+                                    builder: (context, snapshot) {
+                                      if (!snapshot.hasData ||
+                                          snapshot.data.documents[0]
+                                                  ['courseName'] ==
+                                              null ||
+                                          snapshot.data.documents[0]
+                                                  ['isCompleted'] ==
+                                              null) {
+                                        return Center(
+                                            child: CircularProgressIndicator());
+                                      }
+                                      if (snapshot.data.documents.length == 0) {
+                                        return Center(
+                                            child: Text(
+                                          'You do not have any new lectures',
+                                          style: TextStyle(
+                                            color: ColorsScheme.purple,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ));
+                                      }
+                                      return GridView.builder(
+                                          gridDelegate:
+                                              SliverGridDelegateWithFixedCrossAxisCount(
+                                            crossAxisCount: 2,
+                                            crossAxisSpacing: 10.0,
+                                            mainAxisSpacing: 10.0,
+                                          ),
+                                          itemCount:
+                                              snapshot.data.documents.length,
+                                          itemBuilder: (context, index) {
+                                            var _lec =
+                                                snapshot.data.documents[index];
+                                            return NewLecture(
+                                              courseName:
+                                                  _lec['courseName'] ?? '',
+                                              lectureTitle: _lec['title'] ?? '',
+                                              isCompleted:
+                                                  _lec['isCompleted'] ?? false,
+                                            );
+                                          });
+                                    },
                                   ),
+//                                  child: GridView.count(
+//                                    crossAxisCount: 2,
+//                                    crossAxisSpacing: 10,
+//                                    mainAxisSpacing: 10,
+//                                    padding: EdgeInsets.all(10),
+//                                    children: <Widget>[
+//                                      NewLecture(
+//                                        courseName: 'PL Course',
+//                                        lectureTitle:
+//                                            'Pointers [Part 2], Structures [Part 2], and Unions in C',
+//                                        isCompleted: false,
+//                                      ),
+//                                      NewLecture(
+//                                        courseName: 'CS251 Course',
+//                                        lectureTitle:
+//                                            'From Domain to Requirements; Use-Case & Activity Diagrams',
+//                                        isCompleted: true,
+//                                      ),
+//                                      NewLecture(
+//                                        courseName: 'CS361 Course',
+//                                        lectureTitle:
+//                                            ' Knowledge Representation via Propositional & Predicate Calculi',
+//                                        isCompleted: true,
+//                                      ),
+//                                      NewLecture(
+//                                        courseName: 'CS361 Course',
+//                                        lectureTitle:
+//                                            'Problem Solving as Search - Blind/Uninformed vs. Heuristic/Informed Strategies',
+//                                        isCompleted: false,
+//                                      ),
+//                                      NewLecture(
+//                                        courseName: 'CS361 Course',
+//                                        lectureTitle:
+//                                            'Problem Solving as Search - Blind/Uninformed vs. Heuristic/Informed Strategies',
+//                                        isCompleted: false,
+//                                      ),
+//                                      NewLecture(
+//                                        courseName: 'CS251 Course',
+//                                        lectureTitle:
+//                                            'From Domain to Requirements; Use-Case & Activity Diagrams',
+//                                        isCompleted: true,
+//                                      ),
+//                                      NewLecture(
+//                                        courseName: 'CS361 Course',
+//                                        lectureTitle:
+//                                            ' Knowledge Representation via Propositional & Predicate Calculi',
+//                                        isCompleted: true,
+//                                      ),
+//                                      NewLecture(
+//                                        courseName: 'PL Course',
+//                                        lectureTitle:
+//                                            'Pointers [Part 2], Structures [Part 2], and Unions in C',
+//                                        isCompleted: false,
+//                                      ),
+//                                    ],
+//                                  ),
                                 )
                         ],
                       ),

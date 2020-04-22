@@ -149,6 +149,7 @@ class CourseProgressCard extends StatelessWidget {
             MaterialPageRoute(
               builder: (context) => Lecture(
                 videoUrl: videoUrl,
+                lectureName: title,
                 pdfUrl: pdfUrl,
                 lectureID: lectureID,
                 courseID: courseID,
@@ -288,8 +289,14 @@ class Lecture extends StatefulWidget {
   final String pdfUrl;
   final String courseID;
   final String lectureID;
+  final String lectureName;
 
-  Lecture({this.pdfUrl, this.videoUrl, this.courseID, this.lectureID});
+  Lecture(
+      {@required this.lectureName,
+      this.pdfUrl,
+      this.videoUrl,
+      this.courseID,
+      this.lectureID});
 
   @override
   _LectureState createState() => _LectureState();
@@ -357,7 +364,7 @@ class _LectureState extends State<Lecture> {
         iconTheme: IconThemeData(color: ColorsScheme.purple),
         backgroundColor: ColorsScheme.grey,
         title: Text(
-          'Lecture name',
+          widget.lectureName,
           style: appBarTextStyle,
         ),
         elevation: 0,

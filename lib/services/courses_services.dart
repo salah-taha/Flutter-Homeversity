@@ -25,7 +25,7 @@ class CoursesServices {
       await Firestore.instance
           .collection('available_courses')
           .document(courseID)
-          .collection('studens')
+          .collection('students')
           .document(user.id)
           .setData({});
       await Firestore.instance
@@ -41,7 +41,7 @@ class CoursesServices {
   static Future completeLecture(
       BuildContext context, String courseID, String lectureID) async {
     String userID = Provider.of<ProviderData>(context, listen: false).user.id;
-    Firestore.instance
+    await Firestore.instance
         .collection('users')
         .document(userID)
         .collection('enrolledCourses')
@@ -49,6 +49,14 @@ class CoursesServices {
         .collection('completedLectures')
         .document(lectureID)
         .setData({});
+    Firestore.instance
+        .collection('users')
+        .document(userID)
+        .collection('newLectures')
+        .document(lectureID)
+        .updateData({
+      'isCompleted': true,
+    });
     return;
   }
 
