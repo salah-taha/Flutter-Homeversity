@@ -104,7 +104,7 @@ class _MainAppState extends State<MainApp> {
             name: 'assets/second_splash_screen_animation.flr',
             // get the splash then welcome or main
             next: (_) => bFirstTime
-                ? WelcomeScreen()
+                ? WelcomeScreen(isConnected: bIsConnected)
                 : PageHandler(isConnected: bIsConnected),
             until: () => Future.delayed(Duration(seconds: 5)),
             startAnimation: 'Animations',
