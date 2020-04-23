@@ -109,7 +109,7 @@ class _PageHandlerState extends State<PageHandler> {
                                                   ?.imageUrl ==
                                               ' '
                                       ? AssetImage(
-                                          'assets/images/user_placeholder.png')
+                                          'assets/images/user_placeholder.gif')
                                       : NetworkImage(
                                           Provider.of<ProviderData>(context)
                                               .user

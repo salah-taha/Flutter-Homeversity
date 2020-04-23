@@ -66,7 +66,7 @@ class _UpdateInfoScreenState extends State<UpdateInfoScreen> {
                     backgroundColor: ColorsScheme.darkGrey,
                     backgroundImage: imageFile == null
                         ? user.imageUrl == ' '
-                            ? AssetImage('assets/images/user_placeholder.png')
+                            ? AssetImage('assets/images/user_placeholder.gif')
                             : NetworkImage(user.imageUrl)
                         : FileImage(imageFile),
                   ),

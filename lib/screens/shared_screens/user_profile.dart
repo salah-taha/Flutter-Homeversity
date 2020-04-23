@@ -118,7 +118,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               backgroundColor: Colors.white,
                               radius: 50,
                               backgroundImage: AssetImage(
-                                  'assets/images/user_placeholder.png')),
+                                  'assets/images/user_placeholder.gif')),
                         ),
                       ],
                     ),
