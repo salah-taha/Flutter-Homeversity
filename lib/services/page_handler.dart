@@ -1,6 +1,7 @@
 import 'package:fcaihu/constants/constants.dart';
 import 'package:fcaihu/models/notification_hundler.dart';
 import 'package:fcaihu/models/provider_data.dart';
+import 'package:fcaihu/screens/shared_screens/About_Screens/About.dart';
 import 'package:fcaihu/screens/shared_screens/ChatView/ChatListPageView.dart';
 import 'package:fcaihu/screens/shared_screens/disconnected.dart';
 import 'package:fcaihu/screens/shared_screens/fcai_hu.dart';
@@ -52,6 +53,10 @@ class _PageHandlerState extends State<PageHandler> {
 
   _meetOurTeam() {
     //TODO navigate to about us
+    setState(() {
+      selectedPage = About();
+      pageName = 'About';
+    });
   }
 
   @override
@@ -215,6 +220,10 @@ class _PageHandlerState extends State<PageHandler> {
                   onTap: () {
                     // Update the state of the app.
                     // ...
+                    setState(() {
+                      selectedPage = About();
+                      pageName = 'About';
+                    });
                   },
                 ),
                 ListTile(

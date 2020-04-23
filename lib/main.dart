@@ -1,6 +1,7 @@
 import 'package:connectivity/connectivity.dart';
 import 'package:fcaihu/models/provider_data.dart';
 import 'package:fcaihu/models/user.dart';
+import 'package:fcaihu/screens/shared_screens/About_Screens/About.dart';
 import 'package:fcaihu/screens/shared_screens/ChatView/ChatListPageView.dart';
 import 'package:fcaihu/screens/shared_screens/choose_profile_photo.dart';
 import 'package:fcaihu/screens/shared_screens/login.dart';
@@ -46,6 +47,7 @@ class _MyAppState extends State<MyApp> {
           ChatListPageView.id: (context) => ChatListPageView(),
           ChooseProfilePhoto.id: (context) => ChooseProfilePhoto(),
           UpdateInfoScreen.id: (context) => UpdateInfoScreen(),
+          About.id: (context) => About(),
         },
       ),
     );
