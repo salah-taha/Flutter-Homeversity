@@ -109,7 +109,7 @@ class _FcaiHuState extends State<FcaiHu> {
             InfoWidget(
               title: 'About FCAI HU',
               info:
-                  'The Helwan University Council approved on 7/18/1994 the establishment of the College of Computers and Information. The Supreme Council of Universities on 7/1/1995 approved the establishment of the college and the adoption of its internal regulations, which is the first computer college in Egypt. And the President’s Decree No. 419 of 1995 was established to establish the college to effectively contribute to community service and provide an opportunity for everyone to learn computer technologies and information systems to serve development issues to enter the information age by qualifying the manpower necessary for the labour market in the new era with its ability to compete in this field.',
+                  'Helwan University approved on 7/18/1994 the establishment  of  Computer  science  and artificial intelligence faculty On 7/1/1995 the supreme  council of universities  approved this and it became  the first computer  science faculty  in Egypt, also the President’s Decree No. 419 of 1995 was established to establish the college to effectively contribute to the community services and provide an opportunity for everyone to learn computer technologies and information systems as to serve the development issues  and help in entering the information age by qualifying the manpower needed  for the labour market in the new era with its ability to compete in this field',
             ),
             InfoWidget(
                 title: 'Vision',
