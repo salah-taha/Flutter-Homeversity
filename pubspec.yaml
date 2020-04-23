@@ -31,6 +31,7 @@ dependencies:
   youtube_player_flutter: ^6.1.0+4
   flutter_slidable: ^0.5.4
   connectivity: ^0.4.8+2
+  carousel_slider: 1.4.1
 
 
 dev_dependencies:
@@ -42,6 +43,7 @@ flutter:
   assets:
     - assets/welcome/
     - assets/images/
+    - assets/slider/
     - assets/second_splash_screen_animation.flr
     - assets/sign_In_animation.flr
     - assets/welcome_animation.flr

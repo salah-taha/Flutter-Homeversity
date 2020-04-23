@@ -323,6 +323,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         return Center(
                                             child: CircularProgressIndicator());
                                       }
+                                      if (notificationSnapshot.data.documents[0]
+                                              ['imageUrl'] ==
+                                          null) {
+                                        return Center(
+                                            child: CircularProgressIndicator());
+                                      }
                                       if (notificationSnapshot
                                               .data.documents.length ==
                                           0) {
@@ -386,6 +392,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         .getDocuments(),
                                     builder: (context, snapshot) {
                                       if (!snapshot.hasData) {
+                                        return Center(
+                                            child: CircularProgressIndicator());
+                                      }
+                                      if (snapshot.data.documents[0]
+                                              ['courseName'] ==
+                                          null) {
                                         return Center(
                                             child: CircularProgressIndicator());
                                       }

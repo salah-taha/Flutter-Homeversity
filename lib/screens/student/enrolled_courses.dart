@@ -60,7 +60,6 @@ class EnrolledCourses extends StatelessWidget {
                       itemCount: snapshot.data.documents.length,
                       itemBuilder: (context, index) {
                         return FutureBuilder(
-                          //TODO available courses
                           future: Firestore.instance
                               .collection('available_courses')
                               .document(
@@ -163,7 +162,6 @@ class CourseCard extends StatelessWidget {
 
     return InkWell(
       onTap: () {
-        //TODO navigate to course progress page
         Navigator.push(
           context,
           MaterialPageRoute(

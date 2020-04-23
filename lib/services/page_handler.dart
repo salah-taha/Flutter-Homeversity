@@ -3,6 +3,7 @@ import 'package:fcaihu/models/notification_hundler.dart';
 import 'package:fcaihu/models/provider_data.dart';
 import 'package:fcaihu/screens/shared_screens/ChatView/ChatListPageView.dart';
 import 'package:fcaihu/screens/shared_screens/disconnected.dart';
+import 'package:fcaihu/screens/shared_screens/fcai_hu.dart';
 import 'package:fcaihu/screens/shared_screens/login.dart';
 import 'package:fcaihu/screens/shared_screens/user_profile.dart';
 import 'package:fcaihu/screens/student/available_courses.dart';
@@ -47,6 +48,10 @@ class _PageHandlerState extends State<PageHandler> {
       selectedPage = ProfileScreen();
       pageName = 'Profile';
     });
+  }
+
+  _meetOurTeam() {
+    //TODO navigate to about us
   }
 
   @override
@@ -139,13 +144,19 @@ class _PageHandlerState extends State<PageHandler> {
                 ),
                 ListTile(
                   title: Text(
-                    'Home',
+                    'FCAI HU',
                     style: TextStyle(
                       color: notSelectedColor,
                       fontSize: 16,
                     ),
                   ),
-                  onTap: () {},
+                  onTap: () {
+                    setState(() {
+                      selectedPage = FcaiHu(_meetOurTeam);
+                      pageName = 'FCAI HU';
+                    });
+                    Navigator.pop(context);
+                  },
                 ),
                 ListTile(
                   title: Text(
@@ -195,6 +206,19 @@ class _PageHandlerState extends State<PageHandler> {
                 ),
                 ListTile(
                   title: Text(
+                    'About Us',
+                    style: TextStyle(
+                      color: notSelectedColor,
+                      fontSize: 16,
+                    ),
+                  ),
+                  onTap: () {
+                    // Update the state of the app.
+                    // ...
+                  },
+                ),
+                ListTile(
+                  title: Text(
                     Provider.of<ProviderData>(context).user == null
                         ? 'Log In'
                         : 'LogOut',
@@ -214,32 +238,20 @@ class _PageHandlerState extends State<PageHandler> {
                     }
                   },
                 ),
-                ListTile(
-                  title: Text(
-                    'About',
-                    style: TextStyle(
-                      color: notSelectedColor,
-                      fontSize: 16,
-                    ),
-                  ),
-                  onTap: () {
-                    // Update the state of the app.
-                    // ...
-                  },
-                ),
-                ListTile(
-                  title: Text(
-                    'Contact Us',
-                    style: TextStyle(
-                      color: notSelectedColor,
-                      fontSize: 16,
-                    ),
-                  ),
-                  onTap: () {
-                    // Update the state of the app.
-                    // ...
-                  },
-                ),
+
+//                ListTile(
+//                  title: Text(
+//                    'Contact Us',
+//                    style: TextStyle(
+//                      color: notSelectedColor,
+//                      fontSize: 16,
+//                    ),
+//                  ),
+//                  onTap: () {
+//                    // Update the state of the app.
+//                    // ...
+//                  },
+//                ),
               ],
             ),
           ),

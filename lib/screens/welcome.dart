@@ -38,14 +38,14 @@ class WelcomeScreen extends StatelessWidget {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         //set first time to false
         prefs.setBool('firstTime', false);
-        //navigate to main screen TODO
+        //navigate to main screen
         Navigator.pushReplacementNamed(context, PageHandler.id);
       },
       onSkip: () async {
         SharedPreferences prefs = await SharedPreferences.getInstance();
         //set first time to false
         prefs.setBool('firstTime', false);
-        //navigate to main screen TODO
+        //navigate to main screen
         Navigator.pushReplacementNamed(context, PageHandler.id);
       },
       //add skip button
