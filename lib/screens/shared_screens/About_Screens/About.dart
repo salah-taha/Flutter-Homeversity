@@ -35,7 +35,7 @@ class About extends StatelessWidget {
 
 
 
-      body: CookiePage(),
+      body: AboutPage(),
 
 
 
