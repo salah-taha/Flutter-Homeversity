@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:fcaihu/constants/constants.dart';
 import 'package:fcaihu/models/provider_data.dart';
 import 'package:fcaihu/models/user.dart';
+import 'package:fcaihu/services/auth_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -14,7 +15,6 @@ class CoursesServices {
         .collection('enrolledCourses')
         .document(courseID)
         .get();
-    print(isEnrolled.data);
     if (isEnrolled.data == null) {
       await Firestore.instance
           .collection('users')
@@ -35,6 +35,7 @@ class CoursesServices {
         'completedLectures': user.completedLectures + 1,
       });
     }
+    AuthService.updateUser(context);
     return;
   }
 

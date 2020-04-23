@@ -319,13 +319,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     builder: (context,
                                         AsyncSnapshot<QuerySnapshot>
                                             notificationSnapshot) {
-                                      if (!notificationSnapshot.hasData ||
-                                          notificationSnapshot.data.documents[0]
-                                                  ['isSeen'] ==
-                                              null ||
-                                          notificationSnapshot.data.documents[0]
-                                                  ['title'] ==
-                                              null) {
+                                      if (!notificationSnapshot.hasData) {
                                         return Center(
                                             child: CircularProgressIndicator());
                                       }
@@ -391,13 +385,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         .orderBy('date', descending: true)
                                         .getDocuments(),
                                     builder: (context, snapshot) {
-                                      if (!snapshot.hasData ||
-                                          snapshot.data.documents[0]
-                                                  ['courseName'] ==
-                                              null ||
-                                          snapshot.data.documents[0]
-                                                  ['isCompleted'] ==
-                                              null) {
+                                      if (!snapshot.hasData) {
                                         return Center(
                                             child: CircularProgressIndicator());
                                       }
@@ -456,7 +444,7 @@ class NotificationCard extends StatelessWidget {
   //index [0] is the date & index [1] is the time in hours
   final List<String> date;
 
-  NotificationCard({this.imageUrl, this.isSeen, this.title, this.date});
+  NotificationCard({this.imageUrl, this.isSeen = true, this.title, this.date});
 
   @override
   Widget build(BuildContext context) {
@@ -494,7 +482,7 @@ class NotificationCard extends StatelessWidget {
                   width: MediaQuery.of(context).size.width * 0.58,
                   height: 40,
                   child: Text(
-                    title,
+                    title ?? '',
                     style: TextStyle(
                       color: ColorsScheme.darkGrey,
                       fontWeight: FontWeight.bold,
@@ -508,13 +496,13 @@ class NotificationCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: <Widget>[
                         Text(
-                          date[0],
+                          date[0] ?? '',
                           style: TextStyle(
                             color: ColorsScheme.midPurple,
                           ),
                         ),
                         Text(
-                          date[1],
+                          date[1] ?? '',
                           style: TextStyle(
                             color: ColorsScheme.midPurple,
                           ),
@@ -549,7 +537,8 @@ class NewLecture extends StatelessWidget {
   final String lectureTitle;
   final bool isCompleted;
 
-  NewLecture({this.courseName, this.isCompleted, this.lectureTitle});
+  NewLecture(
+      {this.courseName = '', this.isCompleted = true, this.lectureTitle = ''});
 
   @override
   Widget build(BuildContext context) {

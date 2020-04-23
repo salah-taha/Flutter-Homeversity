@@ -68,7 +68,7 @@ exports.addGlobalNotification = functions.firestore.document('/global_notificati
 
     const usersRef = Firestore.collection('users');
 
-    const usersSnapshot = await courseStudentsRef.get();
+    const usersSnapshot = await usersRef.get();
 
     const timestamp = admin.firestore.FieldValue.serverTimestamp();
 
