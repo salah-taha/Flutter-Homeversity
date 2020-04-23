@@ -342,6 +342,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         ));
                                       }
                                       return ListView.builder(
+                                        physics: BouncingScrollPhysics(),
                                         itemCount: notificationSnapshot
                                             .data.documents.length,
                                         itemBuilder: (context, index) {
@@ -411,6 +412,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         ));
                                       }
                                       return GridView.builder(
+                                          physics: BouncingScrollPhysics(),
                                           gridDelegate:
                                               SliverGridDelegateWithFixedCrossAxisCount(
                                             crossAxisCount: 2,
@@ -432,63 +434,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           });
                                     },
                                   ),
-//                                  child: GridView.count(
-//                                    crossAxisCount: 2,
-//                                    crossAxisSpacing: 10,
-//                                    mainAxisSpacing: 10,
-//                                    padding: EdgeInsets.all(10),
-//                                    children: <Widget>[
-//                                      NewLecture(
-//                                        courseName: 'PL Course',
-//                                        lectureTitle:
-//                                            'Pointers [Part 2], Structures [Part 2], and Unions in C',
-//                                        isCompleted: false,
-//                                      ),
-//                                      NewLecture(
-//                                        courseName: 'CS251 Course',
-//                                        lectureTitle:
-//                                            'From Domain to Requirements; Use-Case & Activity Diagrams',
-//                                        isCompleted: true,
-//                                      ),
-//                                      NewLecture(
-//                                        courseName: 'CS361 Course',
-//                                        lectureTitle:
-//                                            ' Knowledge Representation via Propositional & Predicate Calculi',
-//                                        isCompleted: true,
-//                                      ),
-//                                      NewLecture(
-//                                        courseName: 'CS361 Course',
-//                                        lectureTitle:
-//                                            'Problem Solving as Search - Blind/Uninformed vs. Heuristic/Informed Strategies',
-//                                        isCompleted: false,
-//                                      ),
-//                                      NewLecture(
-//                                        courseName: 'CS361 Course',
-//                                        lectureTitle:
-//                                            'Problem Solving as Search - Blind/Uninformed vs. Heuristic/Informed Strategies',
-//                                        isCompleted: false,
-//                                      ),
-//                                      NewLecture(
-//                                        courseName: 'CS251 Course',
-//                                        lectureTitle:
-//                                            'From Domain to Requirements; Use-Case & Activity Diagrams',
-//                                        isCompleted: true,
-//                                      ),
-//                                      NewLecture(
-//                                        courseName: 'CS361 Course',
-//                                        lectureTitle:
-//                                            ' Knowledge Representation via Propositional & Predicate Calculi',
-//                                        isCompleted: true,
-//                                      ),
-//                                      NewLecture(
-//                                        courseName: 'PL Course',
-//                                        lectureTitle:
-//                                            'Pointers [Part 2], Structures [Part 2], and Unions in C',
-//                                        isCompleted: false,
-//                                      ),
-//                                    ],
-//                                  ),
-                                )
+                                ),
                         ],
                       ),
                     )
@@ -547,14 +493,12 @@ class NotificationCard extends StatelessWidget {
                 Container(
                   width: MediaQuery.of(context).size.width * 0.58,
                   height: 40,
-                  child: Center(
-                    child: Text(
-                      title,
-                      style: TextStyle(
-                        color: ColorsScheme.darkGrey,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                      color: ColorsScheme.darkGrey,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
                     ),
                   ),
                 ),

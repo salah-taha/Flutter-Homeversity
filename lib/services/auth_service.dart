@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fcaihu/models/notification_hundler.dart';
 import 'package:fcaihu/models/provider_data.dart';
 import 'package:fcaihu/models/user.dart';
 import 'package:fcaihu/services/storage_service.dart';
@@ -47,6 +48,7 @@ class AuthService {
           uniID: id);
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('user_id', user.id);
+      FirebaseNotifications().userLoginOrRegister(user.id, context);
       Provider.of<ProviderData>(context, listen: false).updateUser(user);
     } catch (e) {
       switch (e.message) {
@@ -72,6 +74,7 @@ class AuthService {
       User user = await getUserWithID(result.user.uid, context);
       SharedPreferences prefs = await SharedPreferences.getInstance();
       prefs.setString('user_id', user.id);
+      FirebaseNotifications().userLoginOrRegister(user.id, context);
       Provider.of<ProviderData>(context, listen: false).updateUser(user);
     } catch (e) {
       switch (e.message) {
@@ -125,6 +128,7 @@ class AuthService {
 
   static logOut(BuildContext context) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
+    await FirebaseNotifications().userLogOut(prefs.getString('user_id'));
     prefs.setString('user_id', null);
     Provider.of<ProviderData>(context, listen: false).updateUser(null);
     Navigator.pop(context);

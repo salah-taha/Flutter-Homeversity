@@ -1,4 +1,5 @@
 import 'package:fcaihu/constants/constants.dart';
+import 'package:fcaihu/models/notification_hundler.dart';
 import 'package:fcaihu/models/provider_data.dart';
 import 'package:fcaihu/screens/shared_screens/ChatView/ChatListPageView.dart';
 import 'package:fcaihu/screens/shared_screens/disconnected.dart';
@@ -37,6 +38,8 @@ class _PageHandlerState extends State<PageHandler> {
       selectedPage = Disconnected(_changeConnectionState);
       pageName = 'Disconnected';
     }
+    //notification handler
+    FirebaseNotifications().setUpFirebaseMessaging(context);
   }
 
   _changeConnectionState() {
