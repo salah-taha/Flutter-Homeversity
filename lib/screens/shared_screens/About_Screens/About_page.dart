@@ -86,28 +86,26 @@ class AboutPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorsScheme.grey,
-      body: ListView(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-                width: MediaQuery.of(context).size.width - 30.0,
-                height: MediaQuery.of(context).size.height - 200,
-                child: GridView.count(
-                  crossAxisCount: 2,
-                  primary: false,
-                  crossAxisSpacing: 10.0,
-                  mainAxisSpacing: 15.0,
-                  childAspectRatio: 0.8,
-                  children: <Widget>[
-                    _buildCard(_Developers[0], context),
-                    _buildCard(_Developers[1], context),
-                    _buildCard(_Developers[2], context),
-                  ],
-                )),
-          ),
-          SizedBox(height: 15.0)
-        ],
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Container(
+              width: MediaQuery.of(context).size.width - 30.0,
+              height: MediaQuery.of(context).size.height - 100,
+              child: GridView.count(
+//                  physics: NeverScrollableScrollPhysics(),
+                crossAxisCount: 2,
+                primary: false,
+                crossAxisSpacing: 10.0,
+                mainAxisSpacing: 15.0,
+                childAspectRatio: 0.8,
+                children: <Widget>[
+                  _buildCard(_Developers[0], context),
+                  _buildCard(_Developers[1], context),
+                  _buildCard(_Developers[2], context),
+                ],
+              )),
+        ),
       ),
     );
   }

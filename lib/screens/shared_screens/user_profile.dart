@@ -323,12 +323,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         return Center(
                                             child: CircularProgressIndicator());
                                       }
-                                      if (notificationSnapshot.data.documents[0]
-                                              ['imageUrl'] ==
-                                          null) {
-                                        return Center(
-                                            child: CircularProgressIndicator());
-                                      }
+
                                       if (notificationSnapshot
                                               .data.documents.length ==
                                           0) {
@@ -340,6 +335,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ));
+                                      }
+                                      if (notificationSnapshot.data.documents[0]
+                                              ['imageUrl'] ==
+                                          null) {
+                                        return Center(
+                                            child: CircularProgressIndicator());
                                       }
                                       return ListView.builder(
                                         physics: BouncingScrollPhysics(),
@@ -365,10 +366,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                               }
                                             },
                                             child: NotificationCard(
-                                              imageUrl: _card['imageUrl'] ??
-                                                  'https://firebasestorage.googleapis.com/v0/b/fcai-hu.appspot.com/o/images%2Fusers%2FuserProfile_76a4d537-4c29-4500-a5c6-3dfd6fc9a803.jpg?alt=media&token=8d405101-52eb-41c5-bbc0-bdb40d2b4a4c',
+                                              imageUrl: _card['imageUrl'],
                                               title: _card['title'],
-                                              isSeen: _card['isSeen'] ?? false,
+                                              isSeen: _card['isSeen'],
                                               date: [
                                                 DateFormat('dd/MM/yyyy')
                                                     .format(_date),
@@ -390,17 +390,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         .collection('newLectures')
                                         .orderBy('date', descending: true)
                                         .getDocuments(),
-                                    builder: (context, snapshot) {
-                                      if (!snapshot.hasData) {
-                                        return Center(
-                                            child: CircularProgressIndicator());
-                                      }
-                                      if (snapshot.data.documents[0]
-                                              ['courseName'] ==
-                                          null) {
-                                        return Center(
-                                            child: CircularProgressIndicator());
-                                      }
+                                    builder: (context,
+                                        AsyncSnapshot<QuerySnapshot> snapshot) {
                                       if (snapshot.data.documents.length == 0) {
                                         return Center(
                                             child: Text(
@@ -410,6 +401,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ));
+                                      }
+
+                                      if (!snapshot.hasData) {
+                                        return Center(
+                                            child: CircularProgressIndicator());
                                       }
                                       return GridView.builder(
                                           physics: BouncingScrollPhysics(),
@@ -425,11 +421,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             var _lec =
                                                 snapshot.data.documents[index];
                                             return NewLecture(
-                                              courseName:
-                                                  _lec['courseName'] ?? '',
-                                              lectureTitle: _lec['title'] ?? '',
-                                              isCompleted:
-                                                  _lec['isCompleted'] ?? false,
+                                              courseName: _lec['courseName'],
+                                              lectureTitle: _lec['title'],
+                                              isCompleted: _lec['isCompleted'],
                                             );
                                           });
                                     },
