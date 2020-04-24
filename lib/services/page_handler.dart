@@ -1,6 +1,7 @@
 import 'package:fcaihu/constants/constants.dart';
 import 'package:fcaihu/models/notification_hundler.dart';
 import 'package:fcaihu/models/provider_data.dart';
+import 'package:fcaihu/screens/shared_screens/About_Screens/About_page.dart';
 import 'package:fcaihu/screens/shared_screens/ChatView/ChatListPageView.dart';
 import 'package:fcaihu/screens/shared_screens/disconnected.dart';
 import 'package:fcaihu/screens/shared_screens/fcai_hu.dart';
@@ -51,7 +52,10 @@ class _PageHandlerState extends State<PageHandler> {
   }
 
   _meetOurTeam() {
-    //TODO navigate to about us
+    setState(() {
+      selectedPage = AboutPage();
+      pageName = 'About';
+    });
   }
 
   @override
@@ -146,7 +150,9 @@ class _PageHandlerState extends State<PageHandler> {
                   title: Text(
                     'FCAI HU',
                     style: TextStyle(
-                      color: notSelectedColor,
+                      color: pageName == 'FCAI HU'
+                          ? selectedPageColor
+                          : notSelectedColor,
                       fontSize: 16,
                     ),
                   ),
@@ -162,7 +168,9 @@ class _PageHandlerState extends State<PageHandler> {
                   title: Text(
                     'Enrolled Courses',
                     style: TextStyle(
-                      color: notSelectedColor,
+                      color: pageName == 'Enrolled Courses'
+                          ? selectedPageColor
+                          : notSelectedColor,
                       fontSize: 16,
                     ),
                   ),
@@ -178,7 +186,9 @@ class _PageHandlerState extends State<PageHandler> {
                   title: Text(
                     'Available Courses',
                     style: TextStyle(
-                      color: notSelectedColor,
+                      color: pageName == 'Available Courses'
+                          ? selectedPageColor
+                          : notSelectedColor,
                       fontSize: 16,
                     ),
                   ),
@@ -194,7 +204,9 @@ class _PageHandlerState extends State<PageHandler> {
                   title: Text(
                     'Chat Groups',
                     style: TextStyle(
-                      color: notSelectedColor,
+                      color: pageName == 'Chat Groups'
+                          ? selectedPageColor
+                          : notSelectedColor,
                       fontSize: 16,
                     ),
                   ),
@@ -208,13 +220,19 @@ class _PageHandlerState extends State<PageHandler> {
                   title: Text(
                     'About Us',
                     style: TextStyle(
-                      color: notSelectedColor,
+                      color: pageName == 'About'
+                          ? selectedPageColor
+                          : notSelectedColor,
                       fontSize: 16,
                     ),
                   ),
                   onTap: () {
                     // Update the state of the app.
-                    // ...
+                    setState(() {
+                      selectedPage = AboutPage();
+                      pageName = 'About';
+                    });
+                    Navigator.pop(context);
                   },
                 ),
                 ListTile(
