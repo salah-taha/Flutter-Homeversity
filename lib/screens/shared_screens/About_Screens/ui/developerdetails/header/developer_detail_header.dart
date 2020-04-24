@@ -50,16 +50,33 @@ class DeveloperDetailHeader extends StatelessWidget {
 
     return new Padding(
       padding: const EdgeInsets.only(top: 16.0),
-      child: new Row(
-        mainAxisAlignment: MainAxisAlignment.center,
+      child: Column(
         children: <Widget>[
-          new Text('${developer.age} years old', style: followerStyle),
-          new Text(
-            ' | ',
-            style: followerStyle.copyWith(
-                fontSize: 24.0, fontWeight: FontWeight.normal),
+          new Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              new Text('${developer.age} years old', style: followerStyle),
+              new Text(
+                ' | ',
+                style: followerStyle.copyWith(
+                    fontSize: 24.0, fontWeight: FontWeight.normal),
+              ),
+              new Text(developer.phoneNumber, style: followerStyle),
+            ],
           ),
-          new Text(developer.phoneNumber, style: followerStyle),
+          Container(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                developer.email,
+                style: followerStyle,
+              ),
+            ),
+            decoration: BoxDecoration(
+              color: Colors.white.withAlpha(80),
+              borderRadius: BorderRadius.circular(20),
+            ),
+          ),
         ],
       ),
     );

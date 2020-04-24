@@ -24,7 +24,16 @@ class AboutPage extends StatelessWidget {
       ],
       about:
           'Data science self learner with a great passion to learn and work in this field with a demonstrated history of working in the non-profit organization management industry. Skilled in Coding, Public Speaking, Microsoft Office, Research, Teamwork, and Leadership.',
-      portfolioImagesUrls: [''],
+      portfolioImagesUrls: [
+        'assets/images/salah_1.png',
+        'assets/images/salah_2.png',
+//        'assets/images/salah_3.png',
+//        'assets/images/salah_4.png',
+        'assets/images/salah_5.png',
+        'assets/images/salah_6.png',
+        'assets/images/salah_7.png',
+        'assets/images/salah_8.png',
+      ],
       facebookPage: 'https://www.facebook.com/abdo.mohamed.374',
       githubPage: 'https://github.com/AbdelrahmanRagab38',
       twitterPage: 'https://twitter.com/A_R_M_M_S',
@@ -45,7 +54,16 @@ class AboutPage extends StatelessWidget {
       phoneNumber: '+201033046302',
       twitterPage: 'https://twitter.com/as_motion',
       githubPage: 'https://github.com/salah-taha',
-      portfolioImagesUrls: [''],
+      portfolioImagesUrls: [
+        'assets/images/salah_1.png',
+        'assets/images/salah_2.png',
+        'assets/images/salah_3.png',
+//        'assets/images/salah_4.png',
+        'assets/images/salah_5.png',
+        'assets/images/salah_6.png',
+//        'assets/images/salah_7.png',
+        'assets/images/salah_8.png',
+      ],
       description: [
         'Salah Taha, Level 1',
         'Worked before as',
@@ -69,7 +87,16 @@ class AboutPage extends StatelessWidget {
       phoneNumber: '+201159097857',
 //      twitterPage: 'https://twitter.com/as_motion',
       githubPage: 'https://github.com/siaed',
-      portfolioImagesUrls: [''],
+      portfolioImagesUrls: [
+        'assets/images/salah_1.png',
+        'assets/images/salah_2.png',
+        'assets/images/salah_3.png',
+        'assets/images/salah_4.png',
+//        'assets/images/salah_5.png',
+//        'assets/images/salah_6.png',
+        'assets/images/salah_7.png',
+        'assets/images/salah_8.png',
+      ],
       description: [
         'Saied Ahmed, Level 1',
         'Worked before as',
@@ -88,72 +115,66 @@ class AboutPage extends StatelessWidget {
       backgroundColor: ColorsScheme.grey,
       body: Center(
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Container(
-              width: MediaQuery.of(context).size.width - 30.0,
-              height: MediaQuery.of(context).size.height - 100,
-              child: GridView.count(
-//                  physics: NeverScrollableScrollPhysics(),
-                crossAxisCount: 2,
-                primary: false,
-                crossAxisSpacing: 10.0,
-                mainAxisSpacing: 15.0,
-                childAspectRatio: 0.8,
-                children: <Widget>[
-                  _buildCard(_Developers[0], context),
-                  _buildCard(_Developers[1], context),
-                  _buildCard(_Developers[2], context),
-                ],
-              )),
+          padding: const EdgeInsets.all(10.0),
+          child: GridView.count(
+            physics: BouncingScrollPhysics(),
+            crossAxisCount: 2,
+            primary: false,
+            crossAxisSpacing: 10.0,
+            mainAxisSpacing: 15.0,
+            childAspectRatio: 0.78,
+            children: <Widget>[
+              _buildCard(_Developers[0], context),
+              _buildCard(_Developers[1], context),
+              _buildCard(_Developers[2], context),
+            ],
+          ),
         ),
       ),
     );
   }
 
   Widget _buildCard(Developer dev, context) {
-    return Padding(
-        padding: EdgeInsets.only(top: 5.0, bottom: 5.0, left: 5.0, right: 5.0),
-        child: InkWell(
-            onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) =>
-                      DeveloperDetailsPage(dev, avatarTag: 1)));
-            },
-            child: Container(
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(15.0),
-                    color: ColorsScheme.white),
-                child: Column(children: [
-                  Padding(
-                    padding: EdgeInsets.all(15.0),
-                  ),
-                  Container(
-                      child: Container(
-                    height: 75.0,
-                    width: 75.0,
-                    child: CircleAvatar(
-                      backgroundImage: AssetImage(dev.avatar),
-                      radius: 50.0,
-                      backgroundColor: Colors.white,
-                    ),
-                  )),
-                  SizedBox(height: 7.0),
-                  Text(dev.name,
-                      style: TextStyle(
-                          color: Colors.deepPurple[800],
-                          fontFamily: 'Varela',
-                          fontSize: 14.0)),
-                  Text(dev.title,
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          color: Color(0xFF575E67),
-                          fontFamily: 'Varela',
-                          fontSize: 14.0)),
-                  Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Container(color: Color(0xFFEBEBEB), height: 1.0)),
-                  Padding(
-                      padding: EdgeInsets.only(left: 5.0, right: 5.0),
+    return InkWell(
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => DeveloperDetailsPage(dev, avatarTag: 1)));
+        },
+        child: Container(
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15.0),
+                color: ColorsScheme.white),
+            child: Center(
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Container(
+                        child: Container(
+                      height: 75.0,
+                      width: 75.0,
+                      child: CircleAvatar(
+                        backgroundImage: AssetImage(dev.avatar),
+                        radius: 50.0,
+                        backgroundColor: Colors.white,
+                      ),
+                    )),
+                    SizedBox(height: 7.0),
+                    Text(dev.name,
+                        style: TextStyle(
+                            color: Colors.deepPurple[800],
+                            fontFamily: 'Varela',
+                            fontSize: 14.0)),
+                    Text(dev.title,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            color: Color(0xFF575E67),
+                            fontFamily: 'Varela',
+                            fontSize: 14.0)),
+                    Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child:
+                            Container(color: Color(0xFFEBEBEB), height: 1.0)),
+                    Container(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
@@ -197,7 +218,9 @@ class AboutPage extends StatelessWidget {
                             mini: true,
                           ),
                         ],
-                      ))
-                ]))));
+                      ),
+                    )
+                  ]),
+            )));
   }
 }

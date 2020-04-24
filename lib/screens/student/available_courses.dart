@@ -1,8 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:fcaihu/models/provider_data.dart';
+import 'package:fcaihu/models/user.dart';
+import 'package:fcaihu/screens/shared_screens/login.dart';
 import 'package:fcaihu/screens/student/course_overview.dart';
 import 'package:fcaihu/services/courses_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:provider/provider.dart';
 
 import '../../constants/constants.dart';
 
@@ -12,6 +16,7 @@ class AvailableCourses extends StatelessWidget {
   static String id = 'availableCourses';
   @override
   Widget build(BuildContext context) {
+    User user = Provider.of<ProviderData>(context).user;
     return Container(
       child: SafeArea(
         child: Padding(
@@ -19,33 +24,56 @@ class AvailableCourses extends StatelessWidget {
           child: Container(
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            child: FutureBuilder(
-              future: CoursesServices.getEnrolledAndAvailableCourses(context),
-              builder: (context, snapshot) {
-                if (!snapshot.hasData) {
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                return ListView.builder(
-                  physics: BouncingScrollPhysics(),
-                  itemCount: snapshot.data['available'].documents.length,
-                  itemBuilder: (context, index) {
-                    bool isEnrolled = false;
-                    snapshot.data['enrolled'].documents.forEach((element) {
-                      if (element.documentID ==
-                          snapshot
-                              .data['available'].documents[index].documentID) {
-                        isEnrolled = true;
+            child: user == null
+                ? Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text('You Should Login to Your Account'),
+                        RaisedButton(
+                          color: ColorsScheme.purple,
+                          onPressed: () {
+                            Navigator.pushNamed(context, LoginScreen.id);
+                          },
+                          child: Text(
+                            'Login',
+                            style: TextStyle(
+                              color: ColorsScheme.white,
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                : FutureBuilder(
+                    future:
+                        CoursesServices.getEnrolledAndAvailableCourses(context),
+                    builder: (context, snapshot) {
+                      if (!snapshot.hasData) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
                       }
-                    });
-                    return CourseCard.fromDoc(
-                        doc: snapshot.data['available'].documents[index],
-                        isEnrolled: isEnrolled);
-                  },
-                );
-              },
-            ),
+                      return ListView.builder(
+                        physics: BouncingScrollPhysics(),
+                        itemCount: snapshot.data['available'].documents.length,
+                        itemBuilder: (context, index) {
+                          bool isEnrolled = false;
+                          snapshot.data['enrolled'].documents
+                              .forEach((element) {
+                            if (element.documentID ==
+                                snapshot.data['available'].documents[index]
+                                    .documentID) {
+                              isEnrolled = true;
+                            }
+                          });
+                          return CourseCard.fromDoc(
+                              doc: snapshot.data['available'].documents[index],
+                              isEnrolled: isEnrolled);
+                        },
+                      );
+                    },
+                  ),
           ),
         ),
       ),

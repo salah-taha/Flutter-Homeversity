@@ -105,6 +105,54 @@ class FirebaseNotifications {
       },
       onResume: (Map<String, dynamic> message) async {
         print('on resume $message');
+        showDialog(
+            context: context,
+            builder: (context) => Dialog(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12.0),
+                  ),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20.0),
+                    ),
+                    height: 180.0,
+                    width: 300.0,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 15.0),
+                          child: Text(
+                            message['notification']['title'],
+                            style: TextStyle(
+                              fontSize: 16,
+                              color: Colors.red,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          child: Text(
+                            message['notification']['body'],
+                            style: TextStyle(
+                              fontSize: 17,
+                              color: ColorsScheme.purple,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Center(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: FlatButton(
+                              onPressed: () => Navigator.pop(context),
+                              child: Text('OK'),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ));
       },
       onLaunch: (Map<String, dynamic> message) async {
         print('on launch $message');

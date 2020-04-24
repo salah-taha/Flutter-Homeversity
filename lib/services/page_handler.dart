@@ -54,7 +54,7 @@ class _PageHandlerState extends State<PageHandler> {
   _meetOurTeam() {
     setState(() {
       selectedPage = AboutPage();
-      pageName = 'About';
+      pageName = 'About Us';
     });
   }
 
@@ -220,7 +220,7 @@ class _PageHandlerState extends State<PageHandler> {
                   title: Text(
                     'About Us',
                     style: TextStyle(
-                      color: pageName == 'About'
+                      color: pageName == 'About Us'
                           ? selectedPageColor
                           : notSelectedColor,
                       fontSize: 16,
@@ -230,7 +230,7 @@ class _PageHandlerState extends State<PageHandler> {
                     // Update the state of the app.
                     setState(() {
                       selectedPage = AboutPage();
-                      pageName = 'About';
+                      pageName = 'About Us';
                     });
                     Navigator.pop(context);
                   },

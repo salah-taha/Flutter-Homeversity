@@ -184,12 +184,16 @@ class CourseProgressCard extends StatelessWidget {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        title,
-                        style: TextStyle(
-                          color: ColorsScheme.purple,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
+                      child: Center(
+                        child: Text(
+                          title,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            color: ColorsScheme.purple,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 18,
+                          ),
                         ),
                       ),
                     ),
@@ -439,7 +443,10 @@ class _LectureState extends State<Lecture> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => PDFScreen(pathPDF),
+                              builder: (context) => PDFScreen(
+                                pathPDF,
+                                lectureName: widget.lectureName,
+                              ),
                             ),
                           );
                         } else {
@@ -458,7 +465,10 @@ class _LectureState extends State<Lecture> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => PDFScreen(pathPDF),
+                              builder: (context) => PDFScreen(
+                                pathPDF,
+                                lectureName: widget.lectureName,
+                              ),
                             ),
                           );
                         }
@@ -505,8 +515,9 @@ class _LectureState extends State<Lecture> {
 }
 
 class PDFScreen extends StatelessWidget {
+  final String lectureName;
   final String pathPDF;
-  PDFScreen(this.pathPDF);
+  PDFScreen(this.pathPDF, {@required this.lectureName});
 
   @override
   Widget build(BuildContext context) {
@@ -515,7 +526,7 @@ class PDFScreen extends StatelessWidget {
           iconTheme: IconThemeData(color: ColorsScheme.purple),
           backgroundColor: ColorsScheme.grey,
           title: Text(
-            'Lecture name',
+            lectureName,
             style: appBarTextStyle,
           ),
           elevation: 0,

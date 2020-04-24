@@ -1,6 +1,6 @@
 import 'package:fcaihu/screens/shared_screens/About_Screens/ui/Developers/Developer.dart';
+import 'package:fcaihu/screens/shared_screens/About_Screens/ui/developerdetails/footer/about_showcase.dart';
 import 'package:fcaihu/screens/shared_screens/About_Screens/ui/developerdetails/footer/portfolio_showcase.dart';
-import 'package:fcaihu/screens/shared_screens/About_Screens/ui/developerdetails/footer/skills_showcase.dart';
 import 'package:flutter/material.dart';
 
 class DeveloperShowcase extends StatefulWidget {
@@ -26,9 +26,12 @@ class _DeveloperShowcaseState extends State<DeveloperShowcase>
       new Tab(text: 'About'),
     ];
     _pages = [
-      new PortfolioShowcase(),
+      new PortfolioShowcase(
+        images: widget.developer.portfolioImagesUrls,
+      ),
       new SkillsShowcase(
-        skills: widget.developer.about,
+        about: widget.developer.about,
+        university: widget.developer.university,
       ),
     ];
     _controller = new TabController(

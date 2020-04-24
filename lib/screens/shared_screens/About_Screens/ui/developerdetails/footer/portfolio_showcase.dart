@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 
 class PortfolioShowcase extends StatelessWidget {
+  final List<String> images;
+
+  PortfolioShowcase({@required this.images});
+
   List<Widget> _buildItems() {
     var items = <Widget>[];
 
-    for (var i = 1; i <= 6; i++) {
+    images.forEach((element) {
       var image = new Image.asset(
-        'assets/images/portfolio_$i.jpeg',
-        width: 200.0,
-        height: 200.0,
+        element,
+        fit: BoxFit.cover,
       );
-
       items.add(image);
-    }
+    });
 
     return items;
   }
@@ -26,6 +28,7 @@ class PortfolioShowcase extends StatelessWidget {
     );
 
     return new GridView(
+      physics: NeverScrollableScrollPhysics(),
       padding: const EdgeInsets.only(top: 16.0),
       gridDelegate: delegate,
       children: _buildItems(),
