@@ -336,12 +336,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           ),
                                         ));
                                       }
-                                      if (notificationSnapshot.data.documents[0]
-                                              ['imageUrl'] ==
-                                          null) {
-                                        return Center(
-                                            child: CircularProgressIndicator());
-                                      }
+
                                       return ListView.builder(
                                         physics: BouncingScrollPhysics(),
                                         itemCount: notificationSnapshot
@@ -349,6 +344,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         itemBuilder: (context, index) {
                                           var _card = notificationSnapshot
                                               .data.documents[index];
+                                          if (_card['title'] == null ||
+                                              _card['imageUrl'] == null) {
+                                            return SizedBox();
+                                          }
                                           var _date =
                                               (_card['date'] as Timestamp)
                                                   .toDate();
@@ -420,6 +419,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                           itemBuilder: (context, index) {
                                             var _lec =
                                                 snapshot.data.documents[index];
+                                            if (_lec['title'] == null ||
+                                                _lec['courseName'] == null) {
+                                              return SizedBox();
+                                            }
                                             return NewLecture(
                                               courseName: _lec['courseName'],
                                               lectureTitle: _lec['title'],
