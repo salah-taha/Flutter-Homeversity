@@ -366,7 +366,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             },
                                             child: NotificationCard(
                                               imageUrl: _card['imageUrl'],
-                                              title: _card['title'],
+                                              title: _card['description'] ??
+                                                  _card['title'],
                                               isSeen: _card['isSeen'],
                                               date: [
                                                 DateFormat('dd/MM/yyyy')
@@ -466,6 +467,7 @@ class NotificationCard extends StatelessWidget {
           color: ColorsScheme.grey,
         ),
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.all(3),
@@ -520,9 +522,6 @@ class NotificationCard extends StatelessWidget {
                     )),
               ],
             ),
-            SizedBox(
-              width: 10,
-            ),
             isSeen
                 ? SizedBox(
                     width: 26,
@@ -571,6 +570,9 @@ class NewLecture extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Text(
                 courseName,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+                textAlign: TextAlign.center,
                 style: TextStyle(
                   color: ColorsScheme.midPurple,
                   fontSize: 18,

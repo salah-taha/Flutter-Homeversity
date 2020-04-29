@@ -122,11 +122,12 @@ class CourseOverview extends StatelessWidget {
                       horizontal: 20.0,
                       vertical: 25,
                     ),
-                    child: Text(
-                      description,
-                      textAlign: TextAlign.center,
-                      maxLines: 8,
-                      overflow: TextOverflow.ellipsis,
+                    child: SingleChildScrollView(
+                      physics: BouncingScrollPhysics(),
+                      child: Text(
+                        description,
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ),
                 ),

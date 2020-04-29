@@ -90,11 +90,13 @@ class AboutPage extends StatelessWidget {
       portfolioImagesUrls: [
         'assets/images/salah_1.png',
         'assets/images/salah_2.png',
+        'assets/slider/2.jpg',
         'assets/images/salah_3.png',
         'assets/images/salah_4.png',
 //        'assets/images/salah_5.png',
 //        'assets/images/salah_6.png',
-        'assets/images/salah_7.png',
+//        'assets/images/salah_7.png',
+
         'assets/images/salah_8.png',
       ],
       description: [

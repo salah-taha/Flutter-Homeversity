@@ -57,6 +57,7 @@ class EnrolledCourses extends StatelessWidget {
                   return Container(
                     height: MediaQuery.of(context).size.height,
                     child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
                       itemCount: snapshot.data.documents.length,
                       itemBuilder: (context, index) {
                         return FutureBuilder(
@@ -272,12 +273,17 @@ class CourseCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text(
-                            courseName,
-                            style: TextStyle(
-                              color: ColorsScheme.purple,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
+                          Container(
+                            width: MediaQuery.of(context).size.width * 0.5,
+                            child: Text(
+                              courseName,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: TextStyle(
+                                color: ColorsScheme.purple,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                           Text(

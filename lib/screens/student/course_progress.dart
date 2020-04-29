@@ -403,111 +403,132 @@ class _LectureState extends State<Lecture> {
         ],
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            widget.videoUrl == null
-                ? SizedBox.shrink()
-                : Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: YoutubePlayer(
-                      controller: _controller,
-                      showVideoProgressIndicator: true,
-                      progressIndicatorColor: Colors.blueAccent,
-                      topActions: <Widget>[
-                        SizedBox(width: 8.0),
-                        Expanded(
-                          child: Text(
-                            _controller.metadata.title,
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18.0,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 1,
-                          ),
-                        ),
-                      ],
+        child: SingleChildScrollView(
+          physics: BouncingScrollPhysics(),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.blueAccent.withAlpha(30),
+                  borderRadius: BorderRadius.circular(60),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Text(
+                    widget.lectureName,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      color: ColorsScheme.purple,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
-            widget.pdfUrl == null
-                ? SizedBox.shrink()
-                : Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: InkWell(
-                      onTap: () async {
-                        if (pdfReady) {
-                          setState(() {
-                            openingPdf = false;
-                          });
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => PDFScreen(
-                                pathPDF,
-                                lectureName: widget.lectureName,
+                ),
+              ),
+              widget.videoUrl == null
+                  ? SizedBox.shrink()
+                  : Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: YoutubePlayer(
+                        controller: _controller,
+                        showVideoProgressIndicator: true,
+                        progressIndicatorColor: Colors.blueAccent,
+                        topActions: <Widget>[
+                          SizedBox(width: 8.0),
+                          Expanded(
+                            child: Text(
+                              _controller.metadata.title,
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18.0,
                               ),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
                             ),
-                          );
-                        } else {
-                          setState(() {
-                            openingPdf = true;
-                          });
-                          await createFileOfPdfUrl().then((f) {
+                          ),
+                        ],
+                      ),
+                    ),
+              widget.pdfUrl == null
+                  ? SizedBox.shrink()
+                  : Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: InkWell(
+                        onTap: () async {
+                          if (pdfReady) {
                             setState(() {
-                              pathPDF = f.path;
-                              pdfReady = true;
+                              openingPdf = false;
                             });
-                          });
-                          setState(() {
-                            openingPdf = false;
-                          });
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => PDFScreen(
-                                pathPDF,
-                                lectureName: widget.lectureName,
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PDFScreen(
+                                  pathPDF,
+                                  lectureName: widget.lectureName,
+                                ),
                               ),
-                            ),
-                          );
-                        }
-                      },
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 40,
-                        decoration: BoxDecoration(
-                          color: ColorsScheme.grey,
-                          borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: ColorsScheme.brightPurple,
-                              offset: Offset(0, 3),
-                              blurRadius: 5,
-                            )
-                          ],
-                        ),
-                        child: openingPdf
-                            ? Center(
-                                child: CircularProgressIndicator(),
+                            );
+                          } else {
+                            setState(() {
+                              openingPdf = true;
+                            });
+                            await createFileOfPdfUrl().then((f) {
+                              setState(() {
+                                pathPDF = f.path;
+                                pdfReady = true;
+                              });
+                            });
+                            setState(() {
+                              openingPdf = false;
+                            });
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => PDFScreen(
+                                  pathPDF,
+                                  lectureName: widget.lectureName,
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: ColorsScheme.grey,
+                            borderRadius: BorderRadius.circular(20),
+                            boxShadow: [
+                              BoxShadow(
+                                color: ColorsScheme.brightPurple,
+                                offset: Offset(0, 3),
+                                blurRadius: 5,
                               )
-                            : Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(
-                                    'open pdf file',
-                                    style: TextStyle(
-                                      color: ColorsScheme.purple,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
+                            ],
+                          ),
+                          child: openingPdf
+                              ? Center(
+                                  child: CircularProgressIndicator(),
+                                )
+                              : Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(
+                                      'open pdf file',
+                                      style: TextStyle(
+                                        color: ColorsScheme.purple,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
+                        ),
                       ),
-                    ),
-                  )
-          ],
+                    )
+            ],
+          ),
         ),
       ),
     );

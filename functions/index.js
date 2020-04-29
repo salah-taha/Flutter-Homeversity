@@ -31,7 +31,7 @@ exports.addLectureNotification = functions.firestore.document('/available_course
     courseStudentsSnapshot.forEach(async (doc )=>{
         if(doc.exists){
             const userID = doc.id;
-            usersRef.doc(userID).collection('notifications').doc().set({date: timestamp,lectureID: lectureID,imageUrl: snapshot.data().image,isSeen:false , title: snapshot.data().title });
+            usersRef.doc(userID).collection('notifications').doc().set({date: timestamp,lectureID: lectureID,imageUrl: snapshot.data().image,isSeen:false , title: 'New Lecture Added' ,description:snapshot.data().title});
 
             const courseInfo = await courseRef.doc(courseID).get();
 
@@ -57,7 +57,24 @@ exports.addCourseNotification = functions.firestore.document('/available_courses
     courseStudentsSnapshot.forEach(async (doc )=>{
         if(doc.exists){
             const userID = doc.id;
-            usersRef.doc(userID).collection('notifications').doc().set({date: timestamp,imageUrl: snapshot.data().image,isSeen:false , title: snapshot.data().title });
+            usersRef.doc(userID).collection('notifications').doc().set({date: timestamp,imageUrl: snapshot.data().image,isSeen:false , title:'Course Notification',description: snapshot.data().title });
+        }
+    });
+
+});
+
+exports.newCourseNotification = functions.firestore.document('/available_courses/{courseID}').onCreate(async (snapshot,context)=> {
+
+    const usersRef = Firestore.collection('users');
+
+    const usersSnapshot = await usersRef.get();
+
+    const timestamp = admin.firestore.FieldValue.serverTimestamp();
+
+    usersSnapshot.forEach(async (doc )=>{
+        if(doc.exists){
+            const userID = doc.id;
+            usersRef.doc(userID).collection('notifications').doc().set({date: timestamp,imageUrl: snapshot.data().courseImageUrl,isSeen:false , title:'New Course Added',description: snapshot.data().courseName });
         }
     });
 
@@ -75,7 +92,7 @@ exports.addGlobalNotification = functions.firestore.document('/global_notificati
     usersSnapshot.forEach(async (doc )=>{
         if(doc.exists){
             const userID = doc.id;
-            usersRef.doc(userID).collection('notifications').doc().set({date: timestamp,imageUrl: snapshot.data().image,isSeen:false , title: snapshot.data().title });
+            usersRef.doc(userID).collection('notifications').doc().set({date: timestamp,imageUrl: snapshot.data().image,isSeen:false , title:'New Notification',description: snapshot.data().title });
         }
     });
 
@@ -87,8 +104,8 @@ exports.sendNotification = functions.firestore.document('/users/{userID}/notific
     const userID = context.params.userID;
 
     const payload = {notification: {
-        title: 'New Notification',
-        body: snapshot.data().title,
+        title: snapshot.data().title,
+        body: snapshot.data().description,
         icon:snapshot.data().imageUrl}};
 
     const userRef = Firestore.collection('users').doc(userID);

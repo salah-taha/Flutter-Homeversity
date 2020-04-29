@@ -260,12 +260,16 @@ class CourseCard extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
-                            Text(
-                              courseName,
-                              style: TextStyle(
-                                color: ColorsScheme.purple,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
+                            Container(
+                              width: MediaQuery.of(context).size.width * 0.5,
+                              child: Text(
+                                courseName,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  color: ColorsScheme.purple,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
                               ),
                             ),
                             Text(
