@@ -1,10 +1,10 @@
-# fcaihu
+# Homeversity
 
-app for fcai-hu
+## Description
 
-## Getting Started
+![Homeversity](https://media.giphy.com/media/Y4V3ZhrxUtaMNDwEQh/giphy.gif)
 
-This project is a starting point for a Flutter application.
+Homversity is an application which helps students to get all what they need easily.
 
 A few resources to get you started if this is your first Flutter project:
 
