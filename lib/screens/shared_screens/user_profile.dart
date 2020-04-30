@@ -392,6 +392,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                         .getDocuments(),
                                     builder: (context,
                                         AsyncSnapshot<QuerySnapshot> snapshot) {
+                                      if (!snapshot.hasData) {
+                                        return Center(
+                                            child: CircularProgressIndicator());
+                                      }
                                       if (snapshot.data.documents.length == 0) {
                                         return Center(
                                             child: Text(
@@ -401,11 +405,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                             fontWeight: FontWeight.bold,
                                           ),
                                         ));
-                                      }
-
-                                      if (!snapshot.hasData) {
-                                        return Center(
-                                            child: CircularProgressIndicator());
                                       }
                                       return GridView.builder(
                                           physics: BouncingScrollPhysics(),
