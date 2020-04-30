@@ -2,7 +2,7 @@
 
 ## Description
 
-![Homeversity](https://media.giphy.com/media/Y4V3ZhrxUtaMNDwEQh/giphy.gif)
+![Homeversity](presintation.gif)
 
 Homversity is an application which helps students to get all what they need easily.
 
