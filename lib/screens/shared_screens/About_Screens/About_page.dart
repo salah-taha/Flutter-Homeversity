@@ -88,16 +88,12 @@ class AboutPage extends StatelessWidget {
 //      twitterPage: 'https://twitter.com/as_motion',
       githubPage: 'https://github.com/siaed',
       portfolioImagesUrls: [
-        'assets/images/salah_1.png',
-        'assets/images/salah_2.png',
-        'assets/slider/2.jpg',
-        'assets/images/salah_3.png',
-        'assets/images/salah_4.png',
-//        'assets/images/salah_5.png',
-//        'assets/images/salah_6.png',
-//        'assets/images/salah_7.png',
-
-        'assets/images/salah_8.png',
+        'assets/images/saied_1.png',
+        'assets/images/saied_4.png',
+        'assets/images/saied_6.png',
+        'assets/images/saied_9.png',
+        'assets/images/saied_17.png',
+        'assets/images/saied_20.png',
       ],
       description: [
         'Saied Ahmed, Level 1',

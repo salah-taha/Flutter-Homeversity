@@ -14,7 +14,7 @@ class WelcomeScreen extends StatelessWidget {
   //list of pages to give the user info before start using the app
   final listPageViewModel = [
     PageViewModel(
-      title: "Welcome to FCAI-HU App",
+      title: "Welcome to Homeversity App",
       bodyWidget: Text('Stay At Home'),
       image: FlareActor(
         'assets/welcome_animation.flr',
