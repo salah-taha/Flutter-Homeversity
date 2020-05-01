@@ -1,4 +1,9 @@
 # Homeversity
+To run our Flutter code you must
+
+1-clone or download it on your local server
+2-open it with android studio (you must have flutter sdk)
+3-open the emulator or connect with physical device and run the code
 
 ## Description
 
